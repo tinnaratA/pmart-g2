@@ -1,0 +1,821 @@
+[
+    {
+        "id": 1,
+        "description": "",
+        "name": "Ambient",
+        "slug": "ambient",
+        "level": 1,
+        "sequence": "1",
+        "parent_id": ""
+    },
+    {
+        "id": 2,
+        "description": "",
+        "name": "Grocery",
+        "slug": "grocery",
+        "level": 2,
+        "sequence": "1-1",
+        "parent_id": 1
+    },
+    {
+        "id": 3,
+        "description": "",
+        "name": "Food",
+        "slug": "food",
+        "level": 3,
+        "sequence": "1-1-1",
+        "parent_id": 2
+    },
+    {
+        "id": 4,
+        "description": "",
+        "name": "Canned Food",
+        "slug": "canned_food",
+        "level": 4,
+        "sequence": "1-1-1-01",
+        "parent_id": 3
+    },
+    {
+        "id": 8,
+        "description": "",
+        "name": "Cooking Oil",
+        "slug": "cooking_oil",
+        "level": 4,
+        "sequence": "1-1-1-03",
+        "parent_id": 3
+    },
+    {
+        "id": 12,
+        "description": "",
+        "name": "Drink",
+        "slug": "drink",
+        "level": 4,
+        "sequence": "1-1-1-04",
+        "parent_id": 3
+    },
+    {
+        "id": 16,
+        "description": "",
+        "name": "Flour",
+        "slug": "flour",
+        "level": 4,
+        "sequence": "1-1-1-05",
+        "parent_id": 3
+    },
+    {
+        "id": 20,
+        "description": "",
+        "name": "Instant Noodle",
+        "slug": "instant_noodle",
+        "level": 4,
+        "sequence": "1-1-1-06",
+        "parent_id": 3
+    },
+    {
+        "id": 24,
+        "description": "",
+        "name": "Other Dry Grocery",
+        "slug": "other_dry_grocery",
+        "level": 4,
+        "sequence": "1-1-1-07",
+        "parent_id": 3
+    },
+    {
+        "id": 28,
+        "description": "",
+        "name": "Rice",
+        "slug": "rice",
+        "level": 4,
+        "sequence": "1-1-1-08",
+        "parent_id": 3
+    },
+    {
+        "id": 32,
+        "description": "",
+        "name": "Salt And Msg",
+        "slug": "salt_and_msg",
+        "level": 4,
+        "sequence": "1-1-1-09",
+        "parent_id": 3
+    },
+    {
+        "id": 36,
+        "description": "",
+        "name": "Sauce&Seasoning",
+        "slug": "sauce&seasoning",
+        "level": 4,
+        "sequence": "1-1-1-10",
+        "parent_id": 3
+    },
+    {
+        "id": 40,
+        "description": "",
+        "name": "Spice&Chilli Paste",
+        "slug": "spice&chilli_paste",
+        "level": 4,
+        "sequence": "1-1-1-11",
+        "parent_id": 3
+    },
+    {
+        "id": 44,
+        "description": "",
+        "name": "Sugar",
+        "slug": "sugar",
+        "level": 4,
+        "sequence": "1-1-1-12",
+        "parent_id": 3
+    },
+    {
+        "id": 47,
+        "description": "",
+        "name": "NonFood",
+        "slug": "nonfood",
+        "level": 3,
+        "sequence": "1-1-2",
+        "parent_id": 2
+    },
+    {
+        "id": 48,
+        "description": "",
+        "name": "Dish Washing",
+        "slug": "dish_washing",
+        "level": 4,
+        "sequence": "1-1-2-02",
+        "parent_id": 47
+    },
+    {
+        "id": 52,
+        "description": "",
+        "name": "Disposable",
+        "slug": "disposable",
+        "level": 4,
+        "sequence": "1-1-2-03",
+        "parent_id": 47
+    },
+    {
+        "id": 56,
+        "description": "",
+        "name": "Other Non Food",
+        "slug": "other_non_food",
+        "level": 4,
+        "sequence": "1-1-2-04",
+        "parent_id": 47
+    },
+    {
+        "id": 57,
+        "description": "",
+        "name": "Frozen Food & Chilled",
+        "slug": "frozen_food_&_chilled",
+        "level": 1,
+        "sequence": "2",
+        "parent_id": ""
+    },
+    {
+        "id": 58,
+        "description": "",
+        "name": "Butchery Local",
+        "slug": "butchery_local",
+        "level": 2,
+        "sequence": "2-1",
+        "parent_id": 57
+    },
+    {
+        "id": 59,
+        "description": "",
+        "name": "Beef Local",
+        "slug": "beef_local",
+        "level": 3,
+        "sequence": "2-1-1",
+        "parent_id": 58
+    },
+    {
+        "id": 60,
+        "description": "",
+        "name": "Frozen Beef",
+        "slug": "frozen_beef",
+        "level": 4,
+        "sequence": "2-1-1-01",
+        "parent_id": 59
+    },
+    {
+        "id": 64,
+        "description": "",
+        "name": "BEEF OFFALS",
+        "slug": "beef_offals",
+        "level": 4,
+        "sequence": "2-1-1-01",
+        "parent_id": 59
+    },
+    {
+        "id": 68,
+        "description": "",
+        "name": "Consign Beef",
+        "slug": "consign_beef",
+        "level": 4,
+        "sequence": "2-1-1-02",
+        "parent_id": 59
+    },
+    {
+        "id": 71,
+        "description": "",
+        "name": "Chicken Local",
+        "slug": "chicken_local",
+        "level": 3,
+        "sequence": "2-1-2",
+        "parent_id": 58
+    },
+    {
+        "id": 72,
+        "description": "",
+        "name": "Frozen Chicken",
+        "slug": "frozen_chicken",
+        "level": 4,
+        "sequence": "2-1-2-01",
+        "parent_id": 71
+    },
+    {
+        "id": 76,
+        "description": "",
+        "name": "Chilled Chicken",
+        "slug": "chilled_chicken",
+        "level": 4,
+        "sequence": "2-1-2-03",
+        "parent_id": 71
+    },
+    {
+        "id": 79,
+        "description": "",
+        "name": "Duck Local",
+        "slug": "duck_local",
+        "level": 3,
+        "sequence": "2-1-3",
+        "parent_id": 58
+    },
+    {
+        "id": 80,
+        "description": "",
+        "name": "Consign Duck BKR",
+        "slug": "consign_duck_bkr",
+        "level": 4,
+        "sequence": "2-1-3-01",
+        "parent_id": 79
+    },
+    {
+        "id": 84,
+        "description": "",
+        "name": "Frozen Duck",
+        "slug": "frozen_duck",
+        "level": 4,
+        "sequence": "2-1-3-02",
+        "parent_id": 79
+    },
+    {
+        "id": 87,
+        "description": "",
+        "name": "Pork Local",
+        "slug": "pork_local",
+        "level": 3,
+        "sequence": "2-1-4",
+        "parent_id": 58
+    },
+    {
+        "id": 88,
+        "description": "",
+        "name": "Consign Pork",
+        "slug": "consign_pork",
+        "level": 4,
+        "sequence": "2-1-4-01",
+        "parent_id": 87
+    },
+    {
+        "id": 92,
+        "description": "",
+        "name": "Frozen Pork",
+        "slug": "frozen_pork",
+        "level": 4,
+        "sequence": "2-1-4-02",
+        "parent_id": 87
+    },
+    {
+        "id": 96,
+        "description": "",
+        "name": "Chilled Pork",
+        "slug": "chilled_pork",
+        "level": 4,
+        "sequence": "2-1-4-03",
+        "parent_id": 87
+    },
+    {
+        "id": 99,
+        "description": "",
+        "name": "Exotic Local",
+        "slug": "exotic_local",
+        "level": 3,
+        "sequence": "2-1-5",
+        "parent_id": 58
+    },
+    {
+        "id": 100,
+        "description": "",
+        "name": "Exotic",
+        "slug": "exotic",
+        "level": 4,
+        "sequence": "2-1-5-01",
+        "parent_id": 99
+    },
+    {
+        "id": 103,
+        "description": "",
+        "name": "Processed Food",
+        "slug": "processed_food",
+        "level": 3,
+        "sequence": "2-1-6",
+        "parent_id": 58
+    },
+    {
+        "id": 104,
+        "description": "",
+        "name": "Frozen Marinated",
+        "slug": "frozen_marinated",
+        "level": 4,
+        "sequence": "2-1-6-01",
+        "parent_id": 103
+    },
+    {
+        "id": 108,
+        "description": "",
+        "name": "Frozen Sausage",
+        "slug": "frozen_sausage",
+        "level": 4,
+        "sequence": "2-1-6-02",
+        "parent_id": 103
+    },
+    {
+        "id": 112,
+        "description": "",
+        "name": "Rte",
+        "slug": "rte",
+        "level": 4,
+        "sequence": "2-1-6-03",
+        "parent_id": 103
+    },
+    {
+        "id": 116,
+        "description": "",
+        "name": "Chilled Sausage",
+        "slug": "chilled_sausage",
+        "level": 4,
+        "sequence": "2-1-6-05",
+        "parent_id": 103
+    },
+    {
+        "id": 120,
+        "description": "",
+        "name": "Consign Sausage",
+        "slug": "consign_sausage",
+        "level": 4,
+        "sequence": "2-1-6-07",
+        "parent_id": 103
+    },
+    {
+        "id": 123,
+        "description": "",
+        "name": "Eggs.",
+        "slug": "eggs.",
+        "level": 3,
+        "sequence": "2-1-7",
+        "parent_id": 58
+    },
+    {
+        "id": 124,
+        "description": "",
+        "name": "Fresh  Eggs",
+        "slug": "fresh__eggs",
+        "level": 4,
+        "sequence": "2-1-7-01",
+        "parent_id": 123
+    },
+    {
+        "id": 126,
+        "description": "",
+        "name": "Frozen Processed Food",
+        "slug": "frozen_processed_food",
+        "level": 2,
+        "sequence": "2-2",
+        "parent_id": 57
+    },
+    {
+        "id": 127,
+        "description": "",
+        "name": "Appetizer",
+        "slug": "appetizer",
+        "level": 3,
+        "sequence": "2-2-1",
+        "parent_id": 126
+    },
+    {
+        "id": 128,
+        "description": "",
+        "name": "Breaded",
+        "slug": "breaded",
+        "level": 4,
+        "sequence": "2-2-1-01",
+        "parent_id": 127
+    },
+    {
+        "id": 132,
+        "description": "",
+        "name": "Other Appetizer",
+        "slug": "other_appetizer",
+        "level": 4,
+        "sequence": "2-2-1-02",
+        "parent_id": 127
+    },
+    {
+        "id": 136,
+        "description": "",
+        "name": "Surimi",
+        "slug": "surimi",
+        "level": 4,
+        "sequence": "2-2-1-03",
+        "parent_id": 127
+    },
+    {
+        "id": 139,
+        "description": "",
+        "name": "Frozveget&Fruit",
+        "slug": "frozveget&fruit",
+        "level": 3,
+        "sequence": "2-2-2",
+        "parent_id": 126
+    },
+    {
+        "id": 140,
+        "description": "",
+        "name": "Frenchfries",
+        "slug": "frenchfries",
+        "level": 4,
+        "sequence": "2-2-2-01",
+        "parent_id": 139
+    },
+    {
+        "id": 144,
+        "description": "",
+        "name": "Vegetable&Fruit",
+        "slug": "vegetable&fruit",
+        "level": 4,
+        "sequence": "2-2-2-02",
+        "parent_id": 139
+    },
+    {
+        "id": 148,
+        "description": "",
+        "name": "Frenchfries Import",
+        "slug": "frenchfries_import",
+        "level": 4,
+        "sequence": "2-2-2-03",
+        "parent_id": 139
+    },
+    {
+        "id": 150,
+        "description": "",
+        "name": "Seafood",
+        "slug": "seafood",
+        "level": 2,
+        "sequence": "2-3",
+        "parent_id": 57
+    },
+    {
+        "id": 151,
+        "description": "",
+        "name": "Seafood Local",
+        "slug": "seafood_local",
+        "level": 3,
+        "sequence": "2-3-1",
+        "parent_id": 150
+    },
+    {
+        "id": 152,
+        "description": "",
+        "name": "Crab",
+        "slug": "crab",
+        "level": 4,
+        "sequence": "2-3-1-01",
+        "parent_id": 151
+    },
+    {
+        "id": 156,
+        "description": "",
+        "name": "Giant Squid",
+        "slug": "giant_squid",
+        "level": 4,
+        "sequence": "2-3-1-04",
+        "parent_id": 151
+    },
+    {
+        "id": 160,
+        "description": "",
+        "name": "Illex Squid",
+        "slug": "illex_squid",
+        "level": 4,
+        "sequence": "2-3-1-05",
+        "parent_id": 151
+    },
+    {
+        "id": 164,
+        "description": "",
+        "name": "Other Seafood",
+        "slug": "other_seafood",
+        "level": 4,
+        "sequence": "2-3-1-06",
+        "parent_id": 151
+    },
+    {
+        "id": 168,
+        "description": "",
+        "name": "Processed Seafood",
+        "slug": "processed_seafood",
+        "level": 4,
+        "sequence": "2-3-1-07",
+        "parent_id": 151
+    },
+    {
+        "id": 172,
+        "description": "",
+        "name": "Salmon",
+        "slug": "salmon",
+        "level": 4,
+        "sequence": "2-3-1-08",
+        "parent_id": 151
+    },
+    {
+        "id": 176,
+        "description": "",
+        "name": "Sea Fish",
+        "slug": "sea_fish",
+        "level": 4,
+        "sequence": "2-3-1-09",
+        "parent_id": 151
+    },
+    {
+        "id": 180,
+        "description": "",
+        "name": "Shell",
+        "slug": "shell",
+        "level": 4,
+        "sequence": "2-3-1-10",
+        "parent_id": 151
+    },
+    {
+        "id": 184,
+        "description": "",
+        "name": "Shrimp",
+        "slug": "shrimp",
+        "level": 4,
+        "sequence": "2-3-1-11",
+        "parent_id": 151
+    },
+    {
+        "id": 188,
+        "description": "",
+        "name": "Squid",
+        "slug": "squid",
+        "level": 4,
+        "sequence": "2-3-1-12",
+        "parent_id": 151
+    },
+    {
+        "id": 191,
+        "description": "",
+        "name": "Seafood Import",
+        "slug": "seafood_import",
+        "level": 3,
+        "sequence": "2-3-2",
+        "parent_id": 150
+    },
+    {
+        "id": 192,
+        "description": "",
+        "name": "Fish Dolly Import",
+        "slug": "fish_dolly_import",
+        "level": 4,
+        "sequence": "2-3-2-02",
+        "parent_id": 191
+    },
+    {
+        "id": 196,
+        "description": "",
+        "name": "Salmon Import",
+        "slug": "salmon_import",
+        "level": 4,
+        "sequence": "2-3-2-05",
+        "parent_id": 191
+    },
+    {
+        "id": 200,
+        "description": "",
+        "name": "Seafish Import",
+        "slug": "seafish_import",
+        "level": 4,
+        "sequence": "2-3-2-06",
+        "parent_id": 191
+    },
+    {
+        "id": 204,
+        "description": "",
+        "name": "Exotic Import",
+        "slug": "exotic_import",
+        "level": 4,
+        "sequence": "2-3-2-07",
+        "parent_id": 191
+    },
+    {
+        "id": 206,
+        "description": "",
+        "name": "PCF Frozenfood",
+        "slug": "pcf_frozenfood",
+        "level": 2,
+        "sequence": "2-4",
+        "parent_id": 57
+    },
+    {
+        "id": 207,
+        "description": "",
+        "name": "PCF Butchery Category",
+        "slug": "pcf_butchery_category",
+        "level": 3,
+        "sequence": "2-4-1",
+        "parent_id": 206
+    },
+    {
+        "id": 208,
+        "description": "",
+        "name": "PCF Beep Parts",
+        "slug": "pcf_beep_parts",
+        "level": 4,
+        "sequence": "2-4-1-01",
+        "parent_id": 207
+    },
+    {
+        "id": 212,
+        "description": "",
+        "name": "PCF Marinate",
+        "slug": "pcf_marinate",
+        "level": 4,
+        "sequence": "2-4-1-03",
+        "parent_id": 207
+    },
+    {
+        "id": 216,
+        "description": "",
+        "name": "PCF Offals Import",
+        "slug": "pcf_offals_import",
+        "level": 4,
+        "sequence": "2-4-1-04",
+        "parent_id": 207
+    },
+    {
+        "id": 220,
+        "description": "",
+        "name": "PCF Pork Parts",
+        "slug": "pcf_pork_parts",
+        "level": 4,
+        "sequence": "2-4-1-05",
+        "parent_id": 207
+    },
+    {
+        "id": 224,
+        "description": "",
+        "name": "PCF Sausage",
+        "slug": "pcf_sausage",
+        "level": 4,
+        "sequence": "2-4-1-06",
+        "parent_id": 207
+    },
+    {
+        "id": 227,
+        "description": "",
+        "name": "Seafood PCF&F&C",
+        "slug": "seafood_pcf&f&c",
+        "level": 3,
+        "sequence": "2-4-2",
+        "parent_id": 206
+    },
+    {
+        "id": 228,
+        "description": "",
+        "name": "PCF Fish",
+        "slug": "pcf_fish",
+        "level": 4,
+        "sequence": "2-4-2-01",
+        "parent_id": 227
+    },
+    {
+        "id": 232,
+        "description": "",
+        "name": "PCF Squid",
+        "slug": "pcf_squid",
+        "level": 4,
+        "sequence": "2-4-2-02",
+        "parent_id": 227
+    },
+    {
+        "id": 235,
+        "description": "",
+        "name": "PCF Chilled",
+        "slug": "pcf_chilled",
+        "level": 3,
+        "sequence": "2-4-3",
+        "parent_id": 206
+    },
+    {
+        "id": 236,
+        "description": "",
+        "name": "PCF Jelly  Fish",
+        "slug": "pcf_jelly__fish",
+        "level": 4,
+        "sequence": "2-4-3-01",
+        "parent_id": 235
+    },
+    {
+        "id": 240,
+        "description": "",
+        "name": "PCF Soaked  Squid",
+        "slug": "pcf_soaked__squid",
+        "level": 4,
+        "sequence": "2-4-3-02",
+        "parent_id": 235
+    },
+    {
+        "id": 244,
+        "description": "",
+        "name": "PCF  Beef Omasum",
+        "slug": "pcf__beef_omasum",
+        "level": 4,
+        "sequence": "2-4-3-03",
+        "parent_id": 235
+    },
+    {
+        "id": 246,
+        "description": "",
+        "name": "Butchery Import",
+        "slug": "butchery_import",
+        "level": 2,
+        "sequence": "2-5",
+        "parent_id": 57
+    },
+    {
+        "id": 247,
+        "description": "",
+        "name": "Beef Import",
+        "slug": "beef_import",
+        "level": 3,
+        "sequence": "2-5-1",
+        "parent_id": 246
+    },
+    {
+        "id": 248,
+        "description": "",
+        "name": "Beef Offals",
+        "slug": "beef_offals",
+        "level": 4,
+        "sequence": "2-5-1-01",
+        "parent_id": 247
+    },
+    {
+        "id": 252,
+        "description": "",
+        "name": "Beef Parts",
+        "slug": "beef_parts",
+        "level": 4,
+        "sequence": "2-5-1-02",
+        "parent_id": 247
+    },
+    {
+        "id": 255,
+        "description": "",
+        "name": "Pork Import",
+        "slug": "pork_import",
+        "level": 3,
+        "sequence": "2-5-2",
+        "parent_id": 246
+    },
+    {
+        "id": 256,
+        "description": "",
+        "name": "Pork Backrind",
+        "slug": "pork_backrind",
+        "level": 4,
+        "sequence": "2-5-2-01",
+        "parent_id": 255
+    },
+    {
+        "id": 260,
+        "description": "",
+        "name": "Pork Offals",
+        "slug": "pork_offals",
+        "level": 4,
+        "sequence": "2-5-2-02",
+        "parent_id": 255
+    }
+]

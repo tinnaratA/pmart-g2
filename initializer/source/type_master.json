@@ -1,0 +1,327 @@
+[
+    {
+        "name": "Canned Food",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Cooking Oil",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Drink",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Flour",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Instant Noodle",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Other Dry Grocery",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Rice",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Salt And Msg",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Sauce&Seasoning",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Spice&Chilli Paste",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Sugar",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Other Non Food",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Dish Washing",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Disposable",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frozen Beef",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Marinate",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Consign Beef",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frozen Chicken",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Chilled Chicken",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Consign Duck BKR",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frozen Duck",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Consign Pork",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frozen Pork",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Chilled Pork",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Exotic",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frozen Marinated",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frozen Sausage",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Rte",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Chilled Sausage",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Consign Sausage",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Fresh  Eggs",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Breaded",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Other Appetizer",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Surimi",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frenchfries",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Vegetable&Fruit",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Frenchfries Import",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Crab",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Giant Squid",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Squid",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Illex Squid",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Other Seafood",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Processed Seafood",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Salmon",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Sea Fish",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Shell",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Shrimp",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Squid",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Fish Dolly Import",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Salmon Import",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Seafish Import",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Exotic Import",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Beep Parts",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Offals Import",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Pork Parts",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Sausage",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Pork Offals",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Fish",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Jelly  Fish",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF Soaked  Squid",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "PCF  Beef Omasum",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Beef Offals",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "BEEF OFFALS",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Beef Parts",
+        "has_variants": true,
+        "is_shipping_required": true
+    },
+    {
+        "name": "Pork Backrind",
+        "has_variants": true,
+        "is_shipping_required": true
+    }
+]
