@@ -1,0 +1,33 @@
+#!/bin/sh
+
+CURRENT_PATH=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+APP_PATH=$CURRENT_PATH/app
+
+if ! grep -qr "alias horizont=$CURRENT_PATH/horizont" ~/.bash_profile
+    then
+        echo "alias horizont=$CURRENT_PATH/horizont" >> ~/.bash_profile
+        source ~/.bash_profile
+fi
+
+if [ -z $1 ] || [ $1 == help ]
+then
+    echo "horizon help"
+    echo "horizon init"
+    echo "horizon ..."
+elif [ $1 == init ]
+then
+    rm -rf $CURRENT_PATH/hrztenv
+    if [ `uname` == Darwin ]
+    then
+        python -m venv --without-pip hrztenv
+        source $CURRENT_PATH/hrztenv/bin/activate
+        curl https://bootstrap.pypa.io/get-pip.py | python
+        deactivate
+    else
+        python -m venv hrztenv
+    fi
+    source $CURRENT_PATH/hrztenv/bin/activate
+    echo  "Installing Virtual Environment at $(pip -V)"
+    pip install -r $APP_PATH/requirements.txt
+    deactivate
+fi
