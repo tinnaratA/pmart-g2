@@ -38,7 +38,9 @@ if os.environ.get('REDIS_URL'):
 DATABASES = {
     'default': dj_database_url.config(
         default='postgres://thanut:1234@localhost:5432/saleor',
-        conn_max_age=600)}
+        conn_max_age=600
+    )
+}
 
 
 TIME_ZONE = 'America/Chicago'

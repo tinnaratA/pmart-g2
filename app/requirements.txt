@@ -113,3 +113,4 @@ xmltodict==0.11.0         # via django-payments
 yarl==0.17.0              # via vcrpy
 ipython==6.1.0
 psycopg2-binary
+xlrd==1.1.0
