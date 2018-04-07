@@ -191,8 +191,16 @@ INSTALLED_APPS = [
     'impersonate',
     'phonenumber_field',
 
-    # Addon apps
-    'mdm.merchandize'
+    # Horizont apps
+    'mdm.merchandize',
+    'mdm.user_management',
+    'mdm.routing',
+
+    # Extension apps
+
+
+    # Addons apps
+
 ]
 
 LOGGING = {
@@ -426,3 +434,6 @@ ALLOWED_ATTRIBUTES = {
     'a': ['href', 'title'],
     'img': ['src']}
 ALLOWED_STYLES = ['text-align']
+
+# Horizont setup user permission
+DEFAULT_USER_PERMISSION_SETTING_FILE = os.path.join(PROJECT_ROOT, 'initializer', 'user', 'settings.json')

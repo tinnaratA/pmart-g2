@@ -1,0 +1,80 @@
+{
+    "sale_canvas": {
+        "domains": [
+            {
+                "app_label": "account",
+                "actions": [
+                    "read",
+                    "write",
+                    "edit"
+                ]
+            },
+            {
+                "app_label": "product",
+                "actions": [
+                    "read"
+                ]
+            },
+            {
+                "app_label": "order",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete"
+                ]
+            }
+        ],
+        "partial": [
+
+        ]
+    },
+    "sale_backoffice": {
+        "domains": [
+            {
+                "app_label": "product",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete",
+                    "edit"
+                ]
+            },
+            {
+                "app_label": "order",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete"
+                ]
+            },
+            {
+                "app_label": "account",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete",
+                    "edit"
+                ]
+            }
+        ],
+        "partial": [
+
+        ]
+    },
+    "vendor": {
+        "domains": [
+
+        ],
+        "partial": [
+
+        ]
+    },
+    "customer": {
+        "domains": [
+
+        ],
+        "partial": [
+
+        ]
+    }
+}
