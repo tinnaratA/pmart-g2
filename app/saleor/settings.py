@@ -11,7 +11,8 @@ def get_list(text):
     return [item.strip() for item in text.split(',')]
 
 
-DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'True'))
+# DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'True'))
+DEBUG = True
 
 SITE_ID = 1
 
@@ -190,6 +191,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'impersonate',
     'phonenumber_field',
+    'rest_framework',
 
     # Horizont apps
     'mdm.merchandize',
@@ -197,7 +199,7 @@ INSTALLED_APPS = [
     'mdm.routing',
 
     # Extension apps
-
+    'extension.product_extension'
 
     # Addons apps
 
@@ -437,3 +439,16 @@ ALLOWED_STYLES = ['text-align']
 
 # Horizont setup user permission
 DEFAULT_USER_PERMISSION_SETTING_FILE = os.path.join(PROJECT_ROOT, 'initializer', 'user', 'settings.json')
+
+# Django Rest framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ]
+}
