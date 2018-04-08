@@ -38,6 +38,7 @@ def get_permissions(keyword, app_label, models=[]):
 
 
 def setup_group(roles):
+    Group.objects.all().delete()
     groups = list()
     for r in roles:
         try:
@@ -46,7 +47,7 @@ def setup_group(roles):
             group, created = Group.objects.update_or_create(name=r)
         finally:
             groups.append(group)
-    return Group.objects.all()
+    return Group.objects.filter(name__in=roles)
 
 
 def setup_group_permission_domain(role, permissions, group):

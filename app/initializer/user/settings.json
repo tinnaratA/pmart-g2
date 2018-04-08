@@ -42,9 +42,7 @@
             {
                 "app_label": "order",
                 "actions": [
-                    "read",
-                    "write",
-                    "delete"
+                    "read"
                 ]
             },
             {
@@ -63,7 +61,33 @@
     },
     "vendor": {
         "domains": [
-
+            {
+                "app_label": "order",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete",
+                    "edit"
+                ]
+            },
+            {
+                "app_label": "cart",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete",
+                    "edit"
+                ]
+            },
+            {
+                "app_label": "shipping",
+                "actions": [
+                    "read",
+                    "write",
+                    "delete",
+                    "edit"
+                ]
+            }
         ],
         "partial": [
 
@@ -71,7 +95,34 @@
     },
     "customer": {
         "domains": [
-
+            {
+                "app_label": "product",
+                "actions": [
+                    "read"
+                ]
+            },
+            {
+                "app_label": "shipping",
+                "actions": [
+                    "read"
+                ]
+            },
+            {
+                "app_label": "order",
+                "actions": [
+                    "read",
+                    "write",
+                    "edit",
+                    "delete"
+                ]
+            },
+            {
+                "app_label": "account",
+                "actions": [
+                    "read",
+                    "edit"
+                ]
+            }
         ],
         "partial": [
 
