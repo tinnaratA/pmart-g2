@@ -51,3 +51,4 @@ uwsgi>=2.0.0 ; platform_system != "Windows"
 celery[redis]
 weasyprint>=0.42.2
 ipython==6.1.0
+djangorestframework==3.8.2
