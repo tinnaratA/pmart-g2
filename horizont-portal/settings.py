@@ -4,7 +4,8 @@ settings = {
             "port": 8080
         },
         "content_management": {
-            "port": 8081
+            "port": 8081,
+            "env": "dev"
         }
     }
 }

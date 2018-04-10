@@ -9,7 +9,7 @@ MODULE = 'content_management'
 from settings import settings
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "content_management.settings.dev")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"content_management.settings.{settings['module'][MODULE]['env']}")
 
     from django.core.management import execute_from_command_line
 
