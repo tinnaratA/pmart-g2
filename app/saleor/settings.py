@@ -190,19 +190,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_celery_results',
     'impersonate',
-    'phonenumber_field',
-    'rest_framework',
-
-    # Horizont apps
-    'mdm.merchandize',
-    'mdm.user_management',
-    'mdm.routing',
-
-    # Extension apps
-    'extension.product_extension'
-
-    # Addons apps
-
+    'phonenumber_field'
 ]
 
 LOGGING = {

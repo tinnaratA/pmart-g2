@@ -19,10 +19,6 @@ from .page.urls import urlpatterns as page_urls
 from .product.urls import urlpatterns as product_urls
 from .search.urls import urlpatterns as search_urls
 
-# Master data management
-from mdm.urls import urlpatterns as mdm_urls
-from extension.urls import urlpatterns as extension_urls
-
 handler404 = 'saleor.core.views.handle_404'
 
 urlpatterns = [
@@ -49,11 +45,6 @@ urlpatterns = [
     url(r'', include('payments.urls')),
     url('', include('social_django.urls', namespace='social')),
 
-    # Master data manageent
-    url(r'^mdm/', include((mdm_urls, 'mdm'), namespace='horizont-master-data')),
-
-    # Extension
-    url(r'^extension/', include((extension_urls, 'extension'), namespace='saleor-extension'))
 ]
 
 if settings.DEBUG:
