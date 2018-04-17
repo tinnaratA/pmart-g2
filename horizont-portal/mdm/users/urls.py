@@ -1,19 +1,34 @@
 from django.urls import path
 
-from . import views
+from .views import users as user_views
+from .views import groups as group_views
 
 urlpatterns = [
-    # Instance
-    path('list', views.ListUserView.as_view()),
-    path('profile', views.UserView.as_view()),
-    path('profile/<username>', views.UserView.as_view()),
-    path('<username>/delete', views.DeleteUserView.as_view()),
+    # user
+    path('list', user_views.ListUserView.as_view()),
+    path('profile', user_views.UserView.as_view()),
+    path('profile/<username>', user_views.UserView.as_view()),
+    path('profile/<username>/delete', user_views.DeleteUserView.as_view()),
 
-    # Role
-    # path('role/create'),
-    # path('role/<role_name>/edit')
-    # path('role/<role_name>/delete'),
+    # group (role)
+    path('group/list', group_views.ListGroupView.as_view()),
+    path('group', group_views.GroupView.as_view()),
+    path('group/<group_name>', group_views.GroupView.as_view()),
 
-    # Grant
+    # permission
+    # path('permission/list', group_views.ListGroupView.as_view()),
+    # path('permission', group_views.GroupView.as_view()),
+    # path('permission/<perm_code>', group_views.GroupView.as_view()),
 
+    # grant group (role) & permission
+    # path('grant/group/<group_name>/user/<username>'),
+    # path('grant/user/<username>/group/<group_name>'),
+    # path('grant/permission/<perm_code>/group/<group_name>'),
+    # path('grant/permission/<perm_code>/user/<username>'),
+
+    # revoke group (role) & permission
+    # path('revoke/group/<group_name>/user/<username>'),
+    # path('revoke/user/<username>/group/<group_name>'),
+    # path('revoke/permission/<perm_code>/group/<group_name>'),
+    # path('revoke/permission/<perm_code>/user/<username>'),
 ]
