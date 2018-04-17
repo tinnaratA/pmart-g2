@@ -5,8 +5,8 @@ from rest_framework import permissions
 from rest_framework import pagination
 
 from common.response import MdmResponse as Response
-from common.permissions import CouldActionUserProfile, CouldListUserProfile
-from .serializers import UserSerializer
+from users.permissions import users as user_permissions
+from users.serializers.users import UserSerializer 
 
 true = True
 false = False
@@ -15,7 +15,7 @@ class ListUserView(generics.ListAPIView):
     queryset = User.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
-        CouldListUserProfile
+        user_permissions.CouldListUserProfile
     ]
     pagination_class = pagination.LimitOffsetPagination
     serializer_class = UserSerializer
@@ -51,7 +51,7 @@ class DeleteUserView(views.APIView):
 class UserView(views.APIView):
     permission_classes = [
         permissions.IsAuthenticated,
-        CouldActionUserProfile
+        user_permissions.CouldActionUserProfile
     ]
 
     def get_objects(self, username):
@@ -81,7 +81,7 @@ class UserView(views.APIView):
             serializer = UserSerializer(data=data, many=True)
             if serializer.is_valid():
                 serializer.create(serializer.validated_data)
-                return Response(data="User has been created.", status=200)
+                return Response(data="User has been created.", status=201)
             else:
                 return Response(data=serializer.errors, status=400)
         except django.db.utils.IntegrityError as e:
