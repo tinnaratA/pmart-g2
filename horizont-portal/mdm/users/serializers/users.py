@@ -4,8 +4,7 @@ from common.serializers import MdmBaseSerializer
 
 
 class UserSerializer(MdmBaseSerializer):
-    resource_type = serializers.SerializerMethodField()
-    id = serializers.ReadOnlyField()
+    id = serializers.ReadOnlyField(required=False)
     password = serializers.CharField(max_length=128, required=True, allow_null=False, allow_blank=False)
     username = serializers.CharField(max_length=150)
     first_name = serializers.CharField(required=True, allow_blank=False, allow_null=False)

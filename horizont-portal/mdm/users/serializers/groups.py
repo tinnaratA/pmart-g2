@@ -4,12 +4,12 @@ from common.serializers import MdmBaseSerializer
 
 
 class GroupSerializer(MdmBaseSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.ReadOnlyField(required=False)
     name = serializers.CharField(max_length=80, allow_null=False, allow_blank=False, required=True)
 
     class Meta:
         model = Group
-        fields = [f.name for f in Group._meta.fields]
+        fields = ['resource_type'] + [f.name for f in Group._meta.fields]
 
     def create(self, validated_data):
         instance, created = Group.objects.update_or_create(**validated_data)

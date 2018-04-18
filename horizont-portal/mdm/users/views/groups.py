@@ -1,4 +1,3 @@
-import django
 from django.contrib.auth.models import Group
 from rest_framework import generics, views
 from rest_framework import permissions
@@ -64,7 +63,7 @@ class GroupView(views.APIView):
                 data = "Group (Role) has been updated."
                 status = 200
             else:
-                data = "Invalid JSON."
+                data = serializer.errors
                 status = 400
         except Group.DoesNotExist as e:
             data = "Group (Role) Not Found."
@@ -87,7 +86,7 @@ class GroupView(views.APIView):
                 data = "Group (Role) has been created."
                 status = 201
             else:
-                data = "Invalid JSON."
+                data = serializer.errors
                 status = 400
         except Group.DoesNotExist as e:
             data = "Group (Role) Not Found."
