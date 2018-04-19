@@ -11,6 +11,7 @@ from users.serializers.users import UserSerializer
 true = True
 false = False
 
+
 class ListUserView(generics.ListAPIView):
     queryset = User.objects.all()
     permission_classes = [
