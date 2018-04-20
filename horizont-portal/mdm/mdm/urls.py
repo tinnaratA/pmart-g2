@@ -20,12 +20,17 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework_swagger.views import get_swagger_view
 
 from users.urls import urlpatterns as users_urls
+from customer_store.urls import urlpatterns as customer_store_urls
+from routing.urls import urlpatterns as routing_urls
 
 schema_view = get_swagger_view(title='Master Data Management API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mdm/', include((users_urls, 'users'), namespace='users_api')),
+    path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
+
+    path('customers/', include((customer_store_urls, 'customer_store'), namespace='customers_api')),
+    path('routing/', include((routing_urls, 'routing'), namespace='routing_api')),
 
     path('docs/', include_docs_urls(title='Master Data Management API')),
     path('docs/swagger', schema_view)

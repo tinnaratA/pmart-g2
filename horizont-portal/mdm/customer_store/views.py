@@ -13,4 +13,5 @@ class CustomerStoreView(views.APIView):
 class CustomerOrderView(views.APIView):
 
     def get(self, request, store_name):
-        return Response(data=list(filter(lambda x: x['store']['name'] == store_name, orders)), status=200)
+        data = [d['order_list'] for d in list(filter(lambda x: x['store']['name'] == store_name, orders))]
+        return Response(data=data, status=200)
