@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'users',
     'routing',
     'merchandise',
+    'customer_store',
 
     # External App
     'rest_framework',
@@ -148,6 +149,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Image
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 # REST FRAMEWORK
 

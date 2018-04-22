@@ -34,7 +34,7 @@ class MerchandiseCategory(MPTTModel):
         db_table = 'merchandise_category'
         permissions = (
             ('view_merchandise_category', pgettext_lazy('Permission description', 'Can view merchandise categories')),
-           )
+        )
 
     def __str__(self):
         return self.name
@@ -73,6 +73,7 @@ class MerchandiseQuerySet(models.QuerySet):
 
 class Merchandise(models.Model):
     merchandise_type = models.ForeignKey(MerchandiseType, related_name='merchandises_of_type', on_delete=models.CASCADE)
+    code = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     description = models.TextField()
     category = models.ForeignKey(MerchandiseCategory, related_name='merchandises_of_category', on_delete=models.CASCADE)
