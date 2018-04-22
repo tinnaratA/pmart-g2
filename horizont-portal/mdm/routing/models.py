@@ -1,32 +1,17 @@
-from django.db import models
-from customer_store.models import stores
+import uuid
 
-routing = {
-    "sale1": {
-        "id": 1,
-        "name": "route1",
-        "customer_store": [
-            stores[0],
-            stores[1],
-            stores[2]
-        ]
-    },
-    "sale2": {
-        "id": 2,
-        "name": "route2",
-        "customer_store": [
-            stores[3],
-            stores[4],
-            stores[5]
-        ]
-    },
-    "sale3": {
-        "id": 3,
-        "name": "route3",
-        "customer_store": [
-            stores[6],
-            stores[7],
-            stores[8]
-        ]
-    }
-}
+from django.db import models
+from django.utils.translation import pgettext_lazy
+
+
+class Route(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    name = models.CharField(max_length=256, null=False, blank=False)
+    # stores =
+
+    class Meta:
+        app_label = 'routing'
+        db_table = 'route'
+        permissions = (
+            ('view_route', pgettext_lazy('Permission description', 'Can view routes')),
+        )

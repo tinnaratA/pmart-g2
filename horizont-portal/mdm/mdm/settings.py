@@ -55,7 +55,10 @@ INSTALLED_APPS = [
     # External App
     'rest_framework',
     'corsheaders',
-    'rest_framework_swagger'
+    'rest_framework_swagger',
+
+    # Extension
+    'django.contrib.postgres'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Currency
+DEFAULT_CURRENCY = 'THB'
 
 
 # Internationalization
