@@ -13,6 +13,9 @@ false = False
 
 
 class ListUserView(generics.ListAPIView):
+    """
+            Show list of user API
+    """
     queryset = User.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
@@ -27,6 +30,9 @@ class ListUserView(generics.ListAPIView):
 
 
 class DeleteUserView(views.APIView):
+    """
+            DELECT user APIs
+    """
     permission_classes = [
         permissions.IsAuthenticated,
         permissions.IsAdminUser
@@ -50,6 +56,12 @@ class DeleteUserView(views.APIView):
 
 
 class UserView(views.APIView):
+    """
+        CRUD user API
+        * GET method as retrieve
+        * POST method as create
+        * PUT method as update
+    """
     permission_classes = [
         permissions.IsAuthenticated,
         user_permissions.CouldActionUserProfile

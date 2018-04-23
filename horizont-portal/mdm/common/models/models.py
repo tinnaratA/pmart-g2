@@ -7,7 +7,7 @@ from django.utils.translation import pgettext_lazy
 class Address(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     line1 = models.TextField(null=False, blank=False)
-    line2 = models.TextField(null=False, blank=False)
+    line2 = models.TextField(null=False, blank=True)
     district = models.CharField(max_length=256, null=False, blank=False)
     city = models.CharField(max_length=256, null=False, blank=False)
     province = models.CharField(max_length=256, null=False, blank=False)
@@ -24,7 +24,7 @@ class Address(models.Model):
 class HumanName(models.Model):
     title = models.CharField(max_length=20, null=False, blank=False)
     first = models.CharField(max_length=512, null=False, blank=False)
-    middle = models.CharField(max_length=512, null=False, blank=False)
+    middle = models.CharField(max_length=512, null=True, blank=True)
     last = models.CharField(max_length=512, null=False, blank=False)
 
     class Meta:

@@ -1,6 +1,11 @@
-from rest_framework import views
+from rest_framework import generics, views
 from .models import routing
 from common.response import MdmResponse as Response
+
+
+class RoutingListView(generics.ListAPIView):
+    pass
+
 
 class RoutingView(views.APIView):
 

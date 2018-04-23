@@ -42,15 +42,18 @@ class CustomerStoreType(MPTTModel, TimeStampMixin):
             ('view_customerstoretype', pgettext_lazy('Permission description', 'Can view customer store types')),
         )
 
+    def __str__(self):
+        return self.name
+
 
 class CustomerStore(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     store_name = models.CharField(max_length=512, blank=False, null=True)
     owner = models.ManyToManyField(HumanName, related_name='customer_stores')
-    description = models.TextField(null=True, blank=False)
+    description = models.TextField(null=True, blank=True)
     type = models.ForeignKey(CustomerStoreType, related_name='customer_stores', on_delete=models.CASCADE)
     address = models.ForeignKey(CustomerStoreAddress, related_name='customer_store', on_delete=models.CASCADE)
-    route = models.ForeignKey(Route, related_name='customer_store', null=True, on_delete=models.SET_NULL)
+    route = models.ForeignKey(Route, related_name='customer_store', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         app_label = 'customer_store'
@@ -58,6 +61,9 @@ class CustomerStore(TimeStampMixin):
         permissions = (
             ('view_customerstore', pgettext_lazy('Permission description', 'Can view customer stores')),
         )
+
+    def __str__(self):
+        return self.store_name
 
 
 class CustomerStoreContact(AbstractContact, TimeStampMixin):
@@ -71,10 +77,13 @@ class CustomerStoreContact(AbstractContact, TimeStampMixin):
             ('view_customerstorecontact', pgettext_lazy('Permission description', 'Can view customer store contacts')),
         )
 
+    def __str__(self):
+        return self.value
+
 
 class CustomerStoreImage(TimeStampMixin):
-    customer_store = models.ForeignKey(CustomerStore, related_name='images', null=False, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='customer_store_images')
+    customer_store = models.ForeignKey(CustomerStore, related_name='customer_store_images', null=False, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/')
 
     class Meta:
         app_label = 'customer_store'
@@ -82,3 +91,6 @@ class CustomerStoreImage(TimeStampMixin):
         permissions = (
             ('view_customerstoreimage', pgettext_lazy('Permission description', 'Can view customer stores images')),
         )
+
+    def __str__(self):
+        return f"Image of {self.customer_store.store_name} store"

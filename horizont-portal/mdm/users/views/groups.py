@@ -12,6 +12,9 @@ false = False
 
 
 class ListGroupView(generics.ListAPIView):
+    """
+        Show list of group (role) API
+    """
     queryset = Group.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
@@ -26,6 +29,13 @@ class ListGroupView(generics.ListAPIView):
 
 
 class GroupView(views.APIView):
+    """
+        CRUD group (role) APIs
+        * GET method as retrieve
+        * POST method as create
+        * PUT method as update
+        * DELETE method as remove
+    """
     permission_classes = [
         permissions.IsAuthenticated,
         group_permissions.CouldActionGroup

@@ -12,6 +12,9 @@ false = False
 
 
 class ListPermissionView(generics.ListAPIView):
+    """
+            Show list of permission API
+    """
     queryset = Permission.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
@@ -26,6 +29,13 @@ class ListPermissionView(generics.ListAPIView):
 
 
 class PermissionView(views.APIView):
+    """
+            CRUD permission APIs
+            * GET method as retrieve
+            * POST method as create
+            * PUT method as update
+            * DELETE method as remove
+    """
     permission_classes = [
         permissions.IsAuthenticated,
         permission_permissions.CouldActionPermission
