@@ -36,4 +36,6 @@ urlpatterns = [
 
     path('docs/', include_docs_urls(title='Master Data Management API')),
     path('docs/swagger', schema_view),
+
+    path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

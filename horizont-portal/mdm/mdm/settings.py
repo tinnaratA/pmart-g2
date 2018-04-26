@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'routing',
     'merchandise',
     'customer_store',
+    'vendor',
+    'product',
 
     # External App
     'rest_framework',
