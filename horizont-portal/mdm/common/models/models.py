@@ -7,7 +7,7 @@ from django.utils.translation import pgettext_lazy
 class Address(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     line1 = models.TextField(null=False, blank=False)
-    line2 = models.TextField(null=False, blank=True)
+    line2 = models.TextField(null=True, blank=False)
     district = models.CharField(max_length=256, null=False, blank=False)
     city = models.CharField(max_length=256, null=False, blank=False)
     province = models.CharField(max_length=256, null=False, blank=False)
