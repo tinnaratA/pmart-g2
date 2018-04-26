@@ -49,6 +49,17 @@ class CustomerStoreView(views.APIView):
             return Response(data=data, status=status)
 
 
+class CreateCustomerStoreView(generics.CreateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = CustomerStoreSerializer
+
+    def post(self, request, *args, **kwargs):
+        response = self.create(request, *args, **kwargs)
+        return Response(data=response.data, status=response.status_code)
+
+
 class CustomerOrderView(views.APIView):
 
     def get(self, request, store_name):

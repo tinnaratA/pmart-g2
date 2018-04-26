@@ -11,8 +11,7 @@ from mptt.models import MPTTModel
 
 from common.models.models import Address, HumanName
 from common.models.abstracts import AbstractContact, TimeStampMixin
-from routing.models import Route
-
+from product.models import ProductItem
 
 class CustomerStoreAddress(Address, TimeStampMixin):
     latitude = models.CharField(max_length=50)
@@ -46,6 +45,27 @@ class CustomerStoreType(MPTTModel, TimeStampMixin):
         return self.name
 
 
+class CustomerStoreGrade(models.Model):
+    GRADE_A = 'A'
+    GRADE_B = 'B'
+    GRADE_C = 'C'
+    GRADE_D = 'D'
+    GRADES = (
+        (GRADE_A, 'Grade A'),
+        (GRADE_B, 'Grade B'),
+        (GRADE_C, 'Grade C'),
+        (GRADE_D, 'Grade D'),
+    )
+
+    higher_grade = models.ForeignKey(to='self', related_name="higher", on_delete=models.SET_DEFAULT, default=None)
+    grade = models.CharField(max_length=10, choices=GRADES, default=GRADE_D)
+    lower_grade = models.ForeignKey(to='self', related_name="lower", on_delete=models.SET_DEFAULT, default=None)
+
+    class Meta:
+        app_label = 'customer_store'
+        db_table = 'customer_store_grade'
+
+
 class CustomerStore(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     store_name = models.CharField(max_length=512, blank=False, null=True)
@@ -53,7 +73,7 @@ class CustomerStore(TimeStampMixin):
     description = models.TextField(null=True, blank=True)
     type = models.ForeignKey(CustomerStoreType, related_name='customer_stores', on_delete=models.CASCADE)
     address = models.ForeignKey(CustomerStoreAddress, related_name='customer_store', on_delete=models.CASCADE)
-    route = models.ForeignKey(Route, related_name='customer_store', null=True, blank=True, on_delete=models.SET_NULL)
+    grade = models.ForeignKey(CustomerStoreGrade, default=None, on_delete=models.SET_DEFAULT, null=True)
 
     class Meta:
         app_label = 'customer_store'

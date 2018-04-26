@@ -26,7 +26,7 @@ class CustomerStoreContactSerializer(MdmBaseSerializer):
 
     class Meta:
         model = models.CustomerStoreContact
-        fields = ['resource_type'] + [f.name for f in models.CustomerStoreContact._meta.fields if f.name not in excludes]
+        fields = ['resource_type', 'owner'] + [f.name for f in models.CustomerStoreContact._meta.fields if f.name not in excludes]
 
 
 class CustomerStoreImageSerializer(MdmBaseSerializer):
