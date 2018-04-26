@@ -57,13 +57,22 @@ class CustomerStoreGrade(models.Model):
         (GRADE_D, 'Grade D'),
     )
 
-    higher_grade = models.ForeignKey(to='self', related_name="higher", on_delete=models.SET_DEFAULT, default=None)
+    higher_grade = models.ForeignKey(
+        to='self', related_name="higher", blank=True,
+        on_delete=models.SET_DEFAULT, default=None, null=True
+    )
     grade = models.CharField(max_length=10, choices=GRADES, default=GRADE_D)
-    lower_grade = models.ForeignKey(to='self', related_name="lower", on_delete=models.SET_DEFAULT, default=None)
+    lower_grade = models.ForeignKey(
+        to='self', related_name="lower", blank=True,
+        on_delete=models.SET_DEFAULT, default=None, null=True
+    )
 
     class Meta:
         app_label = 'customer_store'
         db_table = 'customer_store_grade'
+
+    def __str__(self):
+        return self.grade
 
 
 class CustomerStore(TimeStampMixin):

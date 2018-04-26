@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'customer_store',
     'vendor',
     'product',
+    'dashboard',
 
     # External App
     'rest_framework',
