@@ -1,4 +1,4 @@
-import datetime
+import datetime, uuid
 from decimal import Decimal
 
 from django.conf import settings
@@ -40,29 +40,6 @@ class MerchandiseCategory(MPTTModel):
         return self.name
 
 
-class MerchandiseType(models.Model):
-    name = models.CharField(max_length=128)
-    has_variants = models.BooleanField(default=True)
-    merchandise_attributes = models.ManyToManyField('MerchandiseAttribute', related_name='merchandise_type', blank=True)
-    variant_attributes = models.ManyToManyField('MerchandiseAttribute', related_name='merchandise_variant_types', blank=True)
-    is_shipping_required = models.BooleanField(default=False)
-
-    class Meta:
-        app_label = 'merchandise'
-        db_table = 'merchandise_type'
-        permissions = (
-            ('view_merchandise_type', pgettext_lazy('Permission description', 'Can view merchandise types')),
-        )
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        class_ = type(self)
-        return '<%s.%s(pk=%r, name=%r)>' % (
-            class_.__module__, class_.__name__, self.pk, self.name)
-
-
 class MerchandiseQuerySet(models.QuerySet):
     def available_merchandises(self):
         today = datetime.date.today()
@@ -71,8 +48,7 @@ class MerchandiseQuerySet(models.QuerySet):
             Q(is_published=True))
 
 
-class Merchandise(models.Model):
-    merchandise_type = models.ForeignKey(MerchandiseType, related_name='merchandises_of_type', on_delete=models.CASCADE)
+class MerchandiseMasterItem(models.Model):
     code = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     description = models.TextField()
@@ -80,7 +56,6 @@ class Merchandise(models.Model):
     price = MoneyField(currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=2)
     available_on = models.DateField(blank=True, null=True)
     is_published = models.BooleanField(default=True)
-    attributes = HStoreField(default={})
     updated_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(default=False)
 
@@ -88,7 +63,7 @@ class Merchandise(models.Model):
 
     class Meta:
         app_label = 'merchandise'
-        db_table = 'merchandise'
+        db_table = 'merchandise_master_item'
         permissions = (
             ('view_merchandise',
              pgettext_lazy('Permission description', 'Can view merchandises')),
@@ -116,14 +91,13 @@ class Merchandise(models.Model):
 
 
 class MerchandiseVariant(models.Model):
-    sku = models.CharField(max_length=32, unique=True)
+    sku = models.CharField(max_length=32, unique=True, default=uuid.uuid1)
     name = models.CharField(max_length=100, blank=True)
     price_override = MoneyField(
         currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=2,
         blank=True, null=True)
     merchandise = models.ForeignKey(
-        Merchandise, related_name='variants', on_delete=models.CASCADE)
-    attributes = HStoreField(default={})
+        MerchandiseMasterItem, related_name='variants', on_delete=models.CASCADE)
     images = models.ManyToManyField('MerchandiseImage', through='VariantImage')
 
     class Meta:
@@ -131,7 +105,7 @@ class MerchandiseVariant(models.Model):
         db_table = 'merchandise_variant'
 
     def __str__(self):
-        return self.name or self.display_variant_attributes()
+        return self.name
 
 
 class StockLocation(models.Model):
@@ -176,38 +150,9 @@ class Stock(models.Model):
         return max(self.quantity - self.quantity_allocated, 0)
 
 
-class MerchandiseAttribute(models.Model):
-    slug = models.SlugField(max_length=50, unique=True)
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        ordering = ('slug', )
-
-    def __str__(self):
-        return self.name
-
-
-class AttributeChoiceValue(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
-    color = models.CharField(
-        max_length=7, blank=True,
-        validators=[RegexValidator('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$')])
-    attribute = models.ForeignKey(
-        MerchandiseAttribute, related_name='values', on_delete=models.CASCADE)
-
-    class Meta:
-        app_label = 'merchandise'
-        db_table = 'merchandise_attribute_choice'
-        unique_together = ('name', 'attribute')
-
-    def __str__(self):
-        return self.name
-
-
 class MerchandiseImage(models.Model):
     merchandise = models.ForeignKey(
-        Merchandise, related_name='images', on_delete=models.CASCADE)
+        MerchandiseMasterItem, related_name='images', on_delete=models.CASCADE)
     image = VersatileImageField(
         upload_to='merchandises', ppoi_field='ppoi', blank=False)
     ppoi = PPOIField()
@@ -248,10 +193,28 @@ class Collection(models.Model):
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=128)
     merchandises = models.ManyToManyField(
-        Merchandise, blank=True, related_name='collections')
+        MerchandiseMasterItem, blank=True, related_name='collections')
 
     class Meta:
         ordering = ['pk']
 
     def __str__(self):
         return self.name
+
+
+class UnitOfConversion(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        app_label = 'merchandise'
+        db_table = 'unit_of_conversion'
+
+
+class UnitOfMeasurement(models.Model):
+    merchandise = models.ForeignKey(MerchandiseMasterItem, related_name="uoms", on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    unit_conversions = models.ManyToManyField(UnitOfConversion, related_name="uoms")
+
+    class Meta:
+        app_label = 'merchandise'
+        db_table = 'unit_of_measurement'
