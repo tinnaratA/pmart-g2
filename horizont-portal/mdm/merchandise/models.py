@@ -2,19 +2,12 @@ import datetime, uuid
 from decimal import Decimal
 
 from django.conf import settings
-from django.contrib.postgres.fields import HStoreField
-from django.core.validators import MinValueValidator, RegexValidator
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import F, Max, Q
-# from django.urls import reverse
-# from django.utils.encoding import smart_text
-# from django.utils.text import slugify
 from django.utils.translation import pgettext_lazy
-from django_prices.models import MoneyField
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel
-# from prices import Money, TaxedMoney, TaxedMoneyRange
-# from text_unidecode import unidecode
 from versatileimagefield.fields import PPOIField, VersatileImageField
 
 
@@ -53,7 +46,7 @@ class MerchandiseMasterItem(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField()
     category = models.ForeignKey(MerchandiseCategory, related_name='merchandises_of_category', on_delete=models.CASCADE)
-    price = MoneyField(currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=2)
+    price = models.FloatField(default=1.00)
     available_on = models.DateField(blank=True, null=True)
     is_published = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -93,9 +86,7 @@ class MerchandiseMasterItem(models.Model):
 class MerchandiseVariant(models.Model):
     sku = models.CharField(max_length=32, unique=True, default=uuid.uuid1)
     name = models.CharField(max_length=100, blank=True)
-    price_override = MoneyField(
-        currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=2,
-        blank=True, null=True)
+    price_override = models.FloatField(default=None, null=True)
     merchandise = models.ForeignKey(
         MerchandiseMasterItem, related_name='variants', on_delete=models.CASCADE)
     images = models.ManyToManyField('MerchandiseImage', through='VariantImage')
@@ -133,9 +124,7 @@ class Stock(models.Model):
         validators=[MinValueValidator(0)], default=Decimal(1))
     quantity_allocated = models.IntegerField(
         validators=[MinValueValidator(0)], default=Decimal(0))
-    cost_price = MoneyField(
-        currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=2,
-        blank=True, null=True)
+    cost_price = models.FloatField(default=None, null=True)
 
     class Meta:
         app_label = 'merchandise'
@@ -204,6 +193,7 @@ class Collection(models.Model):
 
 class UnitOfConversion(models.Model):
     name = models.CharField(max_length=50)
+    factor = models.FloatField(default=None, null=True)
 
     class Meta:
         app_label = 'merchandise'

@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'customer_store',
     'vendor',
     'product',
+    'order',
+    'questionaire',
+    'financial',
     'dashboard',
 
     # External App
@@ -194,7 +197,3 @@ SWAGGER_SETTINGS = {
 }
 JSON_EDITOR = True
 SHOW_REQUEST_HEADERS = True
-
-
-
-

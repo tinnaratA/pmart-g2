@@ -8,6 +8,7 @@ from merchandise.models import MerchandiseMasterItem, UnitOfMeasurement
 # Customer store SKU
 class ProductItem(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    sku = models.CharField(max_length=50)
     uom = models.ForeignKey(
         UnitOfMeasurement,
         related_name="product_items",
