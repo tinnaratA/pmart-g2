@@ -17,6 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 from rest_framework.documentation import include_docs_urls
 from rest_framework_swagger.views import get_swagger_view
@@ -28,6 +29,8 @@ from customer_store.urls import urlpatterns as customer_store_urls
 schema_view = get_swagger_view(title='Master Data Management API')
 
 urlpatterns = [
+    path('login', auth_views.login, name='login'),
+    path('logout', auth_views.logout, name='logout'),
     path('admin/', admin.site.urls),
     # path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
 
@@ -39,4 +42,5 @@ urlpatterns = [
     # path('docs/swagger', schema_view),
 
     # path('api-auth/', include('rest_framework.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
+              static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
