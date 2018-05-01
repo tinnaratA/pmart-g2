@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres'
 ]
 
-LOGIN_REDIRECT_URL = '/admin'
+# LOGIN_REDIRECT_URL = '/landing_page'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -164,8 +164,11 @@ STATIC_ROOT = 'static'
 # Image
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'images')
-# REST FRAMEWORK
 
+# REST FRAMEWORK
+SERIALIZER_MUST_HAVE_FIELDS = [
+    'resource_type'
+]
 
 # CORS-HEADERS
 # Settings Document

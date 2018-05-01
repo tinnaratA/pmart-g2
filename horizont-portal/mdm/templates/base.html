@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
+<!--SET BASE THEME IN THIS FILE-->
 <head>
-    <title>{{ title }}</title>
+    <title>{% block title %}{% endblock %}</title>
     {% block head %}
+    {% endblock %}
+    {% block head-script %}
     {% endblock %}
 </head>
 <body>
 {% block content %}
 {% endblock %}
 </body>
+<footer>
+    {% block footer %}
+    {% endblock %}
+</footer>
 </html>

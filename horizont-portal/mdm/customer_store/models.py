@@ -78,7 +78,7 @@ class CustomerStoreGrade(models.Model):
 class CustomerStore(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     store_name = models.CharField(max_length=512, blank=False, null=True)
-    owner = models.ManyToManyField(HumanName, related_name='customer_stores')
+    owners = models.ManyToManyField(HumanName, related_name='customer_stores')
     description = models.TextField(null=True, blank=True)
     type = models.ForeignKey(CustomerStoreType, related_name='customer_stores', on_delete=models.CASCADE)
     address = models.ForeignKey(CustomerStoreAddress, related_name='customer_store', on_delete=models.CASCADE)
@@ -97,7 +97,6 @@ class CustomerStore(TimeStampMixin):
 
 class CustomerStoreContact(AbstractContact, TimeStampMixin):
     owner = models.ForeignKey(HumanName, related_name='customer_store_contacts', on_delete=models.CASCADE)
-    customer_store = models.ForeignKey(CustomerStore, related_name='customer_store_contacts', null=False, on_delete=models.CASCADE)
 
     class Meta:
         app_label = 'customer_store'

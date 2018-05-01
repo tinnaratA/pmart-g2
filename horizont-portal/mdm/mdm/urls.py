@@ -24,18 +24,18 @@ from rest_framework_swagger.views import get_swagger_view
 
 from users.urls import urlpatterns as users_urls
 from customer_store.urls import urlpatterns as customer_store_urls
-# from routing.urls import urlpatterns as routing_urls
+from routing.urls import urlpatterns as routing_urls
 
 schema_view = get_swagger_view(title='Master Data Management API')
 
 urlpatterns = [
-    path('login', auth_views.login, name='login'),
-    path('logout', auth_views.logout, name='logout'),
+    # path('login', auth_views.login, name='login'),
+    # path('logout', auth_views.logout, name='logout'),
     path('admin/', admin.site.urls),
     # path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
 
     # path('customers/', include((customer_store_urls, 'customer_store'), namespace='customers_api')),
-    # path('routing/', include((routing_urls, 'routing'), namespace='routing_api')),
+    path('routing/', include((routing_urls, 'routing'), namespace='routing_api')),
 
     # path('/', include_docs_urls(title='Master Data Management API')),
     # path('docs/', include_docs_urls(title='Master Data Management API')),

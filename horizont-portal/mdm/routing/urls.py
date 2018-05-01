@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import RoutingView
+from . import views
 
 urlpatterns = [
-    path('route/<sale_username>', RoutingView.as_view())
+    path('route/list', views.RouteListView.as_view())
 ]

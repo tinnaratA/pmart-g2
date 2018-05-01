@@ -21,6 +21,9 @@ class Route(TimeStampMixin):
             ('view_route', pgettext_lazy('Permission description', 'Can view routes')),
         )
 
+    def __str__(self):
+        return self.name
+
 
 class RouteCustomerStore(TimeStampMixin):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
@@ -29,6 +32,9 @@ class RouteCustomerStore(TimeStampMixin):
     class Meta:
         app_label = 'routing'
         db_table = 'route_customer'
+
+    def __str__(self):
+        return f"{self.route.name} - {self.store.store_name}"
 
 
 class RouteActivity(TimeStampMixin):
@@ -56,6 +62,12 @@ class RouteActivity(TimeStampMixin):
         app_label = 'routing'
         db_table = 'route_activity'
 
+    def __str__(self):
+        return f"Acitivity of {self.route_stores.route.name} - {self.route_stores.store.store_name}"
+
+    def get_all_status(self):
+        return [s[1] for s in self.ACTIVITY_STATUS]
+
 
 class RouteActivityTask(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
@@ -66,6 +78,8 @@ class RouteActivityTask(TimeStampMixin):
         app_label = "routing"
         db_table = "route_activity_task"
 
+    def __str__(self):
+        return self.executed_by.username
 
 class RouteTaskOrder(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)

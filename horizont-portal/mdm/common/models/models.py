@@ -33,3 +33,7 @@ class HumanName(models.Model):
         permissions = (
             ('view_name', pgettext_lazy('Permission description', 'Can view human names')),
         )
+
+
+    def __str__(self):
+        return " ".join([n for n in [self.title, self.first, self.middle, self.last] if n])

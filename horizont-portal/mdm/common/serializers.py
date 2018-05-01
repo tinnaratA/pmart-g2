@@ -5,6 +5,9 @@ excludes = ['id']
 
 class MdmBaseSerializer(serializers.ModelSerializer):
     resource_type = serializers.SerializerMethodField()
+    id = serializers.ReadOnlyField()
+    created = serializers.ReadOnlyField(required=False)
+    updated = serializers.ReadOnlyField(required=False)
 
     def get_resource_type(self, obj):
         return self.Meta.model.__name__
