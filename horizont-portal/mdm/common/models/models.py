@@ -46,3 +46,11 @@ class HumanName(models.Model):
 
     def __str__(self):
         return " ".join([n for n in [self.title, self.first, self.middle, self.last] if n])
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "first": self.first,
+            "middle": self.middle,
+            "last": self.last
+        }

@@ -131,11 +131,13 @@ class CustomerStore(TimeStampMixin):
             "description": self.description,
             "type": self.type.to_dict(),
             "address": self.address.to_dict(),
-            "grade": self.grade.grade
+            "grade": self.grade.grade,
+            "contacts": [contact.to_dict() for contact in self.customer_store_contacts.all()]
         }
 
 
 class CustomerStoreContact(AbstractContact, TimeStampMixin):
+    store = models.ForeignKey(CustomerStore, related_name="customer_store_contacts", on_delete=models.CASCADE)
     owner = models.ForeignKey(HumanName, related_name='customer_store_contacts', on_delete=models.CASCADE)
 
     class Meta:
@@ -147,6 +149,13 @@ class CustomerStoreContact(AbstractContact, TimeStampMixin):
 
     def __str__(self):
         return self.value
+
+    def to_dict(self):
+        return {
+            "type": self.type,
+            "value": self.value,
+            "contact_owner": self.owner.to_dict()
+        }
 
 
 class CustomerStoreImage(TimeStampMixin):
