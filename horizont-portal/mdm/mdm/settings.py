@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres'
 ]
 
-# LOGIN_REDIRECT_URL = '/landing_page'
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

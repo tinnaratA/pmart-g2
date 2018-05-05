@@ -40,13 +40,11 @@ class RouteCustomerStore(TimeStampMixin):
     PREORDER = 'PREORDER'
     CONFIRM = 'CONFIRM'
     PAYMENT = 'PAYMENT'
-    NOTHING = 'DONOTHING'
     ACTIVITY_TASK_STATUS = (
         (CHECKIN, 'Check-in'),
         (SURVEY, 'Survey'),
         (PREORDER, 'PreOrder'),
         (PAYMENT, 'Payment'),
-        (NOTHING, 'Do-nothing')
     )
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     store = models.ForeignKey(CustomerStore, on_delete=models.CASCADE)

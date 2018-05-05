@@ -4,8 +4,13 @@ from .views import users as user_views
 from .views import groups as group_views
 from .views import permissions as permission_views
 from .views import grants_revokes as grant_revoke_views
+from .views import authentication
 
 urlpatterns = [
+    # authentication
+    path('login', authentication.Authentication.as_view()),
+    path('logout', authentication.Deauthentication.as_view()),
+
     # user
     path('users/list', user_views.ListUserView.as_view()),
     path('users/profile', user_views.UserView.as_view()),
@@ -21,12 +26,6 @@ urlpatterns = [
     path('permissions/list', permission_views.ListPermissionView.as_view()),
     path('permissions', permission_views.PermissionView.as_view()),
     path('permissions/<perm_code>', permission_views.PermissionView.as_view()),
-
-    #
-    #   grant/revoke group (role) & permission
-    #     - POST method to grants
-    #     - DELETE method to revokes
-    #
 
     path('grants/user/<username>/group/<group_name>', grant_revoke_views.GrantRevokeUserToGroup.as_view()),
     path('grants/permission/<perm_code>/group/<group_name>', grant_revoke_views.GrantRevokePermissionToGroup.as_view()),

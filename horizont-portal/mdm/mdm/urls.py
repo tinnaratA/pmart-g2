@@ -30,8 +30,8 @@ from dashboard.urls import urlpatterns as dashboard_urls
 schema_view = get_swagger_view(title='Master Data Management API')
 
 urlpatterns = [
-    # path('login', auth_views.login, name='login'),
-    # path('logout', auth_views.logout, name='logout'),
+    path('login', auth_views.login, name='login'),
+    path('logout', auth_views.logout, name='logout'),
     path('admin/', admin.site.urls),
     # path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
 
