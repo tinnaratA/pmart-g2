@@ -8,8 +8,8 @@ from .views import authentication
 
 urlpatterns = [
     # authentication
-    path('login', authentication.Authentication.as_view()),
-    path('logout', authentication.Deauthentication.as_view()),
+    # path('login', authentication.Authentication.as_view()),
+    # path('logout', authentication.Deauthentication.as_view()),
 
     # user
     path('users/list', user_views.ListUserView.as_view()),

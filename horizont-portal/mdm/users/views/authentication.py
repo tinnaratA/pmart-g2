@@ -3,6 +3,7 @@ from rest_framework.response import Response as JsonResponse
 from rest_framework import generics, views
 from users.serializers.users import UserSerializer
 
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
@@ -22,6 +23,6 @@ class Authentication(views.APIView):
 
 class Deauthentication(views.APIView):
 
-    def post(self, request):
+    def get(self, request):
         logout(request)
-        return JsonResponse({"detail": "Logout Success"})
+        return JsonResponse({"detail": "Logout Success"}, status=200)

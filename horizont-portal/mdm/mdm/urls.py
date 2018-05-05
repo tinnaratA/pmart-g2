@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
@@ -27,13 +27,18 @@ from customer_store.urls import urlpatterns as customer_store_urls
 from routing.urls import urlpatterns as routing_urls
 from dashboard.urls import urlpatterns as dashboard_urls
 
+from users.views import authentication
+
 schema_view = get_swagger_view(title='Master Data Management API')
 
 urlpatterns = [
     path('login', auth_views.login, name='login'),
     path('logout', auth_views.logout, name='logout'),
+    path('authentication', authentication.Authentication.as_view()),
+    path('deauthentication', authentication.Deauthentication.as_view()),
+
     path('admin/', admin.site.urls),
-    # path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
+    path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
 
     path('customers/', include((customer_store_urls, 'customer_store'), namespace='customers_api')),
     path('dashboard/', include((dashboard_urls, 'dashboard'), namespace='dashboard_api')),
