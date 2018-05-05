@@ -27,9 +27,31 @@ class Route(TimeStampMixin):
     def get_store_ids(self):
         return [str(store.id) for store in self.stores.all()]
 
+    def to_dict(self, include_store=False):
+        if include_store:
+            return {"id": str(self.id), "name": self.name, "stores": self.get_store_ids()}
+        else:
+            return {"id": str(self.id), "name": self.name}
+
+
 class RouteCustomerStore(TimeStampMixin):
+    CHECKIN = 'CHECKIN'
+    SURVEY = 'SURVEY'
+    PREORDER = 'PREORDER'
+    CONFIRM = 'CONFIRM'
+    PAYMENT = 'PAYMENT'
+    NOTHING = 'DONOTHING'
+    ACTIVITY_TASK_STATUS = (
+        (CHECKIN, 'Check-in'),
+        (SURVEY, 'Survey'),
+        (PREORDER, 'PreOrder'),
+        (PAYMENT, 'Payment'),
+        (NOTHING, 'Do-nothing')
+    )
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     store = models.ForeignKey(CustomerStore, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, null=True, blank=False, default=NOTHING, choices=ACTIVITY_TASK_STATUS)
+    comment = models.TextField(default=None, null=True, blank=True)
 
     class Meta:
         app_label = 'routing'
@@ -38,6 +60,16 @@ class RouteCustomerStore(TimeStampMixin):
     def __str__(self):
         return f"{self.route.name} - {self.store.store_name}"
 
+    def get_all_status(self):
+        return [s[1] for s in self.ACTIVITY_TASK_STATUS]
+
+    def to_dict(self):
+        return {
+            "route": self.route.to_dict(),
+            "store": self.store.to_dict(),
+            "status": self.status,
+            "comment": self.comment
+        }
 
 class RouteActivity(TimeStampMixin):
     SCHE = 'SCHE'
@@ -69,6 +101,11 @@ class RouteActivity(TimeStampMixin):
 
     def get_all_status(self):
         return [s[1] for s in self.ACTIVITY_STATUS]
+
+    def to_dict(self):
+        return {
+
+        }
 
 
 class RouteActivityTask(TimeStampMixin):

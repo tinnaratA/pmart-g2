@@ -25,6 +25,7 @@ from rest_framework_swagger.views import get_swagger_view
 from users.urls import urlpatterns as users_urls
 from customer_store.urls import urlpatterns as customer_store_urls
 from routing.urls import urlpatterns as routing_urls
+from dashboard.urls import urlpatterns as dashboard_urls
 
 schema_view = get_swagger_view(title='Master Data Management API')
 
@@ -35,6 +36,7 @@ urlpatterns = [
     # path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
 
     path('customers/', include((customer_store_urls, 'customer_store'), namespace='customers_api')),
+    path('dashboard/', include((dashboard_urls, 'dashboard'), namespace='dashboard_api')),
     path('routing/', include((routing_urls, 'routing'), namespace='routing_api')),
 
     # Landing Page Place Holder with API Docs
