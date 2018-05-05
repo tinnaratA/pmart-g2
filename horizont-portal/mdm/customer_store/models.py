@@ -24,6 +24,17 @@ class CustomerStoreAddress(Address, TimeStampMixin):
             ('view_customerstoreaddress', pgettext_lazy('Permission description', 'Can view customer store addresses')),
         )
 
+    def to_dict(self):
+        return {
+            "line1": self.line1,
+            "line2": self.line2,
+            "district": self.district,
+            "city": self.city,
+            "province": self.province,
+            "postcode": self.postcode,
+            "latitude": self.latitude,
+            "longitude": self.longitude
+        }
 
 class CustomerStoreType(MPTTModel, TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
@@ -43,6 +54,9 @@ class CustomerStoreType(MPTTModel, TimeStampMixin):
 
     def __str__(self):
         return self.name
+
+    def to_dict(self):
+        return {"code": self.code, "name": self.name},
 
 
 class CustomerStoreGrade(models.Model):
@@ -93,6 +107,23 @@ class CustomerStore(TimeStampMixin):
 
     def __str__(self):
         return self.store_name
+
+    def get_owners(self):
+        return [
+            {"title": name.title, "first": name.first, "middle": name.middle, "last": name.last}
+            for name in self.owners.all()
+        ]
+
+    def to_dict(self):
+        return {
+            "id": str(self.id),
+            "name": self.store_name,
+            "owners": self.get_owners(),
+            "description": self.description,
+            "type": self.type.to_dict(),
+            "address": self.address.to_dict(),
+            "grade": self.grade.grade
+        }
 
 
 class CustomerStoreContact(AbstractContact, TimeStampMixin):

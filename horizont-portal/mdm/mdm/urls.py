@@ -34,12 +34,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('users/mdm/', include((users_urls, 'users'), namespace='users_api')),
 
-    # path('customers/', include((customer_store_urls, 'customer_store'), namespace='customers_api')),
+    path('customers/', include((customer_store_urls, 'customer_store'), namespace='customers_api')),
     path('routing/', include((routing_urls, 'routing'), namespace='routing_api')),
 
-    # path('/', include_docs_urls(title='Master Data Management API')),
-    # path('docs/', include_docs_urls(title='Master Data Management API')),
-    # path('docs/swagger', schema_view),
+    # Landing Page Place Holder with API Docs
+    path('', include_docs_urls(title='Master Data Management API')),
+    path('docs/', include_docs_urls(title='Master Data Management API')),
+    path('docs/swagger', schema_view),
 
     # path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \

@@ -24,6 +24,8 @@ class Route(TimeStampMixin):
     def __str__(self):
         return self.name
 
+    def get_store_ids(self):
+        return [str(store.id) for store in self.stores.all()]
 
 class RouteCustomerStore(TimeStampMixin):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)

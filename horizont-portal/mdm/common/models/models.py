@@ -20,6 +20,15 @@ class Address(models.Model):
             ('view_address', pgettext_lazy('Permission description', 'Can view common addresses')),
         )
 
+    def to_dict(self):
+        return {
+            "line1": self.line1,
+            "line2": self.line2,
+            "district": self.district,
+            "city": self.city,
+            "province": self.province,
+            "postcode": self.postcode
+        }
 
 class HumanName(models.Model):
     title = models.CharField(max_length=20, null=False, blank=False)

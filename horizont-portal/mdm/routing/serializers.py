@@ -24,21 +24,6 @@ class RouteCustomerStoreSerializer(MdmBaseSerializer):
         fields = settings.SERIALIZER_MUST_HAVE_FIELDS + [f.name for f in models.RouteCustomerStore._meta.fields]
 
 
-class RouteTaskOrderSerializer(MdmBaseSerializer):
-    pass
-
-
-
-class RouteActivityTaskSerializer(MdmBaseSerializer):
-    executed_by = UserSerializer(many=False)
-    # task_orders =
-    # task_questionaire
-
-    class Meta:
-        model = models.RouteActivityTask
-        fields = ('executed_by', 'task_orders', 'task_questionaire')
-
-
 class RouteActivitySerializer(MdmBaseSerializer):
     route_stores = CustomerStoreSerializer(many=False, required=True)
     schedule_datetime = serializers.DateTimeField(required=True)
