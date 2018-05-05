@@ -50,7 +50,7 @@ class RouteCustomerStore(TimeStampMixin):
     )
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     store = models.ForeignKey(CustomerStore, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, null=True, blank=False, default=NOTHING, choices=ACTIVITY_TASK_STATUS)
+    status = models.CharField(max_length=10, null=True, blank=False, default=SURVEY, choices=ACTIVITY_TASK_STATUS)
     comment = models.TextField(default=None, null=True, blank=True)
 
     class Meta:
