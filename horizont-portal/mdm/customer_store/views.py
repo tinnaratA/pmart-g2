@@ -6,6 +6,24 @@ from common.views.class_based import BaseView
 
 from . import models
 
+
+class CustomerStoreTypeListView(views.APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get(self, request):
+        storetypes = [
+            {
+                "code": typ.code,
+                "name": typ.name,
+                "children": {subtyp.code: subtyp.name for subtyp in typ.get_children()}
+            }
+            for typ in models.CustomerStoreType.objects.filter(parent=None)
+        ]
+        return JsonResponse(storetypes, status=200)
+
+
 class CustomerStoreListView(views.APIView):
     permission_classes = [
         permissions.IsAuthenticated

@@ -53,10 +53,19 @@ class CustomerStoreType(MPTTModel, TimeStampMixin):
         )
 
     def __str__(self):
-        return self.name
+        return f"{self.code} - {self.name}"
 
     def to_dict(self):
-        return {"code": self.code, "name": self.name},
+        if self.parent is not None:
+            return {"code": self.code, "name": self.name, "parent": self.parent.to_dict()}
+        else:
+            return {"code": self.code, "name": self.name, "parent": self.parent}
+
+    def get_detail(self, parent=False):
+        if not parent:
+            return {"code": self.code, "name": self.name}
+        else:
+            return {"code": self.code, "name": self.name, "parent": self.parent.to_dict()}
 
 
 class CustomerStoreGrade(models.Model):
