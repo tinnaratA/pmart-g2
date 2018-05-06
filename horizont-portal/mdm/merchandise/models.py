@@ -200,6 +200,9 @@ class UnitOfConversion(models.Model):
         app_label = 'merchandise'
         db_table = 'unit_of_conversion'
 
+    def __str__(self):
+        return f"{self.factor} {self.name}"
+
 
 class UnitOfMeasurement(models.Model):
     merchandise = models.ForeignKey(MerchandiseMasterItem, related_name="uoms", on_delete=models.CASCADE)
@@ -209,3 +212,6 @@ class UnitOfMeasurement(models.Model):
     class Meta:
         app_label = 'merchandise'
         db_table = 'unit_of_measurement'
+
+    def __str__(self):
+        return f"{self.factor} {self.name}"
