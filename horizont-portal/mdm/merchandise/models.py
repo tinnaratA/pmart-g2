@@ -29,8 +29,8 @@ class MerchandiseCategory(MPTTModel):
             ('view_merchandise_category', pgettext_lazy('Permission description', 'Can view merchandise categories')),
         )
 
-    def __str__(self):
-        return self.name
+    def __str__(self, result=''):
+        return "-".join([cate.slug for cate in self.get_ancestors()] + [self.slug])
 
 
 class MerchandiseQuerySet(models.QuerySet):
