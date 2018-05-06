@@ -85,7 +85,7 @@ class PurchaseOrder(TimeStampMixin):
         db_table = 'purchase_order'
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     def get_status_choice(self):
         return self.ORDER_STATUS
