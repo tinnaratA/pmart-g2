@@ -85,7 +85,7 @@ class MerchandiseMasterItem(models.Model):
 
 
 class MerchandiseVariant(models.Model):
-    sku = models.CharField(max_length=32, unique=True, default=uuid.uuid1)
+    sku = models.CharField(max_length=40, unique=True, default=uuid.uuid1)
     name = models.CharField(max_length=100, blank=True)
     price_override = models.FloatField(default=None, null=True)
     merchandise = models.ForeignKey(
