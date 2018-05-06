@@ -28,6 +28,7 @@ class MerchandiseCategory(MPTTModel):
         permissions = (
             ('view_merchandise_category', pgettext_lazy('Permission description', 'Can view merchandise categories')),
         )
+        ordering = ('slug',)
 
     def __str__(self, result=''):
         return "-".join([cate.slug for cate in self.get_ancestors()] + [self.slug])
