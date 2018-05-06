@@ -17,13 +17,7 @@ class ProductItem(TimeStampMixin):
         null=True
     )
     merchandise = models.ForeignKey(MerchandiseMasterItem, related_name="product_items", on_delete=models.CASCADE)
-    store_type = models.ForeignKey(
-        to="customer_store.CustomerStoreType",
-        related_name="product_items",
-        on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True
-    )
+    store_type = models.ManyToManyField(to="customer_store.CustomerStoreType", related_name="product_items")
 
     class Meta:
         app_label = 'product'
