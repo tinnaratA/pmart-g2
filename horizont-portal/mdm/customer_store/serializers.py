@@ -74,11 +74,10 @@ class CustomerStoreContactSerializer(MdmBaseSerializer):
 
 
 class CustomerStoreImageSerializer(MdmBaseSerializer):
-    image = serializers.ImageField(use_url=True)
 
     class Meta:
         model = models.CustomerStoreImage
-        fields = settings.SERIALIZER_MUST_HAVE_FIELDS + [f.name for f in models.CustomerStoreImage._meta.fields]
+        fields = settings.SERIALIZER_MUST_HAVE_FIELDS + ['url']
 
 
 class CustomerStoreSerializer(MdmBaseSerializer):
