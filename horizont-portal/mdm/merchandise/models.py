@@ -214,4 +214,4 @@ class UnitOfMeasurement(models.Model):
         db_table = 'unit_of_measurement'
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} - {self.merchandise.name}"
