@@ -1,6 +1,7 @@
-import uuid
+import uuid, os
 from text_unidecode import unidecode
 
+from django.conf import settings
 from django.db import models
 from django.utils.translation import pgettext_lazy
 from django.utils.encoding import smart_text
@@ -160,7 +161,7 @@ class CustomerStoreContact(AbstractContact, TimeStampMixin):
 
 class CustomerStoreImage(TimeStampMixin):
     customer_store = models.ForeignKey(CustomerStore, related_name='customer_store_images', null=False, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/')
+    abspath = models.CharField(max_length=256)
 
     class Meta:
         app_label = 'customer_store'
@@ -171,3 +172,14 @@ class CustomerStoreImage(TimeStampMixin):
 
     def __str__(self):
         return f"Image of {self.customer_store.store_name} store"
+
+    @property
+    def url(self):
+        return os.path.join(settings.MEDIA_URL, "/".join(self.abspath.split("/")[-2:]))
+
+    @property
+    def binary_image(self):
+        fp = open(self.abspath, mode="rb")
+        content = fp.read()
+        fp.close()
+        return content

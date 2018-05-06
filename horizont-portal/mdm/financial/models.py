@@ -26,3 +26,5 @@ class ArReceive(TimeStampMixin):
 
     def __str__(self):
         return self. id
+
+

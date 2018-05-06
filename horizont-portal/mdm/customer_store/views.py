@@ -1,10 +1,13 @@
+import os
+from django.conf import settings
+from django.http import HttpResponse
 from rest_framework import permissions
-from rest_framework.response import Response as JsonResponse
 from rest_framework import generics, views
-from django.db.models import Q
+from rest_framework import parsers
+from common.response import MdmResponse as Response
 
 from . import models
-
+from .serializers import CustomerStoreSerializer
 
 class CustomerStoreTypeListView(views.APIView):
     permission_classes = [
@@ -20,7 +23,7 @@ class CustomerStoreTypeListView(views.APIView):
             }
             for typ in models.CustomerStoreType.objects.filter(parent=None)
         ]
-        return JsonResponse(storetypes, status=200)
+        return Response(storetypes, status=200)
 
 
 class CustomerStoreListView(views.APIView):
@@ -28,25 +31,19 @@ class CustomerStoreListView(views.APIView):
         permissions.IsAuthenticated
     ]
 
-    def set_contexts(self, **kwargs):
-        return kwargs
-
     def get_objects(self):
-        return [cs.to_dict() for cs in models.CustomerStore.objects.all()]
+        return models.CustomerStore.objects.all()
 
     def get(self, request):
         stores = self.get_objects()
-        contexts = self.set_contexts(stores=stores)
-        return JsonResponse(stores, status=200)
+        serializer = CustomerStoreSerializer(stores, many=True)
+        return Response(serializer.data, status=200)
 
 
 class CustomerStoreView(views.APIView):
     permission_classes = [
         permissions.IsAuthenticated
     ]
-
-    def set_contexts(self, **kwargs):
-        return kwargs
 
     def get_objects(self, id):
         try:
@@ -57,6 +54,52 @@ class CustomerStoreView(views.APIView):
     def get(self, request, id):
         try:
             store = self.get_objects(id)
-            return JsonResponse(store.to_dict(), status=200)
+            serializer = CustomerStoreSerializer(store, many=False)
+            return Response(serializer.data, status=200)
         except models.CustomerStore.DoesNotExist as e:
-            return JsonResponse({'detail': 'No record'}, status=204)
+            return Response("No record", status=204)
+
+
+class CustomerStoreCreateView(views.APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def post(self, request):
+        try:
+            data = [request.data] if not isinstance(request.data, (tuple, list)) else request.data
+            serializer = CustomerStoreSerializer(data=data, many=True)
+            if serializer.is_valid():
+                print(serializer.save())
+                return Response("Customer store has been created.", status=201)
+            else:
+                return Response(serializer.errors, status=400)
+        except Exception as e:
+            return Response("Something went wrong.", status=500)
+
+
+class CustomerStoreImageView(views.APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get_store(self, id):
+        return models.CustomerStore.objects.get(pk=id)
+
+    def get(self, request, id):
+        try:
+            images = models.CustomerStoreImage.objects.filter(customer_store=self.get_store(id))
+            content_returned = [img.url for img in images]
+            return Response(content_returned, status=200)
+        except models.CustomerStoreImage.DoesNotExist as e:
+            return Response("The store no have image.", status=204)
+
+    def post(self, request, id):
+        file = request.data.get('file')
+        content = file.read()
+        filepath = os.path.join(settings.MEDIA_ROOT, 'images', id + '.png')
+        fp = open(filepath, mode="wb")
+        fp.write(content)
+        fp.close()
+        models.CustomerStoreImage.objects.create(customer_store=self.get_store(id), abspath=filepath)
+        return Response("Image has been uploaded.", status=201)
