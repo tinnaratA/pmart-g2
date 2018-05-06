@@ -6,11 +6,9 @@ from customer_store.models import CustomerStoreType
 
 class QuestionaireTemplate(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
-    store_type = models.ForeignKey(
+    store_type = models.ManyToManyField(
         CustomerStoreType,
-        related_name="questionaires",
-        on_delete=models.SET_NULL,
-        null=True
+        related_name="questionaires"
     )
     question = models.TextField()
 
