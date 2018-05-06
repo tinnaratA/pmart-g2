@@ -84,7 +84,10 @@ class CustomerStoreImageView(views.APIView):
     ]
 
     def get_store(self, id):
-        return models.CustomerStore.objects.get(pk=id)
+        try:
+            return models.CustomerStore.objects.get(pk=id)
+        except models.CustomerStore.DoesNotExist as e:
+            raise e
 
     def get(self, request, id):
         try:
@@ -93,13 +96,22 @@ class CustomerStoreImageView(views.APIView):
             return Response(content_returned, status=200)
         except models.CustomerStoreImage.DoesNotExist as e:
             return Response("The store no have image.", status=204)
+        except models.CustomerStore.DoesNotExist
+            return Response("Store not found.", status=204)
+        except Exception as e:
+            return Response("Something went wrong.", status=500)
 
     def post(self, request, id):
-        file = request.data.get('file')
-        content = file.read()
-        filepath = os.path.join(settings.MEDIA_ROOT, 'images', id + '.png')
-        fp = open(filepath, mode="wb")
-        fp.write(content)
-        fp.close()
-        models.CustomerStoreImage.objects.create(customer_store=self.get_store(id), abspath=filepath)
+        try:
+            file = request.data.get('file')
+            content = file.read()
+            filepath = os.path.join(settings.MEDIA_ROOT, 'images', id + '.png')
+            fp = open(filepath, mode="wb")
+            fp.write(content)
+            fp.close()
+            models.CustomerStoreImage.objects.create(customer_store=self.get_store(id), abspath=filepath)
+        except models.CustomerStore.DoesNotExist:
+            return Response("Store not found.", status=204)
+        except Exception as e:
+            return Response("Something went wrong.", status=500)
         return Response("Image has been uploaded.", status=201)
