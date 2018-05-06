@@ -96,7 +96,7 @@ class CustomerStoreImageView(views.APIView):
             return Response(content_returned, status=200)
         except models.CustomerStoreImage.DoesNotExist as e:
             return Response("The store no have image.", status=204)
-        except models.CustomerStore.DoesNotExist
+        except models.CustomerStore.DoesNotExist:
             return Response("Store not found.", status=204)
         except Exception as e:
             return Response("Something went wrong.", status=500)
