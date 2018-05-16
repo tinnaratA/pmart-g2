@@ -37,6 +37,13 @@ class CustomerStoreAddress(Address, TimeStampMixin):
             "longitude": self.longitude
         }
 
+    @property
+    def full_address(self):
+        return self.get_full_address()
+
+    def get_full_address(self):
+        return " ".join([s for s in [v for k,v in self.to_dict().items()][0:-2] if s and s != "-"])
+
 class CustomerStoreType(MPTTModel, TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     code = models.SlugField(max_length=256, null=False, blank=False)
