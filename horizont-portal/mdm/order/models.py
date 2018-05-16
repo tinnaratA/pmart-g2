@@ -54,7 +54,7 @@ class SaleOrderDetail(models.Model):
 
 class SaleDeliveryDetail(models.Model):
     order = models.ForeignKey(SaleOrder, related_name='delivery_details', on_delete=models.CASCADE)
-    company_address = models.ForeignKey(Address, on_delete=models.SET_DEFAULT, default=None, null=True)
+    address = models.ForeignKey(Address, on_delete=models.SET_DEFAULT, default=None, null=True)
     store = models.ForeignKey(CustomerStore, related_name="delivery_details", on_delete=models.CASCADE)
 
     class Meta:
