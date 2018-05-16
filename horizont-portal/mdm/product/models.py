@@ -1,9 +1,10 @@
 import uuid
 
+from django.conf import settings
+from django.utils.translation import pgettext_lazy
 from django.db import models
 from common.models.abstracts import TimeStampMixin
 from merchandise.models import MerchandiseMasterItem, UnitOfMeasurement
-# from customer_store.models import CustomerStoreType
 
 # Customer store SKU
 class ProductItem(TimeStampMixin):
@@ -22,3 +23,29 @@ class ProductItem(TimeStampMixin):
     class Meta:
         app_label = 'product'
         db_table = 'product_item'
+
+
+class ProductItemImage(TimeStampMixin):
+    product = models.ForeignKey(ProductItem, related_name="images", on_delete=models.CASCADE)
+    abspath = models.CharField(max_length=256)
+
+    class Meta:
+        app_label = 'product'
+        db_table = 'product_item_image'
+        permissions = (
+            ('view_productitemimage', pgettext_lazy('Permission description', 'Can view product item images')),
+        )
+
+    def __str__(self):
+        return f"Image of {self.product.sku}"
+
+    @property
+    def url(self):
+        return os.path.join(settings.MEDIA_URL, "/".join(self.abspath.split("/")[-2:]))
+
+    @property
+    def binary_image(self):
+        fp = open(self.abspath, mode="rb")
+        content = fp.read()
+        fp.close()
+        return content
