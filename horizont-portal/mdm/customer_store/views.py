@@ -105,7 +105,7 @@ class CustomerStoreImageView(views.APIView):
         try:
             file = request.data.get('file')
             content = file.read()
-            filepath = os.path.join(settings.MEDIA_ROOT, 'images', id + '.png')
+            filepath = os.path.join(settings.MEDIA_ROOT, 'images', 'customer_store', id + '.png')
             fp = open(filepath, mode="wb")
             fp.write(content)
             fp.close()

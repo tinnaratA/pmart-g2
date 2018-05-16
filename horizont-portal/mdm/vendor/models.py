@@ -31,7 +31,6 @@ class VendorContact(AbstractContact):
 # Vendor SKU
 class PurchaseItem(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
-    vendor = models.ForeignKey(Vendor, related_name="perchase_items", on_delete=models.CASCADE)
     sku = models.CharField(max_length=50)
     uom = models.ForeignKey(
         UnitOfMeasurement,
