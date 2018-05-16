@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from common.models.abstracts import TimeStampMixin
-from customer_store.models import CustomerStoreType
+from customer_store.models import CustomerStoreType, CustomerStore
 
 
 class QuestionaireTemplate(TimeStampMixin):
@@ -19,7 +19,8 @@ class QuestionaireTemplate(TimeStampMixin):
 
 class QuestionaireAnswer(models.Model):
     question = models.ForeignKey(QuestionaireTemplate, related_name="answers", on_delete=models.CASCADE)
-    answer = models.NullBooleanField(default=None)
+    answer = models.IntegerField()
+    store = models.ForeignKey(CustomerStore, related_name="questions", on_delete=models.CASCADE)
 
     class Meta:
         app_label = 'questionaire'
