@@ -84,99 +84,99 @@ class MerchandiseMasterItem(models.Model):
         return self.name
 
 
-class MerchandiseVariant(models.Model):
-    sku = models.CharField(max_length=40, unique=True, default=uuid.uuid1)
-    name = models.CharField(max_length=100, blank=True)
-    price_override = models.FloatField(default=None, null=True)
-    merchandise = models.ForeignKey(
-        MerchandiseMasterItem, related_name='variants', on_delete=models.CASCADE)
-    images = models.ManyToManyField('MerchandiseImage', through='VariantImage')
+# class MerchandiseVariant(models.Model):
+#     sku = models.CharField(max_length=40, unique=True, default=uuid.uuid1)
+#     name = models.CharField(max_length=100, blank=True)
+#     price_override = models.FloatField(default=None, null=True)
+#     merchandise = models.ForeignKey(
+#         MerchandiseMasterItem, related_name='variants', on_delete=models.CASCADE)
+#     images = models.ManyToManyField('MerchandiseImage', through='VariantImage')
 
-    class Meta:
-        app_label = 'merchandise'
-        db_table = 'merchandise_variant'
+#     class Meta:
+#         app_label = 'merchandise'
+#         db_table = 'merchandise_variant'
 
-    def __str__(self):
-        return self.name
-
-
-class StockLocation(models.Model):
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        permissions = (
-            ('view_stock_location',
-             pgettext_lazy('Permission description',
-                           'Can view stock location')),
-            ('edit_stock_location',
-             pgettext_lazy('Permission description',
-                           'Can edit stock location')))
-
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
-class Stock(models.Model):
-    variant = models.ForeignKey(
-        MerchandiseVariant, related_name='stock', on_delete=models.CASCADE)
-    location = models.ForeignKey(
-        StockLocation, null=True, on_delete=models.CASCADE)
-    quantity = models.IntegerField(
-        validators=[MinValueValidator(0)], default=Decimal(1))
-    quantity_allocated = models.IntegerField(
-        validators=[MinValueValidator(0)], default=Decimal(0))
-    cost_price = models.FloatField(default=None, null=True)
+# class StockLocation(models.Model):
+#     name = models.CharField(max_length=100)
 
-    class Meta:
-        app_label = 'merchandise'
-        db_table = 'merchandise_stock'
-        unique_together = ('variant', 'location')
+#     class Meta:
+#         permissions = (
+#             ('view_stock_location',
+#              pgettext_lazy('Permission description',
+#                            'Can view stock location')),
+#             ('edit_stock_location',
+#              pgettext_lazy('Permission description',
+#                            'Can edit stock location')))
 
-    def __str__(self):
-        return '%s - %s' % (self.variant.name, self.location)
-
-    @property
-    def quantity_available(self):
-        return max(self.quantity - self.quantity_allocated, 0)
+#     def __str__(self):
+#         return self.name
 
 
-class MerchandiseImage(models.Model):
-    merchandise = models.ForeignKey(
-        MerchandiseMasterItem, related_name='images', on_delete=models.CASCADE)
-    image = VersatileImageField(
-        upload_to='merchandises', ppoi_field='ppoi', blank=False)
-    ppoi = PPOIField()
-    alt = models.CharField(max_length=128, blank=True)
-    order = models.PositiveIntegerField(editable=False)
+# class Stock(models.Model):
+#     variant = models.ForeignKey(
+#         MerchandiseVariant, related_name='stock', on_delete=models.CASCADE)
+#     location = models.ForeignKey(
+#         StockLocation, null=True, on_delete=models.CASCADE)
+#     quantity = models.IntegerField(
+#         validators=[MinValueValidator(0)], default=Decimal(1))
+#     quantity_allocated = models.IntegerField(
+#         validators=[MinValueValidator(0)], default=Decimal(0))
+#     cost_price = models.FloatField(default=None, null=True)
 
-    class Meta:
-        ordering = ('order', )
-        app_label = 'merchandise'
-        db_table = 'merchandise_image'
+#     class Meta:
+#         app_label = 'merchandise'
+#         db_table = 'merchandise_stock'
+#         unique_together = ('variant', 'location')
 
-    def get_ordering_queryset(self):
-        return self.merchandise.images.all()
+#     def __str__(self):
+#         return '%s - %s' % (self.variant.name, self.location)
 
-    def save(self, *args, **kwargs):
-        if self.order is None:
-            qs = self.get_ordering_queryset()
-            existing_max = qs.aggregate(Max('order'))
-            existing_max = existing_max.get('order__max')
-            self.order = 0 if existing_max is None else existing_max + 1
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        qs = self.get_ordering_queryset()
-        qs.filter(order__gt=self.order).update(order=F('order') - 1)
-        super().delete(*args, **kwargs)
+#     @property
+#     def quantity_available(self):
+#         return max(self.quantity - self.quantity_allocated, 0)
 
 
-class VariantImage(models.Model):
-    variant = models.ForeignKey(
-        'MerchandiseVariant', related_name='variant_images',
-        on_delete=models.CASCADE)
-    image = models.ForeignKey(
-        MerchandiseImage, related_name='variant_images', on_delete=models.CASCADE)
+# class MerchandiseImage(models.Model):
+#     merchandise = models.ForeignKey(
+#         MerchandiseMasterItem, related_name='images', on_delete=models.CASCADE)
+#     image = VersatileImageField(
+#         upload_to='merchandises', ppoi_field='ppoi', blank=False)
+#     ppoi = PPOIField()
+#     alt = models.CharField(max_length=128, blank=True)
+#     order = models.PositiveIntegerField(editable=False)
+
+#     class Meta:
+#         ordering = ('order', )
+#         app_label = 'merchandise'
+#         db_table = 'merchandise_image'
+
+#     def get_ordering_queryset(self):
+#         return self.merchandise.images.all()
+
+#     def save(self, *args, **kwargs):
+#         if self.order is None:
+#             qs = self.get_ordering_queryset()
+#             existing_max = qs.aggregate(Max('order'))
+#             existing_max = existing_max.get('order__max')
+#             self.order = 0 if existing_max is None else existing_max + 1
+#         super().save(*args, **kwargs)
+
+#     def delete(self, *args, **kwargs):
+#         qs = self.get_ordering_queryset()
+#         qs.filter(order__gt=self.order).update(order=F('order') - 1)
+#         super().delete(*args, **kwargs)
+
+
+# class VariantImage(models.Model):
+#     variant = models.ForeignKey(
+#         'MerchandiseVariant', related_name='variant_images',
+#         on_delete=models.CASCADE)
+#     image = models.ForeignKey(
+#         MerchandiseImage, related_name='variant_images', on_delete=models.CASCADE)
 
 
 class Collection(models.Model):
