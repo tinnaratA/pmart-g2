@@ -6,13 +6,12 @@ from django.utils.translation import pgettext_lazy
 
 from common.models.abstracts import TimeStampMixin
 from customer_store.models import CustomerStore
-from questionaire.models import QuestionaireTemplate
+from questionaire.models import QuestionaireAnswer, QuestionaireTemplate
 
 
 class Route(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     name = models.CharField(max_length=256, null=False, blank=False)
-    stores = models.ManyToManyField(CustomerStore, through='RouteCustomerStore')
 
     class Meta:
         app_label = 'routing'
@@ -130,7 +129,7 @@ class RouteTaskOrder(TimeStampMixin):
 class RouteTaskQuestionaire(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     activity = models.OneToOneField(RouteActivityTask, related_name="task_questionaire", on_delete=models.CASCADE)
-    questions = models.ManyToManyField(QuestionaireTemplate)
+    question = models.ForeignKey(QuestionaireAnswer, related_name="task_questionaire", on_delete=models.CASCADE)
 
     class Meta:
         app_label = 'routing'
