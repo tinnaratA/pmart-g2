@@ -5,8 +5,21 @@ from order.models import SaleOrder
 
 
 class ArInvoice(TimeStampMixin):
+    RAISED = 'Raised'
+    COMFIRMED = 'Confirmed'
+    DELIVERED = 'Delivered'
+    PAID = 'Paid'
+    CANCEL = 'Cancel'
+    INVOICE_STATUS = (
+        (RAISED, RAISED),
+        (COMFIRMED, COMFIRMED),
+        (DELIVERED, DELIVERED),
+        (PAID, PAID),
+        (CANCEL, CANCEL)
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     order = models.OneToOneField(SaleOrder, related_name="invoice", on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=INVOICE_STATUS, default=RAISED)
 
     class Meta:
         app_label = 'financial'
