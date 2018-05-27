@@ -3,5 +3,6 @@
 __pycache__
 .DS_Store
 *env
+package-lock.json
 .vscode
 node_modules/
