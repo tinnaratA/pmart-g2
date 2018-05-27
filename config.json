@@ -1,0 +1,16 @@
+{
+    "common": {
+        "authentication": {
+            "token": {
+                "timeout": 60
+            }
+        } 
+    },
+    "database": [
+        "./database/usersdb",
+        "./database/ordersdb",
+        "./database/productsdb",
+        "./database/invoicesdb",
+        "./database/tokensdb"
+    ]
+}
