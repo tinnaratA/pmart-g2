@@ -112,4 +112,8 @@ app.get('/orders/:order_id', order_apis.getOrder);
 app.put('/orders/edit', order_apis.editOrders);
 app.put('/orders/edit/:order_id', order_apis.editOrder);
 
+// Customers APIs
+customer_apis = require("./apis/customers");
+app.get('/customers/list', customer_apis.customerList);
+
 app.listen(2001, () => console.log('Application listening on port 2001!'));
