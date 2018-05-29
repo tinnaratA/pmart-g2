@@ -3,6 +3,7 @@ var time_utils = require("../utils/time");
 var db = require("../database/nedb");
 var token_utils = require("../utils/token");
 var settings = require("../initializer").getSettings("./config.json");
+var logger = require("../utils/logger");
 
 var user_namespace = "usersdb";
 var token_namespace = "tokensdb";
@@ -11,7 +12,6 @@ let login_handler = (req, res) => {
     var req_data = req.body;
     db[user_namespace].findOne(req_data, (err, data) => {
         if(err){
-            console.error(err);
             return res.status(401).send({success: false, data: "Unauthorized"});
         }
         else{
@@ -25,7 +25,6 @@ let login_handler = (req, res) => {
                 data.is_login = false;
                 db[user_namespace].update({_id: data._id}, { $set: data}, (err, updated_data) => {
                     if(err){
-                        console.error(err);
                         return res.status(401).send({success: false, data: "Unauthorized"});
                     }
                     else

@@ -7,10 +7,10 @@
         } 
     },
     "database": [
-        "./database/usersdb",
-        "./database/ordersdb",
-        "./database/productsdb",
-        "./database/invoicesdb",
-        "./database/tokensdb"
+        "./database/data/usersdb",
+        "./database/data/ordersdb",
+        "./database/data/productsdb",
+        "./database/data/invoicesdb",
+        "./database/data/tokensdb"
     ]
 }

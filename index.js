@@ -1,8 +1,8 @@
-var express = require("express");
-var multer  = require('multer')
-var bodyParser = require("body-parser");
+var  express = require("express");
+var multer  = require('multer');
 var app = express();
 var db = require("./database/nedb");
+var morgan = require('morgan')
 
 var bodyParser = require('body-parser');
 var rawBodySaver = function (req, res, buf, encoding) {
@@ -19,70 +19,70 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+app.use(morgan('common'));
+app.use(express.static('./static'));
 
-app.use(express.static('./static'))
 
 
-
-// ===============================================================================
-// Old and Original Code 
-// ===============================================================================
+// // ===============================================================================
+// // Old and Original Code 
+// // ===============================================================================
   
-order_no = 1
-order = []
+// order_no = 1
+// order = []
 
-users = [
-    {"password": "password", "email": "Punika@horozont.in.th", "name":"Punika Puengnoo", "nickname": "คุณแขก", "type": "FINANCE" },
-    {"password": "password", "email": "Patteera@horizont.in.th","name":"Patteera intra","nickname": "คุณเหมี่ยว", "type":"CUSTOMER"},
-    {"password": "password", "email": "Supaporn@horizont.in.th","name":"Supaporn Klinhom","nickname":"คุณหนึ่ง", "type":"VENDER"},
+// users = [
+//     {"password": "password", "email": "Punika@horozont.in.th", "name":"Punika Puengnoo", "nickname": "คุณแขก", "type": "FINANCE" },
+//     {"password": "password", "email": "Patteera@horizont.in.th","name":"Patteera intra","nickname": "คุณเหมี่ยว", "type":"CUSTOMER"},
+//     {"password": "password", "email": "Supaporn@horizont.in.th","name":"Supaporn Klinhom","nickname":"คุณหนึ่ง", "type":"VENDER"},
 
-    {"password": "", "email": "customer", "name":"ร้านบะหมี่ต้มยำ", "nickname": "ร้านบะหมี่ต้มยำ", "type": "CUSTOMER" },
-    {"password": "", "email": "vendor", "name":"Vendor001", "nickname": "", "type": "VENDOR" },
-    {"password": "", "email": "finance", "name":"Finance", "nickname": "", "type": "FINANCE" }
-]
+//     {"password": "", "email": "customer", "name":"ร้านบะหมี่ต้มยำ", "nickname": "ร้านบะหมี่ต้มยำ", "type": "CUSTOMER" },
+//     {"password": "", "email": "vendor", "name":"Vendor001", "nickname": "", "type": "VENDOR" },
+//     {"password": "", "email": "finance", "name":"Finance", "nickname": "", "type": "FINANCE" }
+// ]
 
-app.post('/reg', function (req, res) {
-    if(users.filter(u => u.email == req.body.email ).length > 0){
-        res.send("ERR01")
-    }
-    else{
-        users.push(req.body)
-        res.send("OK");
-    }
-});
+// app.post('/reg', function (req, res) {
+//     if(users.filter(u => u.email == req.body.email ).length > 0){
+//         res.send("ERR01")
+//     }
+//     else{
+//         users.push(req.body)
+//         res.send("OK");
+//     }
+// });
 
-app.get('/allusers', function (req, res) {
-    res.send(users)
-});
+// app.get('/allusers', function (req, res) {
+//     res.send(users)
+// });
 
-app.get('/orders', function (req, res) {
-    res.send(order);
-});
+// app.get('/orders', function (req, res) {
+//     res.send(order);
+// });
 
-Number.prototype.pad = function(size) {
-    var s = String(this);
-    while (s.length < (size || 2)) {s = "0" + s;}
-    return s;
-}
+// Number.prototype.pad = function(size) {
+//     var s = String(this);
+//     while (s.length < (size || 2)) {s = "0" + s;}
+//     return s;
+// }
   
-app.post('/orders', function (req, res) {
-    req.body.id = "ORD"+order_no.pad(10);
-    order_no++;
-    order.push(req.body);
-    res.send("OK");
-});
+// app.post('/orders', function (req, res) {
+//     req.body.id = "ORD"+order_no.pad(10);
+//     order_no++;
+//     order.push(req.body);
+//     res.send("OK");
+// });
 
-app.post('/order_all', function (req, res) {
-    order = req.body;
-    res.send("OK");
-});
+// app.post('/order_all', function (req, res) {
+//     order = req.body;
+//     res.send("OK");
+// });
 
-app.get('/refresh', function (req, res) {
-    order_no = 1;
-    order = [];
+// app.get('/refresh', function (req, res) {
+//     order_no = 1;
+//     order = [];
 
-    res.send("OK");
-});
+//     res.send("OK");
+// });
 
 
 
