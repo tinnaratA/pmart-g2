@@ -1,7 +1,7 @@
 var fs = require('fs');
 var Datastore = require('nedb');
 dbconfigs = JSON.parse(fs.readFileSync("./config.json")).database;
-dbs = {}
+var dbs = {}
 for(var i in dbconfigs){
     var options = {
         filename: dbconfigs[i],
