@@ -387,7 +387,7 @@
                 $("#orderlist").find('tbody').append(row);
             }
             
-            $.get("/orders/list")
+            $.get("/orders/list?customer=" + saleinfo.name)
             .done(orders => orders.data.filter(o => o.customer == saleinfo.name).map(add_to_table))
             .fail((data) => openModal("Error", true, "Cannot get order list, Please contact admin.", "OK", closeModal, false));
 	        

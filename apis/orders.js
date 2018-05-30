@@ -9,12 +9,12 @@ var order_namespace = "ordersdb";
 var order_no = 1;
 
 let order_list = (req, res) => {
-    db[order_namespace].find({}, (err, data) => {
-        return res.send({success:true, data: data});
-    });
+        db[order_namespace].find(req.query, (err, data) => {
+            return res.send({success:true, data: data});
+        });
 }
 
-let create_order = (req, res) => {
+let create_s_order = (req, res) => {
     try{
         var req_data = req.body;
         if(Object.keys(req_data).length > 0){
@@ -30,6 +30,56 @@ let create_order = (req, res) => {
             return res.status(400).send({success: true, data: "Invalid JSON."});
     } catch (error) {
         return res.status(500).send({success: false, data: "Unexpected Error(s)."})
+    }
+}
+
+let create_p_order = (req, res) => {
+    try {
+        var orders = req.body;
+        var allItems = new Array();
+        orders.map(
+            order => order.arrayitem.map(
+                item => {
+                    allItems.push(item);
+                }
+            )
+        );
+
+        var uniqueItems = new Array();
+        allItems.reduce((prev, current) => {
+            if(uniqueItems.length <= 0){
+                uniqueItems.push(prev);
+                return current;
+            }
+            else if(prev.item === current.item){
+                var sumprice = current.price + prev.price;
+                var sumqty = current.qty + prev.qty;
+                current['price'] = sumprice;
+                current['qty'] = sumqty;
+                return current;
+            }
+            else if(allItems.indexOf(current) === allItems.length - 1){
+                uniqueItems.push(prev);
+                uniqueItems.push(current);
+                return current;
+            }
+            else{
+                uniqueItems.push(prev);
+                return current;
+            }
+        });
+
+        var data = {
+            po: {
+                id: "PO" + parseInt(Math.random(1,50) * 10000000000),
+                items: uniqueItems,
+                status: "RAISED"
+            },
+            detail: orders
+        }
+        return res.send({success: true, data: data});
+    } catch (error) {
+        return res.status(400).send({success: false, data: "Invalid JSON."});
     }
 }
 
@@ -101,9 +151,14 @@ let edit_orders = (req, res) => {
 }
 
 module.exports = {
-    orderList: order_list,
-    getOrder: get_order,
-    createOrder: create_order,
-    editOrder: edit_order,
-    editOrders: edit_orders
+    so: {
+        orderList: order_list,
+        getOrder: get_order,
+        createOrder: create_s_order,
+        editOrder: edit_order,
+        editOrders: edit_orders
+    },
+    po: {
+        createOrder: create_p_order
+    }
 }

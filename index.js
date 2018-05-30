@@ -106,11 +106,12 @@ app.post('/products/image/:product_id', product_apis.productImage);
 
 // Orders APIs
 order_apis = require("./apis/orders");
-app.get('/orders/list', order_apis.orderList);
-app.post('/orders/create', order_apis.createOrder);
-app.get('/orders/:order_id', order_apis.getOrder);
-app.put('/orders/edit', order_apis.editOrders);
-app.put('/orders/edit/:order_id', order_apis.editOrder);
+app.get('/orders/list', order_apis.so.orderList);
+app.post('/orders/create', order_apis.so.createOrder);
+app.post('/orders/po/create', order_apis.po.createOrder);
+app.get('/orders/:order_id', order_apis.so.getOrder);
+app.put('/orders/edit', order_apis.so.editOrders);
+app.put('/orders/edit/:order_id', order_apis.so.editOrder);
 
 // Customers APIs
 customer_apis = require("./apis/customers");

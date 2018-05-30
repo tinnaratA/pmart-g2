@@ -189,6 +189,12 @@
             a.mdl-navigation__link {
                 cursor: pointer;
             }
+            .bottom-right {
+                position: fixed;
+                right: 16px;
+                bottom: 16px;
+                z-index: 3;
+            }
         </style>
     </header>
     <body class="fullbody">
@@ -273,6 +279,9 @@
                         <tbody>
                         </tbody>
                     </table>
+                </div>
+                <div class="bottom-right">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">create purchase order</button>
                 </div>
             </main>
         </div>
@@ -460,8 +469,10 @@
             
             $.get("/orders/list")
             .done((data) => {
-                var order = data.data;
-                order.filter(order => order.status == 'CONFIRMED' || order.status == 'SCHEDULED').map(add_to_table);
+                var orders = data.data;
+                orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').map(add_to_table);
+                localStorage.removeItem('confirmed_orders');
+                localStorage.setItem('confirmed_orders', JSON.stringify(orders.filter(orders => orders.status == 'CONFIRMED')));
             });
 
             $.get("/orders/list")
@@ -478,17 +489,24 @@
                     var order = data.data;
                     order.filter(order => order.invoice).map(add_to_table_inv);
                 }
-            );
-            // $.get("/orders").then(order => order.filter(order=>order.status == 'CONFIRMED' || order.status == 'SCHEDULED').map(add_to_table))
-            // $.get("/orders").then(order => order.filter(order=>order.po).map(add_to_table_delivery))
-            // $.get("/orders").then(order => order.filter(order=>order.invoice).map(add_to_table_inv))
-       
+            );   
        
             $("#hello").html("Hello! Vendor: "+saleinfo.name);
             updateDrawerUser()
             function updateDrawerUser() {
                 $("#user-name").text(saleinfo.name ? saleinfo.name : "" + " " + saleinfo.surname ? saleinfo.surname : "")
                 $("#user-email").text(saleinfo.email ? saleinfo.email : "")
+            }
+
+            function generate_purchase_order(){
+                $.ajax({
+                    url: "/orders/po/create",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: localStorage.getItem('confirmed_orders')
+                }).done(polist => {
+                    console.log(JSON.stringify(polist));
+                });
             }
         </script>
     </body>

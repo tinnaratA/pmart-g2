@@ -1,91 +1,91 @@
 [
   {
       "No": 1,
-      "Description": "PCF หมูหมักนุ่ม",
+      "Description": "PCF หมูหมักนุ่ม แพ็คละ 1 กก.",
       "Price": 69,
       "Unit": "Kg"
   },
   {
       "No": 2,
-      "Description": "PCF หมูหมักซอสบาร์บีคิว",
+      "Description": "PCF หมูหมักซอสบาร์บีคิว แพ็คละ 1 กก.",
       "Price": 71,
       "Unit": "Kg"
   },
   {
       "No": 3,
-      "Description": "PCF หมูหมักน้ำผึ้ง",
+      "Description": "PCF หมูหมักน้ำผึ้ง แพ็คละ 1 กก.",
       "Price": 71,
       "Unit": "Kg"
   },
   {
       "No": 4,
-      "Description": "PCF หมูหมักไวน์แดง",
+      "Description": "PCF หมูหมักไวน์แดง  แพ็คละ 1 กก.",
       "Price": 71,
       "Unit": "Kg"
   },
   {
       "No": 5,
-      "Description": "PCF หมูหมักพริกไทยดำ",
+      "Description": "PCF หมูหมักพริกไทยดำ  แพ็คละ 1 กก.",
       "Price": 71,
       "Unit": "Kg"
   },
   {
       "No": 6,
-      "Description": "PCF หมูหมักซอสน้ำมันงา",
+      "Description": "PCF หมูหมักซอสน้ำมันงา  แพ็คละ 1 กก.",
       "Price": 71,
       "Unit": "Kg"
   },
   {
       "No": 7,
-      "Description": "PCF หมูสามชั้นหมักน้ำมันงา",
+      "Description": "PCF หมูสามชั้นหมักน้ำมันงา  แพ็คละ 1 กก.",
       "Price": 99,
       "Unit": "Kg"
   },
   {
       "No": 8,
-      "Description": "PCF หมูสามชั้นหมักพริกไทยดำ",
+      "Description": "PCF หมูสามชั้นหมักพริกไทยดำ  แพ็คละ 1 กก.",
       "Price": 99,
       "Unit": "Kg"
   },
   {
       "No": 9,
-      "Description": "PCF ไก่แซ่บ",
+      "Description": "PCF ไก่แซ่บ  แพ็คละ 1 กก.",
       "Price": 62,
       "Unit": "Kg"
   },
   {
       "No": 10,
-      "Description": "PCF ไก่หมักน้ำผึ้ง",
+      "Description": "PCF ไก่หมักน้ำผึ้ง  แพ็คละ 1 กก.",
       "Price": 62,
       "Unit": "Kg"
   },
   {
       "No": 11,
-      "Description": "PCF ไก่หมักซอสน้ำมันงา",
+      "Description": "PCF ไก่หมักซอสน้ำมันงา แพ็คละ 1 กก.",
       "Price": 62,
       "Unit": "Kg"
   },
   {
       "No": 12,
-      "Description": "PCF ไก่หมักซอสพริกไทยดำ",
+      "Description": "PCF ไก่หมักซอสพริกไทยดำ  แพ็คละ 1 กก.",
       "Price": 62,
       "Unit": "Kg"
   },
   {
       "No": 13,
-      "Description": "PCF ไก่หมักซอสบาร์บีคิว",
+      "Description": "PCF ไก่หมักซอสบาร์บีคิว  แพ็คละ 1 กก.",
       "Price": 62,
       "Unit": "Kg"
   },
   {
       "No": 14,
-      "Description": "PCF เนื้อวัวหมักนุ่ม",
+      "Description": "PCF เนื้อวัวหมักนุ่ม  แพ็คละ 1 กก.",
       "Price": 141,
       "Unit": "Kg"
   },
   {
       "No": 15,
-      "Description": "PCF เนื้อวัวสดหมักซอสปรุงรส",
+      "Description": "PCF เนื้อวัวสดหมักซอสปรุงรส  แพ็คละ 1 กก.",
       "Price": 141,
       "Unit": "Kg"
   }
