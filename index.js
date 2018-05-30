@@ -85,7 +85,6 @@ app.use(express.static('./static'));
 // });
 
 
-
 // ===============================================================================
 // New and shiny backend
 // ===============================================================================
@@ -95,6 +94,8 @@ user_apis = require("./apis/users");
 app.post('/users/register', user_apis.register);
 app.post('/users/login', user_apis.login);
 app.post('/users/logout', user_apis.logout);
+app.put('/users/active', user_apis.active);
+app.delete('/users/deactive', user_apis.deactive);
 
 // Products APIs
 product_apis = require("./apis/products");
@@ -105,16 +106,23 @@ app.get('/products/image/:product_id', product_apis.productImage);
 app.post('/products/image/:product_id', product_apis.productImage);
 
 // Orders APIs
+// SO
 order_apis = require("./apis/orders");
 app.get('/orders/list', order_apis.so.orderList);
 app.post('/orders/create', order_apis.so.createOrder);
-app.post('/orders/po/create', order_apis.po.createOrder);
 app.get('/orders/:order_id', order_apis.so.getOrder);
 app.put('/orders/edit', order_apis.so.editOrders);
 app.put('/orders/edit/:order_id', order_apis.so.editOrder);
+// PO
+app.get('/orders/po/list', order_apis.po.purchaseList);
+app.post('/orders/po/create', order_apis.po.createOrder);
 
 // Customers APIs
 customer_apis = require("./apis/customers");
 app.get('/customers/list', customer_apis.customerList);
+
+// Vendors APIs
+vendor_apis = require("./apis/vendors");
+app.get('vendors/list', vendor_apis.vendorList);
 
 app.listen(2001, () => console.log('Application listening on port 2001!'));

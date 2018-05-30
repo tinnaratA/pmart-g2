@@ -397,6 +397,10 @@
             function addPreorder(data) {
                 var row = $("<tr />", {
                 });
+                var col_item_id = $("<td />", {
+                    text: data._id,
+                    class: "mdl-data-table__cell--hide"
+                });
                 var col1 = $("<td />", {
                     text: globid,
                     class: "mdl-data-table__cell--non-numeric"

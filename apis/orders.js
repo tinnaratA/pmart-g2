@@ -5,13 +5,34 @@ var time_utils = require("../utils/time");
 var user_namespace = "usersdb";
 var product_namespace = "productsdb";
 var order_namespace = "ordersdb";
+var po_namespace = "purchasesdb";
 
 var order_no = 1;
 
-let order_list = (req, res) => {
-        db[order_namespace].find(req.query, (err, data) => {
-            return res.send({success:true, data: data});
-        });
+let order_s_list = (req, res) => {
+    db[order_namespace].find(req.query, (err, data) => {
+        if(err){
+            console.log(err);
+            return res.send({success: true, data: err})
+        }
+        if(!data){
+            return res.status(204).send({success: true, data: "Sale Order Not Found."})
+        }
+        return res.send({success:true, data: data});
+    });
+}
+
+let order_p_list = (req, res) => {
+    db[po_namespace].find(req.query, (err, data) => {
+        if(err){
+            console.log(err);
+            return res.send({success: true, data: err})
+        }
+        if(!data){
+            return res.status(204).send({success: true, data: "Purchase Order Not Found."})
+        }
+        return res.send({success:true, data: data});
+    });
 }
 
 let create_s_order = (req, res) => {
@@ -47,7 +68,7 @@ let create_p_order = (req, res) => {
 
         var uniqueItems = new Array();
         allItems.reduce((prev, current) => {
-            if(uniqueItems.length <= 0){
+            if(uniqueItems.length <= 0 && prev.item !== current.item){
                 uniqueItems.push(prev);
                 return current;
             }
@@ -77,7 +98,14 @@ let create_p_order = (req, res) => {
             },
             detail: orders
         }
-        return res.send({success: true, data: data});
+
+        db[po_namespace].insert(data, (err) => {
+            if(err){
+                console.log(err);
+                return res.status(500).send({success: false, data: err});
+            }
+        });
+        return res.send({success: true, data: "Purchase orders has been created."});
     } catch (error) {
         return res.status(400).send({success: false, data: "Invalid JSON."});
     }
@@ -152,13 +180,14 @@ let edit_orders = (req, res) => {
 
 module.exports = {
     so: {
-        orderList: order_list,
+        orderList: order_s_list,
         getOrder: get_order,
         createOrder: create_s_order,
         editOrder: edit_order,
         editOrders: edit_orders
     },
     po: {
-        createOrder: create_p_order
+        purchaseList: order_p_list,
+        createOrder: create_p_order,
     }
 }

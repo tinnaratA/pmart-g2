@@ -20,6 +20,10 @@ let login_handler = (req, res) => {
                     return res.status(401).send({success: false, data: "duplicate login."});
                 }
 
+                if(!data.active){
+                    return res.status(401).send({success: false, data: "User has been deactivated. Please contact system admin."});
+                }
+
                 data.last_login = time_utils.toLocalTime(new Date());
                 // data.is_login = true;
                 data.is_login = false;
@@ -85,7 +89,7 @@ let logout_handler = (req, res) => {
                     }
                     else
                         token_utils.removeToken(data._id);
-                        return res.status(200).send({success: true, data: "User has been logout."});
+                        return res.status(200).send({success: true, data: "User has been logged out."});
                 });
             }else{
                 return res.status(401).send({success: false, data: "User Not Found."});
@@ -94,8 +98,61 @@ let logout_handler = (req, res) => {
     });
 }
 
+let toggle_active = (req, res) => {
+    var check_password = req.body.password || undefined;
+    if(check_password === undefined || check_password === null || check_password === ""){
+        return res.status(400).send({success: false, data: "Invalid JSON."})
+    }
+
+    db[user_namespace].findOne(req.body, (err, data) => {
+        if(err){
+            console.error(err);
+            return res.status(500).send({success: true, data: "Unexpected Error(s)."});
+        }
+
+        if(!data){
+            return res.status(204).send({success: true, data: "User Not Found."});
+        }
+
+        switch(req.method){
+            case "PUT": {
+                db[user_namespace].update({_id: data._id}, {$set: {active: true}}, {multi: true}, (err) => {
+                    if(err){
+                        console.error(err);
+                        return res.status(500).send({success: true, data: "Unexpected Error(s)."})
+                    }
+                });
+                return res.send({success: true, data: "User has been activated."});
+            }
+            case "DELETE": {
+                var removeflag = req.query.remove || false;
+                if(JSON.parse(removeflag)){
+                    db[user_namespace].remove({_id: data._id}, (err) => {
+                        if(err){
+                            console.error(err);
+                            return res.status(500).send({success: true, data: "Unexpected Error(s)."})
+                        }
+                    });
+                    return res.send({success: true, data: "User has been deleted."});
+                }else{
+                    db[user_namespace].update({_id: data._id}, {$set: {active: false}}, {multi: true}, (err) => {
+                        if(err){
+                            console.error(err);
+                            return res.status(500).send({success: true, data: "Unexpected Error(s)."})
+                        }
+                    });
+                    return res.send({success: true, data: "User has been deactivated."});
+                }
+            }
+            default: return res.status(500).send({success: true, data: "Unexpected Error(s)."});
+        }
+    });
+}
+
 module.exports = {
     login: login_handler,
     register: register_handler,
-    logout: logout_handler
+    logout: logout_handler,
+    active: toggle_active,
+    deactive: toggle_active
 }
