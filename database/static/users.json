@@ -89,5 +89,18 @@
         "last_login": null,
         "is_login": false,
         "type": "VENDER"
+    },
+    {
+        "username": "admin",
+        "password": "21232f297a57a5a743894a0e4a801fc3",
+        "email": "admin@horizont.in.th",
+        "name": "Admin",
+        "nick_name": "admin",
+        "bank": "กสิกรไทย",
+        "bank_number":"2-0-34534-432-5",
+        "active": true,
+        "last_login": null,
+        "is_login": false,
+        "type": "ADMIN"
     }
 ]

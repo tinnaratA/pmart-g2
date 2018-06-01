@@ -235,6 +235,11 @@
                     user: finance<br>
                     pass: finance
                 </div>
+                <div class="mdl-cell mdl-cell--3-col">
+                    <h5>Admin</h5>
+                        user: admin<br>
+                        pass: admin
+                    </div>
             </div>
         </div>
         
@@ -299,6 +304,7 @@
                         case "FINANCE": window.location.href = './finance.html'; return;
                         case "CUSTOMER":  window.location.href = './customer.html'; return;
                         case "VENDER":  window.location.href = './vendor.html'; return;
+                        case "ADMIN":  window.location.href = './merchandise.html'; return;
                     }
                 })
                 .fail((data) => {
