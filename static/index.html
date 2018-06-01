@@ -297,9 +297,8 @@
                     localStorage.setItem("login", JSON.stringify(data.data));
                     switch(data.data.type){
                         case "FINANCE": window.location.href = './finance.html'; return;
-                        case "CUSTOMER":  window.location.href = './sale.html'; return;
+                        case "CUSTOMER":  window.location.href = './customer.html'; return;
                         case "VENDER":  window.location.href = './vendor.html'; return;
-                        default: window.location.href = './sale.html'; return;
                     }
                 })
                 .fail((data) => {
