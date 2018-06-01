@@ -115,7 +115,7 @@ app.put('/orders/edit', order_apis.so.editOrders);
 app.put('/orders/edit/:order_id', order_apis.so.editOrder);
 // PO
 app.get('/orders/po/list', order_apis.po.purchaseList);
-app.post('/orders/po/create', order_apis.po.createOrder);
+app.post('/orders/po/create/:vendor_id', order_apis.po.createOrder);
 
 // Customers APIs
 customer_apis = require("./apis/customers");

@@ -9,7 +9,7 @@ for(var i in dbconfigs){
     };
     dbnamesplit = dbconfigs[i].split("/");
     dbname = dbnamesplit[dbnamesplit.length - 1];
-    dbs[dbname] = new Datastore(options)
+    dbs[dbname] = new Datastore(options);
 }
 
 module.exports = dbs;

@@ -500,13 +500,13 @@
 
             function generate_purchase_order(){
                 $.ajax({
-                    url: "/orders/po/create",
+                    url: "/orders/po/create/" + saleinfo._id,
                     method: "POST",
                     contentType: "application/json",
                     data: localStorage.getItem('confirmed_orders')
-                }).done(polist => {
-                    console.log(polist);
-                });
+                }).done(
+                    responsedata => console.log(responsedata)
+                );
             }
         </script>
     </body>
