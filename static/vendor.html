@@ -486,17 +486,22 @@
 
                     list_of_gen_po = []
                     order.map(
-                        o => o.arrayitem.map(
+                        o => o.arrayitem.filter(item => item.vendor == saleinfo._id).map(
                             item => list_of_gen_po.push(item.id)
                         )
                     )
+
+                    console.log(list_of_gen_po)
 
 
                     $.get("/orders/list")
                         .done((data) => {
                             var orders = data.data;
                             table = orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').filter(order => list_of_gen_po.indexOf(order.id) == -1)
-                            table.map(add_to_table);
+                            
+                            let vendor = saleinfo._id
+
+                            table.filter(o => o.arrayitem.filter(item => item.vendor == vendor).length > 0).map(add_to_table);
                             
                             localStorage.removeItem('confirmed_orders');
                             localStorage.setItem('confirmed_orders', JSON.stringify(orders.filter(orders => orders.status == 'CONFIRMED')));

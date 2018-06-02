@@ -401,8 +401,8 @@
                     id: order.id.replace("PO", "INV"),
                     status: "CONFIRM"
                 }
-                get_data.filter(order => order.id == $_GET('id'))[0].arrayitem = ordersave.arrayitem;
-                get_data.filter(order => order.id == $_GET('id'))[0].total = ordersave.total.toFixed(2);
+                // get_data.filter(order => order.id == $_GET('id'))[0].arrayitem = ordersave.arrayitem;
+                // get_data.filter(order => order.id == $_GET('id'))[0].total = ordersave.total.toFixed(2);
 
 
                
@@ -530,37 +530,47 @@
                             var orders = data
                             // Fix Data
 
-                            if($_GET('type') == "INV")
-                            orders = orders.map(
-                                inv => {
-                                    inv.arrayitem = inv.arrayitem.map(
-                                        item => {
-                                            sale = itemlist.filter(i => i.id == item.id && i.item == item.item)[0]
-                                            if(!sale){
-                                                alert("SOmething Went wrong, please contact system admin immediately!")
-                                                window.location = "/"
-                                            }
-                                            return sale
-                                        }
-                                    )
-                                    return inv
-                                }
-                            )
+                            // if($_GET('type') == "INV")
+                            // orders = orders.map(
+                            //     inv => {
+                            //         inv.arrayitem = inv.arrayitem.map(
+                            //             item => {
+                            //                 sale = itemlist.filter(i => i.id == item.id && i.item == item.item)[0]
+                            //                 if(!sale){
+                            //                     alert("SOmething Went wrong, please contact system admin immediately!")
+                            //                     window.location = "/"
+                            //                 }
+                            //                 return sale
+                            //             }
+                            //         )
+                            //         return inv
+                            //     }
+                            // )
 
-       
                             order = orders.filter(order => order.id == $_GET('id'))[0]
 
-                            if($_GET('type') == "INV")
-                                order.total = order.arrayitem.reduce( (a,b) => a+b.unitprice*parseInt(b.delivered)*0.95, 0 ).toFixed(2)
-                            
-                            ordersave = order
-                  
+                            order.arrayitem.map(
+                                it => {
+                                    if(it.delivered)
+                                        it.price = parseInt(it.delivered) * it.unitprice 
+                                }
+                            );
 
+                         
+
+                            // if($_GET('type') == "INV")
+                            //     order.total = order.arrayitem.reduce( (a,b) => a+b.unitprice*parseInt(b.delivered)*0.95, 0 ).toFixed(2)
+                            
+                            // ordersave = order
+                  
+                            
 
 
 
                             order.arrayitem.map(addPreorder)
-                            $("#total").text(order.total)
+
+
+                            $("#total").text(parseFloat(order.total).toFixed(2))
                             
                             if($_GET('type') == "INV") {
                                 if(order.invoice)

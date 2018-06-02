@@ -495,15 +495,70 @@
                 }
                 order.total = $("#grandtotal-delivery").text();
 
-                $.ajax('/orders/edit/'+ order._id, {
-                    data: JSON.stringify(order),
-                    contentType: 'application/json',
-                    type: 'PUT'
-                }).done(
-                    () => {
-                        openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
+                // Set PO data to match
+                $.get('/po').then(
+                    polist => {
+                        polist_filtered = polist.filter(po => po.status == "RAISED")
+                        order.arrayitem.map(
+                            item => {
+                                polist_filtered.map(
+                                    po => po.arrayitem
+                                        .filter(it => it.id == item.id && it.name == item.name)
+                                        .map(it => { it.recv = true; it.delivered=item.delivered })
+                                )
+                            }
+                        )
+                        // If the POs atr finished!
+
+                        // re-cal the po
+                        polist
+                            // If receive all items
+                            .filter(po => po.arrayitem.filter(it => !it.recv) == 0)
+                            // set status to delivered
+                            .map(po => { po.status = "DELIVERED"; return po; })
+                            // Re calculate
+                            .map(po => {
+                                total = po.arrayitem.reduce((a,b) => a + b.unitprice*0.95*parseInt(b.delivered), 0)
+                                po.total = total.toFixed(2);
+                            })
+                 
+                        // POST po to the db
+                        $.ajax('/po_all', {
+                            data: JSON.stringify(polist),
+                            contentType: 'application/json',
+                            type: 'POST'
+                        }).done(
+                            () => {
+                                $.ajax('/orders/edit/'+ order._id, {
+                                    data: JSON.stringify(order),
+                                    contentType: 'application/json',
+                                    type: 'PUT'
+                                }).done(
+                                    () => {
+                                        openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
+                                    }
+                                )
+                                
+                            }
+                        )
+
+                            
                     }
                 )
+
+
+
+                // return;
+
+                // $.ajax('/orders/edit/'+ order._id, {
+                //     data: JSON.stringify(order),
+                //     contentType: 'application/json',
+                //     type: 'PUT'
+                // }).done(
+                //     () => {
+                //         openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
+                //     }
+                // )
                 /*
                 $.ajax('/orders/edit', {
                     data: JSON.stringify(get_data),
@@ -535,6 +590,7 @@
                 order.status = "CONFIRMED";
                 order.payment = $('input[name=bank]:checked').val();
                 order.payment_ref = generateStringNumber(12);
+
                 
                 $.ajax('/orders/edit/' + order._id, {
                     data: JSON.stringify(order),
