@@ -239,10 +239,10 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">Sale Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Customer</td>
+                                <th class="mdl-data-table__cell--non-numeric"></td>
                                 <th class="mdl-data-table__cell--non-numeric">Date</th>
                                 <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th>Total</th>
+                                <th></th>
                                 <th class="mdl-data-table__cell--non-numeric">Status</th>
                             </tr>
                         </thead>
@@ -254,7 +254,7 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">Purchase Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Sale Order ID</td>
+                                <th class="mdl-data-table__cell--non-numeric"></td>
                                 <th class="mdl-data-table__cell--non-numeric">Date</th>
                                 <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
                                 <th>Total</th>
@@ -280,6 +280,7 @@
                         </tbody>
                     </table>
                 </div>
+                <br><br><br>
                 <div class="bottom-right">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">create purchase order</button>
                 </div>
@@ -354,7 +355,7 @@
             }
             
             function add_to_table(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "SO")});
+                var row = $("<tr />")
                 if(data.status == "SCHEDULED")
                     row = $("<tr></tr>");
                 
@@ -363,7 +364,7 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_1 = $("<td />", {
-                    text: data.customer,
+                    text: "",
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
@@ -375,7 +376,7 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
-                    text: (data.total * 0.95).toFixed(2)
+                    text: ""
                 });
 
                 var status_img;
@@ -397,7 +398,51 @@
             function add_to_table_delivery(data){
                 var row = $("<tr />", {click: () => showdata(data.id, "PO")});
                 var col1 = $("<td />", {
-                    text: data.po.id,
+                    text: data.id,
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col1_1 = $("<td />", {
+                    text: "",
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col2 = $("<td />", {
+                    text: new Date(parseInt(data.datetime)).toISOString(),
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col3 = $("<td />", {
+                    text: data.delivery,
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col4 = $("<td />", {
+                    text: data.total
+                });
+
+                var status_img;
+             
+                switch(data.status){
+                    case "RAISED": status_img = "local_shipping"; break;
+                    case "DELIVERED": status_img = "check_circle"; break;
+                }
+                var col5 = $("<td />", {
+                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+        
+                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
+                $("#polist").find('tbody').append(row);
+            }
+            
+            function add_to_table_inv(data){
+
+                if(!data.invoice){
+                    data.invoice = {}
+                    data.invoice.id = "NEW"
+                    data.invoice.status = "RAISED"
+                }
+
+                var row = $("<tr />", {click: () => showdata(data.id, "INV")});
+                var col1 = $("<td />", {
+                    text: data.invoice.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_1 = $("<td />", {
@@ -413,43 +458,7 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
-                    text: (data.total * 0.95).toFixed(2)
-                });
-
-                var status_img;
-                switch(data.po.status){
-                    case "RAISED": status_img = "local_shipping"; break;
-                    case "DELIVERED": status_img = "check_circle"; break;
-                }
-                var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.po.status+"</span>",
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-        
-                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
-                $("#polist").find('tbody').append(row);
-            }
-            
-            function add_to_table_inv(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "INV")});
-                var col1 = $("<td />", {
-                    text: data.invoice.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col1_1 = $("<td />", {
-                    text: data.po.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col3 = $("<td />", {
-                    text: data.delivery,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col4 = $("<td />", {
-                    text: (data.total * 0.95).toFixed(2)
+                    text: data.total
                 });
 
                 var status_img;
@@ -467,29 +476,85 @@
                 $("#invlist").find('tbody').append(row);
             }
             
-            $.get("/orders/list")
-            .done((data) => {
-                var orders = data.data;
-                orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').map(add_to_table);
-                localStorage.removeItem('confirmed_orders');
-                localStorage.setItem('confirmed_orders', JSON.stringify(orders.filter(orders => orders.status == 'CONFIRMED')));
-            });
+           console.log(saleinfo)
 
-            $.get("/orders/list")
+            $.get("/po")
             .done(
                 (data) => {
-                    var order = data.data;
-                    order.filter(order => order.po).map(add_to_table_delivery);
+                    var order = data;
+                    order.map(add_to_table_delivery);
+
+                    list_of_gen_po = []
+                    order.map(
+                        o => o.arrayitem.map(
+                            item => list_of_gen_po.push(item.id)
+                        )
+                    )
+
+
+                    $.get("/orders/list")
+                        .done((data) => {
+                            var orders = data.data;
+                            orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').filter(order => list_of_gen_po.indexOf(order.id) == -1).map(add_to_table);
+                            localStorage.removeItem('confirmed_orders');
+                            localStorage.setItem('confirmed_orders', JSON.stringify(orders.filter(orders => orders.status == 'CONFIRMED')));
+                        });
+
+                    
+                    // Invoice List
+                    $.get("/orders/list")
+                    .done(
+                        (data) => {
+                            raised_inv_list = [];
+                            itemlist = []
+                            data = data.data
+                            data.filter(o => o.invoice).map(o => raised_inv_list.push(o.id))
+
+                            data.filter(o => o.invoice).map(x => itemlist = itemlist.concat(x.arrayitem))
+                            
+                     
+                            invlist = order.filter(
+                                // Get Ony Done Order
+                                o => o.arrayitem.filter(
+                                    item => raised_inv_list.indexOf(item.id) == -1 // Not in raised
+                                ).length == 0
+                            )
+
+                            invlist = invlist.map(
+                                inv => {
+                                    inv.arrayitem = inv.arrayitem.map(
+                                        item => {
+                                            sale = itemlist.filter(i => i.id == item.id && i.item == item.item)[0]
+                                            return sale
+                                        }
+                                    )
+                                    return inv
+                                }
+                            )
+
+                            invlist = invlist.map(
+                                inv => {
+                                    inv.total = inv.arrayitem.reduce( (a,b) => a+b.unitprice*parseInt(b.delivered)*0.95, 0 )
+                                    return inv
+                                }
+                            )
+
+
+                       
+                            invlist.map(add_to_table_inv)
+
+  
+                        }
+                    );   
+
+
+
+
+
                 } 
             );
 
-            $.get("/orders/list")
-            .done(
-                (data) => {
-                    var order = data.data;
-                    order.filter(order => order.invoice).map(add_to_table_inv);
-                }
-            );   
+           
        
             $("#hello").html("Hello! Vendor: "+saleinfo.name);
             updateDrawerUser()
@@ -499,14 +564,7 @@
             }
 
             function generate_purchase_order(){
-                $.ajax({
-                    url: "/orders/po/create/" + saleinfo._id,
-                    method: "POST",
-                    contentType: "application/json",
-                    data: localStorage.getItem('confirmed_orders')
-                }).done(
-                    responsedata => console.log(responsedata)
-                );
+               window.location = './vendor_new_order.html'
             }
         </script>
     </body>

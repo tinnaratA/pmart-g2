@@ -24,67 +24,6 @@ app.use(express.static('./static'));
 
 
 
-// // ===============================================================================
-// // Old and Original Code 
-// // ===============================================================================
-  
-// order_no = 1
-// order = []
-
-// users = [
-//     {"password": "password", "email": "Punika@horozont.in.th", "name":"Punika Puengnoo", "nickname": "คุณแขก", "type": "FINANCE" },
-//     {"password": "password", "email": "Patteera@horizont.in.th","name":"Patteera intra","nickname": "คุณเหมี่ยว", "type":"CUSTOMER"},
-//     {"password": "password", "email": "Supaporn@horizont.in.th","name":"Supaporn Klinhom","nickname":"คุณหนึ่ง", "type":"VENDER"},
-
-//     {"password": "", "email": "customer", "name":"ร้านบะหมี่ต้มยำ", "nickname": "ร้านบะหมี่ต้มยำ", "type": "CUSTOMER" },
-//     {"password": "", "email": "vendor", "name":"Vendor001", "nickname": "", "type": "VENDOR" },
-//     {"password": "", "email": "finance", "name":"Finance", "nickname": "", "type": "FINANCE" }
-// ]
-
-// app.post('/reg', function (req, res) {
-//     if(users.filter(u => u.email == req.body.email ).length > 0){
-//         res.send("ERR01")
-//     }
-//     else{
-//         users.push(req.body)
-//         res.send("OK");
-//     }
-// });
-
-// app.get('/allusers', function (req, res) {
-//     res.send(users)
-// });
-
-// app.get('/orders', function (req, res) {
-//     res.send(order);
-// });
-
-// Number.prototype.pad = function(size) {
-//     var s = String(this);
-//     while (s.length < (size || 2)) {s = "0" + s;}
-//     return s;
-// }
-  
-// app.post('/orders', function (req, res) {
-//     req.body.id = "ORD"+order_no.pad(10);
-//     order_no++;
-//     order.push(req.body);
-//     res.send("OK");
-// });
-
-// app.post('/order_all', function (req, res) {
-//     order = req.body;
-//     res.send("OK");
-// });
-
-// app.get('/refresh', function (req, res) {
-//     order_no = 1;
-//     order = [];
-
-//     res.send("OK");
-// });
-
-
 // ===============================================================================
 // New and shiny backend
 // ===============================================================================
@@ -96,6 +35,7 @@ app.post('/users/login', user_apis.login);
 app.post('/users/logout', user_apis.logout);
 app.put('/users/active', user_apis.active);
 app.delete('/users/deactive', user_apis.deactive);
+app.get('/users/list', user_apis.user_list);
 
 // Products APIs
 product_apis = require("./apis/products");
@@ -124,5 +64,76 @@ app.get('/customers/list', customer_apis.customerList);
 // Vendors APIs
 vendor_apis = require("./apis/vendors");
 app.get('vendors/list', vendor_apis.vendorList);
+
+// // ===============================================================================
+// // Old and Original Code 
+// // ===============================================================================
+  
+order_no = 1
+order = []
+
+// users = [
+//     {"password": "password", "email": "Punika@horozont.in.th", "name":"Punika Puengnoo", "nickname": "คุณแขก", "type": "FINANCE" },
+//     {"password": "password", "email": "Patteera@horizont.in.th","name":"Patteera intra","nickname": "คุณเหมี่ยว", "type":"CUSTOMER"},
+//     {"password": "password", "email": "Supaporn@horizont.in.th","name":"Supaporn Klinhom","nickname":"คุณหนึ่ง", "type":"VENDER"},
+
+//     {"password": "", "email": "customer", "name":"ร้านบะหมี่ต้มยำ", "nickname": "ร้านบะหมี่ต้มยำ", "type": "CUSTOMER" },
+//     {"password": "", "email": "vendor", "name":"Vendor001", "nickname": "", "type": "VENDOR" },
+//     {"password": "", "email": "finance", "name":"Finance", "nickname": "", "type": "FINANCE" }
+// ]
+
+// app.post('/reg', function (req, res) {
+//     if(users.filter(u => u.email == req.body.email ).length > 0){
+//         res.send("ERR01")
+//     }
+//     else{
+//         users.push(req.body)
+//         res.send("OK");
+//     }
+// });
+
+// app.get('/allusers', function (req, res) {
+//     res.send(users)
+// });
+
+app.get('/po', function (req, res) {
+    res.send(order);
+});
+
+Number.prototype.pad = function(size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
+}
+  
+app.post('/po', function (req, res) {
+    req.body.id = "PO"+order_no.pad(10);
+    order_no++;
+    order.push(req.body);
+    res.send("OK");
+});
+
+app.post('/po_all', function (req, res) {
+    order = req.body;
+    res.send("OK");
+});
+
+// app.get('/refresh', function (req, res) {
+//     order_no = 1;
+//     order = [];
+
+//     res.send("OK");
+// });
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(2001, () => console.log('Application listening on port 2001!'));

@@ -8,6 +8,19 @@ var logger = require("../utils/logger");
 var user_namespace = "usersdb";
 var token_namespace = "tokensdb";
 
+let user_list =  (req, res) => {
+    db[user_namespace].find(req.query, (err, data) => {
+        if(err){
+            console.log(err);
+            return res.send({success: true, data: err})
+        }
+        if(!data){
+            return res.status(204).send({success: true, data: "Users Not Found."})
+        }
+        return res.send({success:true, data: data});
+    });
+}
+
 let login_handler = (req, res) => {
     var req_data = req.body;
     db[user_namespace].findOne(req_data, (err, data) => {
@@ -154,5 +167,6 @@ module.exports = {
     register: register_handler,
     logout: logout_handler,
     active: toggle_active,
-    deactive: toggle_active
+    deactive: toggle_active,
+    user_list:user_list
 }

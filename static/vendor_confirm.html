@@ -393,17 +393,25 @@
                 */
             }
 
+            ordersave = {}
+
             function confirminvoice() {
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
-                order.invoice.status = "CONFIRM"
-            
-                $.ajax("/orders/edit/"+ order._id, {
-                    data: JSON.stringify(order),
+               
+                get_data.filter(order => order.id == $_GET('id'))[0].invoice = {
+                    id: order.id.replace("PO", "INV"),
+                    status: "CONFIRM"
+                }
+                get_data.filter(order => order.id == $_GET('id'))[0].arrayitem = ordersave.arrayitem;
+                get_data.filter(order => order.id == $_GET('id'))[0].total = ordersave.total.toFixed(2);
+
+               
+                $.ajax("/po_all", {
+                    data: JSON.stringify(get_data),
                     contentType: 'application/json',
-                    type: 'PUT'
+                    type: 'POST'
                 }).done(
                     () => {
-                        openModal("Success", true, 'Invoice has been confirmed!', "OK", () => window.location = "vendor.html", false);
+                        openModal("Success", true, 'Invoice has been created and confirmed!', "OK", () => window.location = "vendor.html", false);
                     }
                 );
                 /*
@@ -427,7 +435,7 @@
 
                 index = globid;
                 var col1 = $("<td />", {
-                    text: index,
+                    text: ($_GET('type') == "PO" ||$_GET('type') == "INV" )? data.id: index,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
@@ -466,6 +474,8 @@
             $("#conf").hide()
             $("#confinvoice").hide()
             $("#subheaddata").hide()
+
+        if($_GET('type') != "PO" && $_GET('type') != "INV" ){
             
             $.get("/orders/list").done(
                 (data) => {
@@ -502,6 +512,75 @@
                     get_data = orders
                 }
             )
+        }
+        else{
+            // PO Informastion
+            $.get("/po").done(
+                (data) => {
+
+             $.get("/orders/list").done(
+                (orderdata) => {
+                    itemlist = []
+                    orderdata = orderdata.data
+                    orderdata.filter(o => o.invoice).map(x => itemlist = itemlist.concat(x.arrayitem))
+                   
+                  
+
+                            var orders = data
+                            // Fix Data
+
+                            if($_GET('type') == "INV")
+                            orders = orders.map(
+                                inv => {
+                                    inv.arrayitem = inv.arrayitem.map(
+                                        item => {
+                                            sale = itemlist.filter(i => i.id == item.id && i.item == item.item)[0]
+                                            return sale
+                                        }
+                                    )
+                                    return inv
+                                }
+                            )
+
+       
+                            order = orders.filter(order => order.id == $_GET('id'))[0]
+
+                            if($_GET('type') == "INV")
+                                order.total = order.arrayitem.reduce( (a,b) => a+b.unitprice*parseInt(b.delivered)*0.95, 0 )
+                            
+                            ordersave = order
+
+
+
+
+                            order.arrayitem.map(addPreorder)
+                            $("#total").text(order.total)
+                            
+                            if($_GET('type') == "INV") {
+                                if(order.invoice)
+                                    $("#headdata").html("INV:" + order.invoice.id)
+                                else
+                                    $("#headdata").html("INV: NEW")
+                                $("#status").html(  order.invoice? order.invoice.status: order.status)
+                    
+
+                                if(!order.invoice)
+                                    $("#confinvoice").show()
+                            }
+                            else{
+                
+                                $("#headdata").html("PO: "+order.id)
+                                $("#status").html(order.status)
+                            }
+                        
+                            $("#delivery").html(order.delivery)
+                            get_data = orders
+
+                    });
+            
+                }
+            )
+        }
 
             function logout(){
                 $.ajax({

@@ -346,11 +346,18 @@
                 $("#approve-payment").hide() 
     
 
-            function $_GET(q, s) {
-                s = (s) ? s : window.location.search;
-                var re = new RegExp('&amp;' + q + '=([^&amp;]*)', 'i');
-                return (s = s.replace(/^\?/, '&amp;').match(re)) ? s = s[1] : s = '';
-            }
+                function $_GET(sParam) {
+                    var sPageURL = window.location.search.substring(1);
+                    var sURLVariables = sPageURL.split('&');
+                    for (var i = 0; i < sURLVariables.length; i++) 
+                    {
+                        var sParameterName = sURLVariables[i].split('=');
+                        if (sParameterName[0] == sParam) 
+                        {
+                            return sParameterName[1];
+                        }
+                    }
+                }
 
         
             function confirm() {
@@ -359,13 +366,14 @@
                     return;
                 }
 
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
-                order.invoice.status = "PAID";
+                get_data.filter(order => order.id == $_GET('id'))[0].invoice.status = "PAID";
+
+            
                 
-                $.ajax('/orders/edit/'+ order._id, {
-                    data: JSON.stringify(order),
+                $.ajax('/po_all', {
+                    data: JSON.stringify(get_data),
                     contentType: 'application/json',
-                    type: 'PUT'
+                    type: 'POST'
                 }).done(
                     () => {
                         openModal("Success", true, "Invoice has been confirmed to paid.", "OK", () => window.location = "finance.html", false);
@@ -431,18 +439,23 @@
 
             $("#conf").hide()
 
-            $.get("/orders/list").done(
+            $.get("/po").done(
                 (data) => {
-                    var orders = data.data
+                    var orders = data
+                    
                     order = orders.filter(order => order.id == $_GET('id'))[0]
+
+                   
+                  
                     order.arrayitem.map(addPreorder)
-                    $("#total").text((order.total * 0.95).toFixed(2))
+                    $("#total").text(order.total)
 
                     $("#headdata").html("INV: " + order.invoice.id)
-                    $("#podata").html("PO: " + order.po.id)
-                    $("#sodata").html("SO: " + order.id)
+                    $("#podata").html("PO: " + order.id)
                     $("#delivery").html(order.delivery)
-                    $("#status").html(order.status)
+                    $("#status").html(order.invoice.status)
+
+                    
 
                     if (order.invoice.status != "PAID")
                         $("#conf").show()
