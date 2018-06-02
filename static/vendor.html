@@ -458,7 +458,7 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
-                    text: data.total
+                    text: data.total.toFixed(2)
                 });
 
                 var status_img;
@@ -482,7 +482,7 @@
             .done(
                 (data) => {
                     var order = data;
-                    order.map(add_to_table_delivery);
+                    order.filter(o => o.vendor == saleinfo.name).map(add_to_table_delivery);
 
                     list_of_gen_po = []
                     order.map(
@@ -495,7 +495,9 @@
                     $.get("/orders/list")
                         .done((data) => {
                             var orders = data.data;
-                            orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').filter(order => list_of_gen_po.indexOf(order.id) == -1).map(add_to_table);
+                            table = orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').filter(order => list_of_gen_po.indexOf(order.id) == -1)
+                            table.map(add_to_table);
+                            
                             localStorage.removeItem('confirmed_orders');
                             localStorage.setItem('confirmed_orders', JSON.stringify(orders.filter(orders => orders.status == 'CONFIRMED')));
                         });
@@ -541,7 +543,7 @@
 
 
                        
-                            invlist.map(add_to_table_inv)
+                            invlist.filter(o => o.vendor == saleinfo.name).map(add_to_table_inv)
 
   
                         }
