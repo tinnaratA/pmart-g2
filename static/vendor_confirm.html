@@ -257,10 +257,10 @@
                         <span id="headdata"></span>
                     </h3>
                     <form onsubmit="return false;">
-                        <div class="bottom-right">
+                        <!--<div class="bottom-right">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" id="conf">create purchase order</button>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirminvoice()" id="confinvoice">Confirm Invoice</button>
-                        </div>
+                        </div>-->
                         <h4 id="subheaddata"></h4>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" style="margin-top: 16px" id="preorder">
                             <thead>
@@ -342,16 +342,13 @@
             var get_data;
 
             function $_GET(sParam) {
-                var sPageURL = window.location.search.substring(1);
-                var sURLVariables = sPageURL.split('&');
-                for (var i = 0; i < sURLVariables.length; i++) 
-                {
-                    var sParameterName = sURLVariables[i].split('=');
-                    if (sParameterName[0] == sParam) 
-                    {
-                        return sParameterName[1];
-                    }
-                }
+                var strparams = window.location.search.replace("?", "").split("&");
+                var params = {};
+                strparams.map(p => {
+                    temp = p.split("=");
+                    params[temp[0]] = temp[temp.length - 1];
+                });
+                return params[sParam];
             }
 
             function confirm() {
@@ -376,21 +373,6 @@
                         openModal("Success", true, 'Purchase Order: '+ order.po.id + ' has been generated!', "OK", () => window.location = "vendor.html", false);
                     }
                 );
-                /*
-                $.ajax('/orders/edit', {
-                    data : JSON.stringify(get_data),
-                    contentType : 'application/json',
-                    type : 'PUT'
-                }).done(
-                    () => {
-                        openModal("Success", true, "Sale Order has been scheduled.", "OK", null, false);
-                    }
-                ).then(
-                    () => {
-                        openModal("Success", true, 'Purchase Order: '+ order.po.id + ' has been generated!', "OK", () => window.location = "vendor.html", false);
-                    }
-                )
-                */
             }
 
             function confirminvoice() {
@@ -406,17 +388,6 @@
                         openModal("Success", true, 'Invoice has been confirmed!', "OK", () => window.location = "vendor.html", false);
                     }
                 );
-                /*
-                $.ajax('/orders/edit', {
-                    data : JSON.stringify(get_data),
-                    contentType : 'application/json',
-                    type : 'PUT'
-                }).then(
-                    () => {
-                        openModal("Success", true, 'Invoice has been confirmed!', "OK", () => window.location = "vendor.html", false);
-                    }
-                )
-                */
             }
 
             get_data = []
@@ -466,42 +437,62 @@
             $("#conf").hide()
             $("#confinvoice").hide()
             $("#subheaddata").hide()
-            
-            $.get("/orders/list").done(
-                (data) => {
-                    var orders = data.data
-                    order = orders.filter(order => order.id == $_GET('id'))[0]
-                    order.arrayitem.map(addPreorder)
-                    $("#total").text((order.total * 0.95).toFixed(2))
-                    
-                    type = $_GET('type')
-                    if(type == "INV") {
-                        $("#headdata").html("INV: "+ order.invoice.id)
-                        $("#status").html(order.invoice.status)
-                        $("#subheaddata").html("SO: "+order.id)
-                        $("#subheaddata").show()
 
-                        if(order.invoice && order.invoice.status &&  order.invoice.status == "RAISED")
-                            $("#confinvoice").show()
-                    }
-                    else if(type == "PO") {
-                        $("#headdata").html("PO: "+order.po.id)
-                        $("#status").html(order.po.status)
-                        $("#subheaddata").html("SO: "+order.id)
-                        $("#subheaddata").show()
-                    }
-                    else {
-                        $("#headdata").html("SO: "+order.id)
-                        $("#status").html(order.status)
+            type = $_GET('type');
+            if(type == "INV"){
+                /*
+                $.get("/orders/list").
+                done(data => {
+                    var order = data.data;
+                    $("#headdata").html("INV: "+ order.invoice.id)
+                    $("#status").html(order.invoice.status)
+                    $("#subheaddata").html("SO: "+order.id)
+                    $("#subheaddata").show()
+
+                    if(order.invoice && order.invoice.status &&  order.invoice.status == "RAISED")
+                        $("#confinvoice").show()
+                });
+                */
+            }
+            else if(type == "SO"){
+                $.get("orders/" + $_GET('id')).done(
+                    data => {
+                        var order = data.data;
+                        var filteredItems = order.arrayitem.filter(item => item.processed == false);
+                        filteredItems.map(addPreorder);
+                        $("#total").text((order.total * 0.95).toFixed(2));
+
+                        $("#headdata").html("SO: "+order.id);
+                        $("#status").html(order.status);
                         $("#subheaddata").hide()
 
                         if(order.status == "CONFIRMED")
-                            $("#conf").show()
-                    } 
-                    $("#delivery").html(order.delivery)
-                    get_data = orders
-                }
-            )
+                            $("#conf").show();
+                        
+                        $("#delivery").html(order.delivery);
+                        get_data = order;
+                    }
+                );
+            }
+            else if(type == "PO"){
+                $.get("orders/po/" + $_GET('id')).done(
+                    data => {
+                        var purchaseOrder = data.data;
+                        purchaseOrder.items.map(addPreorder);
+                        $("#total").text((purchaseOrder.total * 0.95).toFixed(2));
+                        $("#headdata").html("PO: "+ purchaseOrder.id);
+                        $("#status").html(purchaseOrder.status);
+                        $("#subheaddata").html("SO: "+ purchaseOrder.id);
+                        $("#subheaddata").show();
+
+                        $("#delivery").html(new Date(purchaseOrder.delivery).toDateString());
+                        get_data = purchaseOrder;
+                    }
+                );
+            }
+            else{
+                alert("Unsupport Order Type:[" + type + "]");
+            }
 
             function logout(){
                 $.ajax({

@@ -333,7 +333,7 @@
         
             function add_to_table(data){
                 var row = $("<tr />", {
-                    click: () => showdata(data.id)
+                    click: () => showdata(data._id)
                 });
                 var col1 = $("<td />", {
                     text: data.id,

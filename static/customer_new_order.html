@@ -447,7 +447,7 @@
                 savedata.datetime = Date.now();
                 savedata.delivery = $("#datepicker").val();
                 savedata.status = "RAISED";
-		        
+                
                 savedata.customer = saleinfo.name;
                 $.post("./orders/create", savedata)
                 .then(

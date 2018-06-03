@@ -453,7 +453,7 @@
             }
 
             function conf_de() {
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
+                var order = get_data;
                 var img;
                 switch(order.payment){
                     case "kbank": img = "kbank.jpg"; break;
@@ -482,13 +482,13 @@
                     return;
                 }
 
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
+                order = get_data;
                 order.status = "PAID";
-                order.po.status = "DELIVERED"
-                order.invoice = {
-                    id: order.id.replace("ORD", "INV"),
-                    status: "RAISED"
-                }
+                // order.po.status = "DELIVERED"
+                // order.invoice = {
+                //    id: order.id.replace("ORD", "INV"),
+                //    status: "RAISED"
+                // }
                 for (var i = 0; i < order.arrayitem.length; i++) {
                     order.arrayitem[i].delivered = $('#zz'+(i+1)).val();
                     order.arrayitem[i].price = $('#xx'+(i+1)).text();
@@ -504,23 +504,11 @@
                         openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
                     }
                 )
-                /*
-                $.ajax('/orders/edit', {
-                    data: JSON.stringify(get_data),
-                    contentType: 'application/json',
-                    type: 'PUT'
-                }).then(
-                    () => {
-                        openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
-                    }
-                )
-                */
             }
 
             function confirm() {
-
                 prices = $("#preorder").find(".price");
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
+                var order = get_data.filter(order => order.id == $_GET('id'))[0];
                 sum = 0
 
                 for (var i = 0; i < prices.length; i++) {
@@ -548,20 +536,6 @@
                             "<br />Your PIN code is: <b>5217</b>, Please keep this number until receiving your order.", "OK", () => window.location = "customer.html", false)
                     }
                 )
-                /*
-                $.ajax('/orders/edit', {
-                    data: JSON.stringify(get_data),
-                    contentType: 'application/json',
-                    type: 'PUT'
-                }).then(
-                    () => {
-                        var payment = $('input[name=bank]:checked').val();
-                        openModal("Success", true, "Order has been confirmed<br />Order account: <b>"+payment.toUpperCase()+"</b>"+
-                            "<br />ref: "+order.payment_ref+" has been deducted for the amount: <b>"+order.total+"</b>"+
-                            "<br />Your PIN code is: <b>5217</b>, Please keep this number until receiving your order.", "OK", () => window.location = "customer.html", false)
-                    }
-                )
-                */
             }
 
             get_data = []
@@ -654,10 +628,9 @@
                 $("#preorder-delivery").find('tbody').append(row);
             }
 
-            $.get("/orders/list").done(
+            $.get("/orders/" + $_GET('id')).done(
                 (data) => {
-                    var orders = data.data
-                    order = orders.filter(order => order.id == $_GET('id'))[0];
+                    var order = data.data;
                     $("#headdata").text(order.id)
                     $("#delivery").text(order.delivery)
                     $("#status").text(order.status)
@@ -676,7 +649,7 @@
                         $("#del-btn").attr("disabled", false);
                     }
 
-                    get_data = orders
+                    get_data = order;
                     refreshMDL();
                 }
             ).fail((data) => {

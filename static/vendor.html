@@ -288,10 +288,10 @@
         <script>
             var saleinfo = JSON.parse(localStorage.getItem("login"));
 
-            function showdata(id,type){
+            function showdata(id, type){
                 window.location.href = "vendor_confirm.html?id="+id+"&type="+type
             }
-
+            
             function logout(){
                 $.ajax({
                     method: "POST",
@@ -354,7 +354,7 @@
             }
             
             function add_to_table(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "SO")});
+                var row = $("<tr />", {click: () => showdata(data._id, "SO")});
                 if(data.status == "SCHEDULED")
                     row = $("<tr></tr>");
                 
@@ -367,7 +367,7 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
+                    text: new Date(parseInt(data.datetime)).toGMTString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col3 = $("<td />", {
@@ -393,23 +393,23 @@
                 row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
                 $("#orderlist").find('tbody').append(row);
             }
-            
+
             function add_to_table_delivery(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "PO")});
+                var row = $("<tr />", {click: () => showdata(data._id, "PO")});
                 var col1 = $("<td />", {
-                    text: data.po.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col1_1 = $("<td />", {
                     text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
+                var col1_1 = $("<td />", {
+                    text: "click to details",
+                    class: "mdl-data-table__cell--non-numeric"
+                });
                 var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
+                    text: new Date().toGMTString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col3 = $("<td />", {
-                    text: data.delivery,
+                    text: new Date(data.delivery).toGMTString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
@@ -417,12 +417,12 @@
                 });
 
                 var status_img;
-                switch(data.po.status){
+                switch(data.status){
                     case "RAISED": status_img = "local_shipping"; break;
                     case "DELIVERED": status_img = "check_circle"; break;
                 }
                 var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.po.status+"</span>",
+                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
                     class: "mdl-data-table__cell--non-numeric"
                 });
         
@@ -470,24 +470,24 @@
             $.get("/orders/list")
             .done((data) => {
                 var orders = data.data;
-                orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').map(add_to_table);
+                filteredOrders = orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED');
+                var ordersToShow = filteredOrders.map(
+                    order => {
+                        var itemList = order.arrayitem.filter(o => o.vendor == saleinfo._id);
+                        order.arrayitem = itemList;
+                        return order;
+                    }
+                ).filter(o => o.arrayitem.length > 0);
+                ordersToShow.map(add_to_table);
                 localStorage.removeItem('confirmed_orders');
-                localStorage.setItem('confirmed_orders', JSON.stringify(orders.filter(orders => orders.status == 'CONFIRMED')));
+                localStorage.setItem('confirmed_orders', JSON.stringify(ordersToShow));
             });
 
-            $.get("/orders/list")
+            $.get("/orders/po/list")
             .done(
                 (data) => {
-                    var order = data.data;
-                    order.filter(order => order.po).map(add_to_table_delivery);
-                } 
-            );
-
-            $.get("/orders/list")
-            .done(
-                (data) => {
-                    var order = data.data;
-                    order.filter(order => order.invoice).map(add_to_table_inv);
+                    var rawPurchaseOrders = data.data;
+                    rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
                 }
             );   
        
@@ -505,7 +505,16 @@
                     contentType: "application/json",
                     data: localStorage.getItem('confirmed_orders')
                 }).done(
-                    responsedata => console.log(responsedata)
+                    resdata => {
+                        alert(resdata.data)
+                        
+                        // openModal("Success", true, resdata.responseJSON.data, "OK", closeModal, false);
+                    }
+                ).fail(
+                    resdata => {
+                        alert("These orders were processed.");
+                        // openModal("Error", true, "These orders were processed.", "OK", closeModal, false);
+                    }
                 );
             }
         </script>

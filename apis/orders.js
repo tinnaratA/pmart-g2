@@ -1,6 +1,7 @@
 var db = require("../database/nedb");
 var permissions = require("../utils/permissions");
 var time_utils = require("../utils/time");
+var array_utils = require("../utils/array");
 
 var user_namespace = "usersdb";
 var product_namespace = "productsdb";
@@ -13,7 +14,7 @@ let order_s_list = (req, res) => {
     db[order_namespace].find(req.query, (err, data) => {
         if(err){
             console.log(err);
-            return res.send({success: true, data: err})
+            return res.send({success: true, data: err});
         }
         if(!data){
             return res.status(204).send({success: true, data: "Sale Order Not Found."})
@@ -54,6 +55,7 @@ let create_s_order = (req, res) => {
                 });
                 var finalItems = req_data.arrayitem.map((d, index) => {
                     d['vendor'] = arrayitems[index]['vendor'];
+                    d['processed'] = false;
                     return d;
                 });
                 req_data.arrayitem = finalItems;
@@ -73,78 +75,101 @@ let create_s_order = (req, res) => {
 
 let create_p_order = (req, res) => {
     try {
+        var success = true;
+        var data = "Purchase Order(s) has been created.";
+        var status = 200;
+
         var orders = req.body;
         var allItems = [];
+        var orderIds = orders.map(o => o._id);
         orders.map(
             order => order.arrayitem.filter(d => d.vendor == req.params.vendor_id).map(
                 item => {
+                    item['processed'] = true;
                     allItems.push(item);
                 }
             )
         );
-
-        allItems.sort((a, b) => {
-            if(a.item < b.item) return -1;
-            if(a.item > b.item) return 1;
-            return 0;
-        });
-
-        // var allItemNames = allItems.map(d => { return d.item; });
-        // var groupped = allItemNames.map(grp => {
-        //     return allItems.filter(item => grp == item.item);
-        // });
-        // var uniqueItems = groupped.map(ds => {
-        //     var sumqty = ds.map(d => { return d.qty }).reduce((prev, current) => { return prev + current } );
-        //     var sumprice = ds.map(d => { return d.price }).reduce((prev, current) => { return prev + current } );
-        //     ds[0].price = sumprice;
-        //     ds[0].qty = sumqty;
-        //     return ds[0];
-        // });
-        // console.log(uniqueItems);
-
-        var uniqueItems = [];
-        if(allItems.length > 0){
-            allItems.reduce((prev, current) => {
-                if(uniqueItems.length <= 0 && prev.item !== current.item){
-                    uniqueItems.push(prev);
-                    return current;
-                }
-                else if(prev.item === current.item && uniqueItems.length > 0){
-                    var sumprice = current.price + prev.price;
-                    var sumqty = current.qty + prev.qty;
-                    current.price = sumprice;
-                    current.qty = sumqty;
-                    return current;
-                }
-                else if(allItems.indexOf(current) === allItems.length - 1){
-                    uniqueItems.push(prev);
-                    uniqueItems.push(current);
-                    return current;
-                }
-                else{
-                    uniqueItems.push(prev);
-                    return current;
-                }
-            });
-
-            var data = {
-                po: {
-                    id: "PO" + parseInt(Math.random(1,50) * 10000000000),
-                    items: uniqueItems,
-                    status: "RAISED"
-                },
-                detail: orders
-            }
-
-            db[po_namespace].insert(data, (err) => {
+        
+        orderIds.map(oid => {
+            db[order_namespace].findOne({_id: oid}, (err, data) => {
                 if(err){
                     console.log(err);
-                    return res.status(500).send({success: false, data: err});
+                    return res.status.send({success: false, data: err});
+                }
+                var items = data.arrayitem.map(item => {
+                    if(item.vendor == req.params.vendor_id)
+                        item['processed'] = true;
+                    return item;
+                });
+                var successflag = data.arrayitem.filter(item => item.processed == false).length <= 0;
+                if(successflag){
+                    dataToUpdate = {
+                        $set: {
+                            arrayitem: items,
+                            status: "SCHEDULED"
+                        }
+                    }
+                }
+                else{
+                    dataToUpdate = {
+                        $set: {
+                            arrayitem: items
+                        }
+                    }
+                }
+
+                db[order_namespace].update({_id: data._id}, dataToUpdate, {multi: true}, (err) => {
+                    if(err){
+                        console.log(err);
+                        return res.status.send({success: false, data: err});
+                    }
+                });
+            });
+        });
+        
+
+        allItems = array_utils.sortArray(allItems, key="item");
+        var uniqueItems = [];
+        if(allItems.length > 0){
+            allItems.map(d => {
+                var itemNames = uniqueItems.map(item => { return item.item });
+                if(itemNames.indexOf(d.item) != -1){ // Already in list
+                    uniqueItems[uniqueItems.length - 1].qty += d.qty;
+                    uniqueItems[uniqueItems.length - 1].price += d.price;
+                }
+                else{ // Not in list
+                    uniqueItems.push(d);
                 }
             });
-            return res.send({success: true, data: data});
+
+            var deadline = new Date(Math.min(...orders.map(o => {
+                ds = new Date(o.delivery);
+                return ds.getTime();
+            })));
+            var grandTotal = uniqueItems.map(item => item.price).reduce((prev, current) => prev + current);
+            var dataToSave = {
+                _id: orderIds.join("+") + "+" + req.params.vendor_id,
+                id: "PO" + parseInt(Math.random(1,50) * 10000000000),
+                vendor: req.params.vendor_id,
+                delivery: deadline,
+                items: uniqueItems,
+                status: "RAISED",
+                total: grandTotal,
+                so: orderIds
+            };
+            db[po_namespace].insert(dataToSave, (err) => {
+                if(err){
+                    console.error(err);
+                    success = false;
+                    data = err;
+                    status = 500;
+                }
+                return res.status(status).send({success: success, data: data});
+            });
         }
-        return res.send({success: true, data: "No item to create purchase order(s)."})
+        else
+            return res.status(status).send({success: true, data: "No item to create purchase order(s)."});
     } catch (error) {
         console.error(error);
         return res.status(400).send({success: false, data: "Invalid JSON."});
@@ -157,9 +182,9 @@ let get_order = (req, res) => {
             console.log(err);
         else{
             if(data){
-                return res.send({success: true, data: data})
+                return res.send({success: true, data: data});
             }else{
-                return res.status(204).send({success: true, data: "Order Not Found."})
+                return res.status(204).send({success: true, data: "Order Not Found."});
             }
         }
     });
@@ -218,6 +243,35 @@ let edit_orders = (req, res) => {
     return res.send({success: true, data: "Order has been updated."})
 }
 
+let get_p_order = (req, res) => {
+    var status = 200;
+    var data = null;
+    var success = false;
+
+    db[po_namespace].findOne({_id: req.params.po_id}, (err, data) => {
+        if(err){
+            console.error(err);
+            status = 500;
+            data = err;
+            success = false;
+            return res.status(status).send({success: success, data: data});
+        }
+        else if(!data){
+            status = 204;
+            data = null;
+            success = true;
+            return res.status(status).send({success: success, data: data});
+        }
+        else
+        {  
+            status = 200;
+            data = data;
+            success = true;
+            return res.status(status).send({success: success, data: data});
+        }
+    });
+}
+
 module.exports = {
     so: {
         orderList: order_s_list,
@@ -229,5 +283,6 @@ module.exports = {
     po: {
         purchaseList: order_p_list,
         createOrder: create_p_order,
+        getOrder: get_p_order
     }
 }
