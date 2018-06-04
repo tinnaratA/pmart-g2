@@ -235,6 +235,7 @@
 
         <script>
             var saleinfo = JSON.parse(localStorage.getItem("login"))
+            
             function showdata(id){
                 window.location.href = "finance_confirm.html?id="+id
             }
@@ -301,7 +302,7 @@
             }
 
             function add_to_table_inv(data){
-                var row = $("<tr onclick='showdata(\""+data.id+"\")'></tr>");
+                var row = $("<tr onclick='showdata(\""+data._id+"\")'></tr>");
                 
                 var col1 = $("<td />", {
                     text: data.invoice.id,

@@ -297,98 +297,92 @@
             </main>
         </div>
         <script>
-                $(".modal-obfuscator").click(function() {
-                    closeModal();
-                });
+            $(".modal-obfuscator").click(function() {
+                closeModal();
+            });
     
-                function openModal(title, isText, content, action, action_func, isClosable) {
-                    var modal_title = $("#modal-title");
-                    var modal_content = $("#modal-content");
-                    var modal_action = $("#modal-action");
-                    var modal_close = $("#modal-close");
+            function openModal(title, isText, content, action, action_func, isClosable) {
+                var modal_title = $("#modal-title");
+                var modal_content = $("#modal-content");
+                var modal_action = $("#modal-action");
+                var modal_close = $("#modal-close");
     
-                    modal_title.empty();
-                    modal_content.empty();
-                    modal_action.empty();
-                    modal_action.off("click");
+                modal_title.empty();
+                modal_content.empty();
+                modal_action.empty();
+                modal_action.off("click");
     
-                    modal_title.text(title);
-                    if (isText) {
-                        modal_content.html(content);
-                    } else {
-                        modal_content.append(content);
-                    }
+                modal_title.text(title);
+                if (isText) {
+                    modal_content.html(content);
+                } else {
+                    modal_content.append(content);
+                }
                     
-                    modal_action.text(action);
-                    modal_action.click(action_func);
+                modal_action.text(action);
+                modal_action.click(action_func);
     
-                    if (isClosable) {
-                        modal_close.removeClass("modal-btn-hide");
-                    } else {
-                        modal_close.addClass("modal-btn-hide");
-                    }
-    
-                    $(".modal").addClass("modal-active");
-                    $(".modal-obfuscator").addClass("ob-active");
-    
-                    refreshMDL();
+                if (isClosable) {
+                    modal_close.removeClass("modal-btn-hide");
+                } else {
+                    modal_close.addClass("modal-btn-hide");
                 }
     
-                function closeModal() {
-                    $(".modal").removeClass("modal-active");
-                    $(".modal-obfuscator").removeClass("ob-active");
-                }
+                $(".modal").addClass("modal-active");
+                $(".modal-obfuscator").addClass("ob-active");
+                refreshMDL();
+            }
     
-                function refreshMDL() {
-                    componentHandler.upgradeDom();
-                }
+            function closeModal() {
+                $(".modal").removeClass("modal-active");
+                $(".modal-obfuscator").removeClass("ob-active");
+            }
     
-                $("#approve-payment").hide() 
+            function refreshMDL() {
+                componentHandler.upgradeDom();
+            }
     
+            function showdata(id, type){
+                window.location.href = "finance_confirm.html?id="+ id;
+            }
 
-            function $_GET(q, s) {
-                s = (s) ? s : window.location.search;
-                var re = new RegExp('&amp;' + q + '=([^&amp;]*)', 'i');
-                return (s = s.replace(/^\?/, '&amp;').match(re)) ? s = s[1] : s = '';
+            $("#approve-payment").hide() 
+   
+            function $_GET(sParam) {
+                var strparams = window.location.search.replace("?", "").split("&");
+                var params = {};
+                strparams.map(p => {
+                    temp = p.split("=");
+                    params[temp[0]] = temp[temp.length - 1];
+                });
+                return params[sParam];
             }
 
         
             function confirm() {
+                order = get_data;
+                order.invoice.status = "PAID";
+                
                 if($("#auth").val() != "1234"){
-                    openModal("Fail", true, "Invalid Authorised Code.", "OK", () => window.location = "finance.html", false);
+                    openModal("Fail", true, "Invalid Authorised Code.", "OK", () => window.location = "./finance_confirm.html?id=" + order._id , false);
                     return;
                 }
 
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
-                order.invoice.status = "PAID";
-                
                 $.ajax('/orders/edit/'+ order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
                     type: 'PUT'
                 }).done(
                     () => {
-                        openModal("Success", true, "Invoice has been confirmed to paid.", "OK", () => window.location = "finance.html", false);
+                        openModal("Success", true, "Invoice has been confirmed to paid.", "OK", () => window.location = "./finance.html", false);
                     }
                 );
-                /*
-                $.ajax('./order_all', {
-                    data: JSON.stringify(get_data),
-                    contentType: 'application/json',
-                    type: 'POST'
-                }).then(
-                    () => {
-                        openModal("Success", true, "Invoice has been confirmed to paid.", "OK", () => window.location = "finance.html", false);
-                    }
-                )
-                */
             }
 
-            get_data = []
+            var get_data = []
             globid = 1;
             function addPreorder(data) {
-                var row = $("<tr />", {
-                });
+                var row = $("<tr onclick='showdata(\""+data._id+"\")'></tr>");
 
                 index = globid;
                 var col1 = $("<td />", {
@@ -431,23 +425,31 @@
 
             $("#conf").hide()
 
-            $.get("/orders/list").done(
+            $.get("/orders/" + $_GET('id')).done(
                 (data) => {
-                    var orders = data.data
-                    order = orders.filter(order => order.id == $_GET('id'))[0]
-                    order.arrayitem.map(addPreorder)
-                    $("#total").text((order.total * 0.95).toFixed(2))
+                    var order = data.data;
+                    order.arrayitem.map(addPreorder);
+                    $("#total").text((order.total * 0.95).toFixed(2));
 
-                    $("#headdata").html("INV: " + order.invoice.id)
-                    $("#podata").html("PO: " + order.po.id)
-                    $("#sodata").html("SO: " + order.id)
-                    $("#delivery").html(order.delivery)
-                    $("#status").html(order.status)
+                    $("#headdata").html("INV: " + order.invoice.id);
+
+                    $.ajax('/orders/po/list?so=' + order._id)
+                    .done(
+                        data => {
+                            var orders = data.data;
+                            var poids = orders.map(o => o.id).join(", ");
+                            $("#podata").html("PO: " + poids);
+                        }
+                    );
+
+                    $("#sodata").html("SO: " + order.id);
+                    $("#delivery").html(order.delivery);
+                    $("#status").html(order.status);
 
                     if (order.invoice.status != "PAID")
                         $("#conf").show()
 
-                    get_data = orders
+                    get_data = order;
                 }
             )
 
