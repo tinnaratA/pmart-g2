@@ -147,7 +147,9 @@ let create_p_order = (req, res) => {
                 ds = new Date(o.delivery);
                 return ds.getTime();
             })));
-            var grandTotal = uniqueItems.map(item => item.price).reduce((prev, current) => prev + current);
+            var grandTotal = uniqueItems.map(item => item.price).reduce(
+                (prev, current) => parseInt(prev) + parseInt(current)
+            );
             var dataToSave = {
                 _id: orderIds.join("+") + "+" + req.params.vendor_id,
                 id: "PO" + parseInt(Math.random(1,50) * 10000000000),

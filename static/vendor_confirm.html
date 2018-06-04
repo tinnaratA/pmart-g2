@@ -479,7 +479,7 @@
                     data => {
                         var purchaseOrder = data.data;
                         purchaseOrder.items.map(addPreorder);
-                        $("#total").text((purchaseOrder.total * 0.95).toFixed(2));
+                        $("#total").text(purchaseOrder.total.toFixed(2));
                         $("#headdata").html("PO: "+ purchaseOrder.id);
                         $("#status").html(purchaseOrder.status);
                         $("#subheaddata").html("SO: "+ purchaseOrder.id);

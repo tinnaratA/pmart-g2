@@ -1,152 +1,152 @@
 [
     {
-        "total": 145680,
+        "total": 121400,
         "arrayitem": [
-            {
-                "item": "PCF หมูหมักน้ำผึ้ง แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "71",
-                "qty": 120,
-                "price": 8520,
-                "vendor": "vendor1",
-                "processed": false
-            },
-            {
-                "item": "PCF ไก่หมักซอสบาร์บีคิว  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "62",
-                "qty": 120,
-                "price": 7440,
-                "vendor": "vendor3",
-                "processed": false
-            },
-            {
-                "item": "PCF เนื้อวัวหมักนุ่ม  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "141",
-                "qty": 120,
-                "price": 16920,
-                "vendor": "vendor3",
-                "processed": false
-            },
-            {
-                "item": "PCF ไก่หมักซอสน้ำมันงา แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "62",
-                "qty": 120,
-                "price": 7440,
-                "vendor": "vendor3",
-                "processed": false
-            },
-            {
-                "item": "PCF ไก่หมักน้ำผึ้ง  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "62",
-                "qty": 120,
-                "price": 7440,
-                "vendor": "vendor2",
-                "processed": false
-            },
-            {
-                "item": "PCF เนื้อวัวสดหมักซอสปรุงรส  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "141",
-                "qty": 120,
-                "price": 16920,
-                "vendor": "vendor3",
-                "processed": false
-            },
-            {
-                "item": "PCF หมูหมักไวน์แดง  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "71",
-                "qty": 120,
-                "price": 8520,
-                "vendor": "vendor1",
-                "processed": false
-            },
-            {
-                "item": "PCF หมูหมักซอสน้ำมันงา  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "71",
-                "qty": 120,
-                "price": 8520,
-                "vendor": "vendor2",
-                "processed": false
-            },
             {
                 "item": "PCF ไก่หมักซอสพริกไทยดำ  แพ็คละ 1 กก.",
                 "unit": "Kg",
                 "unitprice": "62",
-                "qty": 120,
-                "price": 7440,
+                "qty": 100,
+                "price": 6200,
                 "vendor": "vendor3",
-                "processed": false
+                "processed": true
             },
             {
-                "item": "PCF หมูหมักนุ่ม แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "69",
-                "qty": 120,
-                "price": 8280,
-                "vendor": "vendor1",
-                "processed": false
-            },
-            {
-                "item": "PCF ไก่แซ่บ  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "62",
-                "qty": 120,
-                "price": 7440,
-                "vendor": "vendor2",
-                "processed": false
-            },
-            {
-                "item": "PCF หมูหมักซอสบาร์บีคิว แพ็คละ 1 กก.",
+                "item": "PCF หมูหมักน้ำผึ้ง แพ็คละ 1 กก.",
                 "unit": "Kg",
                 "unitprice": "71",
-                "qty": 120,
-                "price": 8520,
+                "qty": 100,
+                "price": 7100,
                 "vendor": "vendor1",
-                "processed": false
+                "processed": true
             },
             {
                 "item": "PCF หมูหมักพริกไทยดำ  แพ็คละ 1 กก.",
                 "unit": "Kg",
                 "unitprice": "71",
-                "qty": 120,
-                "price": 8520,
+                "qty": 100,
+                "price": 7100,
                 "vendor": "vendor1",
-                "processed": false
+                "processed": true
             },
             {
-                "item": "PCF หมูสามชั้นหมักน้ำมันงา  แพ็คละ 1 กก.",
+                "item": "PCF หมูหมักนุ่ม แพ็คละ 1 กก.",
                 "unit": "Kg",
-                "unitprice": "99",
-                "qty": 120,
-                "price": 11880,
+                "unitprice": "69",
+                "qty": 100,
+                "price": 6900,
+                "vendor": "vendor1",
+                "processed": true
+            },
+            {
+                "item": "PCF หมูหมักซอสน้ำมันงา  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "71",
+                "qty": 100,
+                "price": 7100,
                 "vendor": "vendor2",
-                "processed": false
+                "processed": true
+            },
+            {
+                "item": "PCF เนื้อวัวหมักนุ่ม  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "141",
+                "qty": 100,
+                "price": 14100,
+                "vendor": "vendor3",
+                "processed": true
             },
             {
                 "item": "PCF หมูสามชั้นหมักพริกไทยดำ  แพ็คละ 1 กก.",
                 "unit": "Kg",
                 "unitprice": "99",
-                "qty": 120,
-                "price": 11880,
+                "qty": 100,
+                "price": 9900,
                 "vendor": "vendor2",
-                "processed": false
+                "processed": true
+            },
+            {
+                "item": "PCF หมูหมักซอสบาร์บีคิว แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "71",
+                "qty": 100,
+                "price": 7100,
+                "vendor": "vendor1",
+                "processed": true
+            },
+            {
+                "item": "PCF ไก่หมักซอสน้ำมันงา แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "62",
+                "qty": 100,
+                "price": 6200,
+                "vendor": "vendor3",
+                "processed": true
+            },
+            {
+                "item": "PCF เนื้อวัวสดหมักซอสปรุงรส  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "141",
+                "qty": 100,
+                "price": 14100,
+                "vendor": "vendor3",
+                "processed": true
+            },
+            {
+                "item": "PCF ไก่แซ่บ  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "62",
+                "qty": 100,
+                "price": 6200,
+                "vendor": "vendor2",
+                "processed": true
+            },
+            {
+                "item": "PCF ไก่หมักซอสบาร์บีคิว  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "62",
+                "qty": 100,
+                "price": 6200,
+                "vendor": "vendor3",
+                "processed": true
+            },
+            {
+                "item": "PCF ไก่หมักน้ำผึ้ง  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "62",
+                "qty": 100,
+                "price": 6200,
+                "vendor": "vendor2",
+                "processed": true
+            },
+            {
+                "item": "PCF หมูหมักไวน์แดง  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "71",
+                "qty": 100,
+                "price": 7100,
+                "vendor": "vendor1",
+                "processed": true
+            },
+            {
+                "item": "PCF หมูสามชั้นหมักน้ำมันงา  แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "99",
+                "qty": 100,
+                "price": 9900,
+                "vendor": "vendor2",
+                "processed": true
             }
         ],
-        "datetime": "1528047909845",
+        "datetime": "1528060037632",
         "delivery": "2018-06-04",
-        "status": "CONFIRMED",
+        "status": "SCHEDULED",
         "customer": "Customer",
-        "created": "2018-06-04T00:49:11.180Z",
-        "updated": "2018-06-04T00:49:11.180Z",
-        "id": "ORD6457994575",
-        "_id": "hHUR84Hj2ySJNKex",
+        "created": "2018-06-04T04:07:17.643Z",
+        "updated": "2018-06-04T04:07:17.643Z",
+        "id": "ORD1709054948",
+        "_id": "2efHLflIKl8hliNg",
         "payment": "kbank",
-        "payment_ref": "547352856375"
+        "payment_ref": "269121167211"
     }
 ]

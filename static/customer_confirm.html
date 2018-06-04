@@ -446,10 +446,14 @@
             $("#edit-btn").hide() 
             $("#confirm-delivery").hide()
 
-            function $_GET(q, s) {
-                s = (s) ? s : window.location.search;
-                var re = new RegExp('&amp;' + q + '=([^&amp;]*)', 'i');
-                return (s = s.replace(/^\?/, '&amp;').match(re)) ? s = s[1] : s = '';
+            function $_GET(sParam) {
+                var strparams = window.location.search.replace("?", "").split("&");
+                var params = {};
+                strparams.map(p => {
+                    temp = p.split("=");
+                    params[temp[0]] = temp[temp.length - 1];
+                });
+                return params[sParam];
             }
 
             function conf_de() {
@@ -484,11 +488,11 @@
 
                 order = get_data;
                 order.status = "PAID";
-                // order.po.status = "DELIVERED"
-                // order.invoice = {
-                //    id: order.id.replace("ORD", "INV"),
-                //    status: "RAISED"
-                // }
+                order.po.status = "DELIVERED"
+                order.invoice = {
+                    id: order.id.replace("ORD", "INV"),
+                    status: "RAISED"
+                }
                 for (var i = 0; i < order.arrayitem.length; i++) {
                     order.arrayitem[i].delivered = $('#zz'+(i+1)).val();
                     order.arrayitem[i].price = $('#xx'+(i+1)).text();
@@ -508,7 +512,7 @@
 
             function confirm() {
                 prices = $("#preorder").find(".price");
-                var order = get_data.filter(order => order.id == $_GET('id'))[0];
+                var order = get_data;
                 sum = 0
 
                 for (var i = 0; i < prices.length; i++) {
