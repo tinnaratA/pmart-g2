@@ -431,13 +431,13 @@
             }
             
             function add_to_table_inv(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "INV")});
+                var row = $("<tr />", {click: () => showdata(data._id, "INV")});
                 var col1 = $("<td />", {
                     text: data.invoice.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_1 = $("<td />", {
-                    text: data.po.id,
+                    text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
@@ -489,7 +489,15 @@
                     var rawPurchaseOrders = data.data;
                     rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
                 }
-            );   
+            );
+
+            $.get("/orders/list")
+            .done(
+                data => {
+                    var orders = data.data;
+                    orders.filter(o => o.invoice).map(add_to_table_inv);
+                }
+            )
        
             $("#hello").html("Hello! Vendor: "+saleinfo.name);
             updateDrawerUser()

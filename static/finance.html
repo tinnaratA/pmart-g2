@@ -308,7 +308,7 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_1 = $("<td />", {
-                    text: data.po.id,
+                    text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_2 = $("<td />", {
@@ -350,7 +350,6 @@
                     order.filter(order => order.invoice).map(add_to_table_inv)
                 }
             );
-            // $.get("/orders").then(order => order.filter(order=>order.invoice).map(add_to_table_inv))
             
             $("#hello").html("Hello! Account: "+saleinfo.name);
 

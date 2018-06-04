@@ -274,6 +274,34 @@ let get_p_order = (req, res) => {
     });
 }
 
+let edir_p_order = (req, res) => {
+    db[po_namespace].findOne({_id: req.params.po_id}, (err, data) => {
+        if(err){
+            console.error(err);
+            return res.status(500).send({success: false, data: err});
+        }
+        else
+        {
+            if(data){
+                var dataToUpdate = {
+                    $set: req.body
+                }
+                db[po_namespace].update({_id: data._id}, dataToUpdate, {multi: true}, (err) => {
+                    if(err){
+                        console.error(err)
+                        return res.status(500).send({success:false, data: "Unexpected Error(s)."})
+                    }
+                    return res.status(200).send({success: true, data: "Purchase Order has been updated."})
+                });
+            }
+            else
+            {
+                return res.status(240).send({success: true, data: "Purchase Order(s) Not Found."})
+            }
+        }
+    })
+}
+
 module.exports = {
     so: {
         orderList: order_s_list,
@@ -285,6 +313,7 @@ module.exports = {
     po: {
         purchaseList: order_p_list,
         createOrder: create_p_order,
-        getOrder: get_p_order
+        getOrder: get_p_order,
+        editOrder: edir_p_order
     }
 }

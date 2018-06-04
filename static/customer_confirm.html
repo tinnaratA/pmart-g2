@@ -485,14 +485,35 @@
                     openModal("Error", true, "Your PIN code is incorrect.", "OK", closeModal, false);
                     return;
                 }
-
                 order = get_data;
+                $.ajax('/orders/po/list?so=' + order._id, {
+                    method: "GET",
+                    contentType: 'application/json'
+                }).done(
+                    data => {
+                        var purchaseOrders = data.data;
+                        purchaseOrders.map(porder => {
+                            porder.status = "DELIVERED";
+                            $.ajax('/orders/po/edit/' + porder._id, {
+                                method: "PUT",
+                                contentType: 'application/json',
+                                data: JSON.stringify(porder)
+                            });
+                        });
+                    }
+                );
                 order.status = "PAID";
-                order.po.status = "DELIVERED"
                 order.invoice = {
                     id: order.id.replace("ORD", "INV"),
                     status: "RAISED"
                 }
+
+                $.ajax('/orders/edit/'+ order._id, {
+                    method: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify(order)
+                });
+
                 for (var i = 0; i < order.arrayitem.length; i++) {
                     order.arrayitem[i].delivered = $('#zz'+(i+1)).val();
                     order.arrayitem[i].price = $('#xx'+(i+1)).text();

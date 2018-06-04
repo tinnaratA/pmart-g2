@@ -257,10 +257,10 @@
                         <span id="headdata"></span>
                     </h3>
                     <form onsubmit="return false;">
-                        <!--<div class="bottom-right">
+                        <div class="bottom-right">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" id="conf">create purchase order</button>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirminvoice()" id="confinvoice">Confirm Invoice</button>
-                        </div>-->
+                        </div>
                         <h4 id="subheaddata"></h4>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" style="margin-top: 16px" id="preorder">
                             <thead>
@@ -376,7 +376,7 @@
             }
 
             function confirminvoice() {
-                order = get_data.filter(order => order.id == $_GET('id'))[0]
+                order = get_data;
                 order.invoice.status = "CONFIRM"
             
                 $.ajax("/orders/edit/"+ order._id, {
@@ -440,19 +440,23 @@
 
             type = $_GET('type');
             if(type == "INV"){
-                /*
-                $.get("/orders/list").
+                $.get("/orders/" + $_GET('id')).
                 done(data => {
                     var order = data.data;
+                    var filteredItems = order.arrayitem.map(addPreorder);
+                    $("#total").text((order.total * 0.95).toFixed(2));
                     $("#headdata").html("INV: "+ order.invoice.id)
                     $("#status").html(order.invoice.status)
-                    $("#subheaddata").html("SO: "+order.id)
+                    $("#subheaddata").html("SO: "+ order.id)
                     $("#subheaddata").show()
 
                     if(order.invoice && order.invoice.status &&  order.invoice.status == "RAISED")
-                        $("#confinvoice").show()
+                        $("#confinvoice").show();
+
+                    $("#delivery").html(order.delivery);
+                    
+                    get_data = order;
                 });
-                */
             }
             else if(type == "SO"){
                 $.get("orders/" + $_GET('id')).done(
