@@ -189,11 +189,13 @@
             a.mdl-navigation__link {
                 cursor: pointer;
             }
-            .bottom-right {
-                position: fixed;
-                right: 16px;
-                bottom: 16px;
-                z-index: 3;
+            .top-right {
+                position: absolute;
+                right: 24px;
+                top: 170px;
+            }
+            .thumbnail {
+                height: 100px;
             }
         </style>
     </header>
@@ -231,6 +233,22 @@
                     </button>
                 </div>
             </div>
+            <div class="modal">
+                <div class="modal-container">
+                    <div class="modal-title" id="modal-title"></div>
+                    <div class="divider"></div>
+                    <div class="modal-content" id="modal-content"></div>
+                    <div class="modal-action">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="modal-action">
+                            OK
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left: 8px;" onclick="closeModal()" id="modal-close">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-obfuscator"></div>
             <main class="mdl-layout__content">
                 <div class="page-content">
                     <h3 id="hello">Hello! Vendor 00001: PC FOOD CENTER CO.,LTD.</h3>
@@ -238,12 +256,19 @@
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
                         <thead>
                             <tr>
+                                <th>
+                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-all">
+                                        <input type="checkbox" id="checkbox-all" class="mdl-checkbox__input" onclick="checkedAll()">
+                                    </label>
+                                </th>
                                 <th class="mdl-data-table__cell--non-numeric">Sale Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Customer</td>
-                                <th class="mdl-data-table__cell--non-numeric">Date</th>
+                                <th class="mdl-data-table__cell--non-numeric">Image</th>
+                                <th class="mdl-data-table__cell--non-numeric">Product</td>
                                 <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
+                                <th class="mdl-data-table__cell--non-numeric">Unit</th>
+                                <th>Unit Price</th>
+                                <th>Quantity</th>
                                 <th>Total</th>
-                                <th class="mdl-data-table__cell--non-numeric">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -280,13 +305,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="bottom-right">
+                <div class="top-right">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">create purchase order</button>
                 </div>
             </main>
         </div>
         <script>
             var saleinfo = JSON.parse(localStorage.getItem("login"));
+            var globid = 1;
 
             function showdata(id, type){
                 window.location.href = "vendor_confirm.html?id="+id+"&type="+type
@@ -352,45 +378,46 @@
 
                 refreshMDL();
             }
-            
-            function add_to_table(data){
-                var row = $("<tr />", {click: () => showdata(data._id, "SO")});
-                if(data.status == "SCHEDULED")
-                    row = $("<tr></tr>");
+
+            function add_to_table(data, i){
+                row = $("<tr></tr>");
                 
-                var col1 = $("<td />", {
+                var index = globid;
+                var col1 = $("<td />")
+                    .append($("<label />", {class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect", for: "checkbox-"+index, click: () => onSeleted(index)})
+                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-"+index}))
+                );
+                var col2 = $("<td />", {
                     text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col1_1 = $("<td />", {
-                    text: data.customer,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toGMTString(),
-                    class: "mdl-data-table__cell--non-numeric"
-                });
                 var col3 = $("<td />", {
+                    class: "mdl-data-table__cell--non-numeric"
+                }).append("<img src='"+data.arrayitem[i].image+"' class='thumbnail' />");
+                var col4 = $("<td />", {
+                    text: data.arrayitem[i].item,
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col5 = $("<td />", {
                     text: data.delivery,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col4 = $("<td />", {
-                    text: (data.total * 0.95).toFixed(2)
-                });
-
-                var status_img;
-                switch(data.status){
-                    case "RAISED": status_img = "fiber_new"; break;
-                    case "CONFIRMED": status_img = "event_available"; break;
-                    case "SCHEDULED": status_img = "schedule"; break;
-                    case "PAID": status_img = "check_circle"; break;
-                }
-                var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
+                var col6 = $("<td />", {
+                    text: data.arrayitem[i].unit,
                     class: "mdl-data-table__cell--non-numeric"
                 });
+                var col7 = $("<td />", {
+                    text: (data.arrayitem[i].unitprice * 0.95).toFixed(2)
+                });
+                var col8 = $("<td />", {
+                    text: data.arrayitem[i].qty
+                });
+                var col9 = $("<td />", {
+                    text: (data.arrayitem[i].unitprice * data.arrayitem[i].qty * 0.95).toFixed(2)
+                });
             
-                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
+                globid++;
+                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7).append(col8).append(col9);
                 $("#orderlist").find('tbody').append(row);
             }
 
@@ -468,37 +495,47 @@
                 $("#invlist").find('tbody').append(row);
             }
             
-            $.get("/orders/list")
-            .done((data) => {
-                var orders = data.data;
-                filteredOrders = orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED');
-                var ordersToShow = filteredOrders.map(
-                    order => {
-                        var itemList = order.arrayitem.filter(o => o.vendor == saleinfo._id);
-                        order.arrayitem = itemList;
-                        return order;
-                    }
-                ).filter(o => o.arrayitem.length > 0);
-                ordersToShow.map(add_to_table);
-                localStorage.removeItem('confirmed_orders');
-                localStorage.setItem('confirmed_orders', JSON.stringify(ordersToShow));
-            });
-
-            $.get("/orders/po/list")
-            .done(
-                (data) => {
-                    var rawPurchaseOrders = data.data;
-                    rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
-                }
-            );
-
-            $.get("/orders/list")
-            .done(
-                data => {
+            var orderData;
+            function getSOList() {
+                $.get("/orders/list")
+                .done((data) => {
                     var orders = data.data;
+
+                    $("#orderlist").find('tbody').empty();
+                    $("#invlist").find('tbody').empty();
+
+                    // SO
+                    filteredOrders = orders.filter(orders => orders.status == 'CONFIRMED');
+                    var ordersToShow = filteredOrders.map(
+                        order => {
+                            var new_order = order;
+                            var itemList = order.arrayitem.filter(o => o.vendor == saleinfo._id && !o.processed);
+                            new_order.arrayitem = itemList;
+                            return new_order;
+                        }
+                    ).filter(o => o.arrayitem.length > 0);
+                    ordersToShow.map(ord => ord.arrayitem.map((x, i) => add_to_table(ord, i)));
+                    orderData = ordersToShow;
+
+                    // INV
                     orders.filter(o => o.invoice).map(add_to_table_inv);
-                }
-            )
+
+                    refreshMDL()
+                });
+            }
+
+            function getPOList() {
+                $.get("/orders/po/list")
+                .done(
+                    (data) => {
+                        var rawPurchaseOrders = data.data;
+                        $("#polist").find('tbody').empty();
+                        rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
+
+                        refreshMDL()
+                    }
+                );
+            }
        
             $("#hello").html("Hello! Vendor: "+saleinfo.name);
             updateDrawerUser()
@@ -507,23 +544,103 @@
                 $("#user-email").text(saleinfo.email ? saleinfo.email : "")
             }
 
+            updateTable();
+            function updateTable() {
+                getSOList();
+                getPOList();
+                closeModal();
+            }
+
             function generate_purchase_order(){
+                data = buildDataBeforeSend(orderData);
+                if(!data) {
+                    openModal("Error", true, "Please, select some items before create PO", "OK", closeModal, false);
+                    return;
+                }
+
                 $.ajax({
                     url: "/orders/po/create/" + saleinfo._id,
                     method: "POST",
                     contentType: "application/json",
-                    data: localStorage.getItem('confirmed_orders')
+                    data: JSON.stringify(data)
                 }).done(
                     resdata => {
-                        alert(resdata.data)
-                        // openModal("Success", true, resdata.responseJSON.data, "OK", closeModal, false);
+                        openModal("Success", true, resdata.data, "OK", updateTable, false);
                     }
                 ).fail(
                     resdata => {
-                        alert("These orders were processed.");
-                        // openModal("Error", true, "These orders were processed.", "OK", closeModal, false);
+                        openModal("Error", true, "These orders were processed.", "OK", closeModal, false);
                     }
                 );
+            }
+
+            function onSeleted(id) {
+                var main_checkbox = $("#checkbox-all");
+
+                if($("#checkbox-"+id).prop('checked')) {
+                    var checkboxs = $("#orderlist").find(".mdl-checkbox__input");
+                    all = true;
+                    for(var i = 0; i < checkboxs.length; i++) {
+                        if(checkboxs[i].id != "checkbox-all" && !checkboxs[i].checked) {
+                            all = false;
+                            break;
+                        }
+                    }
+
+                    if(all) {
+                        main_checkbox.parent().addClass("is-checked");
+                        main_checkbox.prop('checked', true);
+                    }
+                }
+                else {
+                    main_checkbox.parent().removeClass("is-checked");
+                    main_checkbox.prop('checked', false);
+                }
+            }
+
+            function checkedAll() {
+                if ($("#checkbox-all").prop('checked')) {
+                    $("#orderlist").find("label.mdl-checkbox").addClass("is-checked");
+                    $("#orderlist").find(".mdl-checkbox__input").prop("checked", true);
+                }
+                else {
+                    $("#orderlist").find("label.mdl-checkbox").removeClass("is-checked");
+                    $("#orderlist").find(".mdl-checkbox__input").prop("checked", false);
+                }
+            }
+
+            function buildDataBeforeSend(data) {
+                var checkboxs = $("#orderlist").find("tbody").find(".mdl-checkbox__input");
+                var blank_count = 0;
+                var flat_items = [];
+                var remove_target = [];
+                
+                for(var j = 0; j < data.length; j++){
+                    for(var k = 0; k < data[j].arrayitem.length; k++) {
+                        flat_items.push(data[j].arrayitem[k]);
+                    }
+                }
+                
+                for(var i = 0; i < checkboxs.length; i++) {
+                    if (checkboxs[i].checked) {
+                        remove_target.push(flat_items[i]);
+                    }
+                    else {
+                        blank_count++;
+                    }
+                }
+                
+                if(blank_count == checkboxs.length) {
+                    return null;
+                }
+                else {
+                    new_data = data.map(ord => { 
+                        temp = ord;
+                        temp.arrayitem = ord.arrayitem.filter(x => remove_target.indexOf(x) != -1);
+                        return temp;
+                    });
+                    return new_data.filter(x => x.arrayitem.length > 0);
+                }
             }
         </script>
     </body>
