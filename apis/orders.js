@@ -274,7 +274,7 @@ let get_p_order = (req, res) => {
     });
 }
 
-let edir_p_order = (req, res) => {
+let edit_p_order = (req, res) => {
     db[po_namespace].findOne({_id: req.params.po_id}, (err, data) => {
         if(err){
             console.error(err);
@@ -302,6 +302,41 @@ let edir_p_order = (req, res) => {
     })
 }
 
+let get_so_list = (req, res) => {
+    if(!req.params.po_id){
+        return res.status(400).send({success: false, data: 'Bad Request'})
+    }
+    else
+    {
+        db[po_namespace].findOne({_id: req.params.po_id}, (err, data) => {
+            if(err){
+                console.error(err)
+                return res.status(500).send({success:false, data: err})
+            }
+            else
+            {
+                if(data){
+                    var soIds = data.so;
+                    db[order_namespace].find({_id: { $in: soIds }}, (err, sorders) => {
+                        if(err){
+                            console.error(err);
+                            return res.status(500).send({success: true, data: err});
+                        }
+                        else
+                        {
+                            return res.status(200).send({success: true, data: sorders});
+                        }
+                    });
+                }
+                else
+                {
+                    return res.status(204).send({success: true, data: "Purchase Order(s) Not Found."})
+                }
+            }
+        });
+    }
+}
+
 module.exports = {
     so: {
         orderList: order_s_list,
@@ -314,6 +349,7 @@ module.exports = {
         purchaseList: order_p_list,
         createOrder: create_p_order,
         getOrder: get_p_order,
-        editOrder: edir_p_order
+        editOrder: edit_p_order,
+        getSoList: get_so_list
     }
 }

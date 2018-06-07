@@ -499,6 +499,7 @@
                     return;
                 }
                 order = get_data;
+                var orderArrayItems = order.arrayitem;
                 $.ajax('/orders/po/list?so=' + order._id, {
                     method: "GET",
                     contentType: 'application/json'
@@ -506,7 +507,21 @@
                     data => {
                         var purchaseOrders = data.data;
                         purchaseOrders.map(porder => {
-                            porder.status = "DELIVERED";
+                            var itemList = porder.items.map(item => {
+                                var soQty = orderArrayItems.filter(oitem => oitem.item == item.item)[0].qty;
+                                if(item.delivered === undefined){
+                                    item.delivered = 0;
+                                }
+                                item.delivered += soQty;
+
+                                if(item.delivered == item.qty){
+                                    porder.status = "DELIVERED";
+                                }else{
+                                    porder.status = "DELIVERING";
+                                }
+                                return item;
+                            });
+                            porder.items = itemList;
                             $.ajax('/orders/po/edit/' + porder._id, {
                                 method: "PUT",
                                 contentType: 'application/json',

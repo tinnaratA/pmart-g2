@@ -420,6 +420,7 @@
                 switch(data.status){
                     case "RAISED": status_img = "local_shipping"; break;
                     case "DELIVERED": status_img = "check_circle"; break;
+                    case "DELIVERING": status_img = "hourglass_empty"; break;
                 }
                 var col5 = $("<td />", {
                     html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
