@@ -152,6 +152,7 @@
             }
             .radio {
                 height: 100px;
+                padding-right: 16px;
             }
             .small-textfield {
                 padding: 0;
@@ -203,6 +204,11 @@
                 font-weight: bold;
             }
             .bottom-right {
+                width: 100%;
+                margin-top: 24px;
+                text-align: right;
+            }
+            .float-bottom-right {
                 position: fixed;
                 right: 24px;
                 bottom: 16px;
@@ -247,6 +253,9 @@
             }
             a.mdl-navigation__link {
                 cursor: pointer;
+            }
+            .thumbnail {
+                height: 100px;
             }
         </style>
     </header>
@@ -309,18 +318,10 @@
                         Sale Order: 
                         <span id="headdata"></span>
                     </h3>
-                    <div id="confirm-payment">
-                        <h4> Please Select Payment Method</h4>
-
+                    <div id="confirm-order-div">
+                        <h4 id="paymentheader"> Please Select Payment Method</h4>
                         <div id="paymentlist"></div>
-                        <br />
-                        <br />
-                        <div class="bottom-right btn-action" id="float-confirm">
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-top: 24px;" onclick="confirm()">
-                                Confirm Sale Order
-                            </button>
-                        </div>
-                        <div class="bottom-right btn-action hide" id="float-del">
+                        <div class="float-bottom-right btn-action hide" id="float-del">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-top: 24px;" onclick="deleteItem()">
                                 Delete
                             </button>
@@ -343,6 +344,7 @@
                                         </label>
                                     </th>
                                     <th class="mdl-data-table__cell--non-numeric">ID</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
                                     <th class="mdl-data-table__cell--non-numeric">Name</th>
                                     <th>Unit Price</th>
                                     <th class="mdl-data-table__cell--non-numeric">Unit</th>
@@ -354,23 +356,19 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="6">Grand Total:</td>
+                                    <td colspan="7">Grand Total:</td>
                                     <td id='grandtotal'></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
-                    <div id="confirm-delivery">
-                        <div class="bottom-right">
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="conf_de()">
-                                Confirm Delivery
-                            </button>
-                        </div>
+                    <div id="confirm-delivery-div">
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder-delivery">
                             <col width="48">
                             <thead>
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">ID</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
                                     <th class="mdl-data-table__cell--non-numeric">Name</th>
                                     <th>Unit Price</th>
                                     <th class="mdl-data-table__cell--non-numeric">Unit</th>
@@ -383,7 +381,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="6">Grand Total:</td>
+                                    <td colspan="7">Grand Total:</td>
                                     <td id='grandtotal-delivery'>0</td>
                                 </tr>
                             </tfoot>
@@ -391,6 +389,16 @@
                     </div>
                     <h5>Delivery Date: <span id="delivery"></span></h5>
                     <h5>Order Status: <span id="status"></span></h5>
+                    <div class="bottom-right btn-action" id="SO-conf-btn">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-top: 24px;" onclick="confirm()">
+                            Confirm Sale Order
+                        </button>
+                    </div>
+                    <div class="bottom-right" id="delivery-conf-btn">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="conf_de()">
+                            Confirm Delivery
+                        </button>
+                    </div>
                 </div>
             </main>
         </div>
@@ -442,9 +450,14 @@
                 componentHandler.upgradeDom();
             }
 
-            $("#confirm-payment").hide() 
+            $("#confirm-order-div").hide() 
             $("#edit-btn").hide() 
-            $("#confirm-delivery").hide()
+            $("#confirm-delivery-div").hide()
+            $("#SO-conf-btn").hide()
+            $("#delivery-conf-btn").hide()
+
+            $("#paymentlist").hide()
+            $("#paymentheader").hide()
 
             function $_GET(sParam) {
                 var strparams = window.location.search.replace("?", "").split("&");
@@ -578,34 +591,35 @@
                     text: index,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col2 = $("<td />", {
+                var col2 = $("<td />", {class: "mdl-data-table__cell--non-numeric"}).append("<img src='"+data.image+"' class='thumbnail' />")
+                var col3 = $("<td />", {
                     id: 'q' + index,
                     text: data.item,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col3 = $("<td />", {
+                var col4 = $("<td />", {
                     text: data.unitprice,
                     id: 'y' + index
                 });
-                var col4 = $("<td />", {
+                var col5 = $("<td />", {
                     id: 'w' + index,
                     text: data.unit,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col5 = $("<td />")
+                var col6 = $("<td />")
                     .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield"})
                         .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "z" + index, value: data.qty, pattern: "-?[0-9]*(\.[0-9]+)?", disabled: true}).keyup(() => setvalue(index, 'preorder')))
                         .append($("<label />", {class: "mdl-textfield__label", for: "z" + index, text: ""}))
                         .append($("<span />", {class: "mdl-textfield__error", text: "Input is not a number!"}))
                     );
                 
-                var col6 = $("<td />", {
+                var col7 = $("<td />", {
                     id: 'x' + index,
                     text: data.price,
                     class: "price"
                 });
                 globid++;
-                row.append(col0).append(col1).append(col2).append(col3).append(col4).append(col5).append(col6)
+                row.append(col0).append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7)
                 $("#preorder").find('tbody').append(row);
             }
 
@@ -618,38 +632,39 @@
                     text: index,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col2 = $("<td />", {
+                var col2 = $("<td />", {class: "mdl-data-table__cell--non-numeric"}).append("<img src='"+data.image+"' class='thumbnail' />")
+                var col3 = $("<td />", {
                     id: 'qq' + index,
                     text: data.item,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col3 = $("<td />", {
+                var col4 = $("<td />", {
                     text: data.unitprice,
                     id: 'yy' + index
                 });
-                var col4 = $("<td />", {
+                var col5 = $("<td />", {
                     id: 'ww' + index,
                     text: data.unit,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col5 = $("<td />", {
+                var col6 = $("<td />", {
                     id: 'cc' + index,
                     text: data.qty
                 });
-                var col6 = $("<td />")
+                var col7 = $("<td />")
                     .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield"})
                         .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "zz" + index, value: data.qty, pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(index, 'preorder-delivery')))
                         .append($("<label />", {class: "mdl-textfield__label", for: "z" + index, text: ""}))
                         .append($("<span />", {class: "mdl-textfield__error", text: "Input is not a number!"}))
                     );
                 
-                var col7 = $("<td />", {
+                var col8 = $("<td />", {
                     id: 'xx' + index,
                     text: data.price,
                     class: "price"
                 });
                 globid++;
-                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7);
+                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7).append(col8);
                 $("#preorder-delivery").find('tbody').append(row);
             }
 
@@ -660,18 +675,32 @@
                     $("#delivery").text(order.delivery)
                     $("#status").text(order.status)
                     if (order.status == "RAISED"){
+                        $("#paymentheader").show()
+                        $("#paymentlist").show()
                         order.arrayitem.map(addPreorder)
                         $("#grandtotal").text(order.total)
-                        $("#confirm-payment").show()
+                        $("#confirm-order-div").show()
                         $("#edit-btn").show()
+                        $("#SO-conf-btn").show()
                     }
-                            
-                    if (order.status == "SCHEDULED") {
+                    else if (order.status == "SCHEDULED") {
                         order.arrayitem.map(addPreorderDelivery)
                         $("#grandtotal-delivery").text(order.total)
-                        $("#confirm-delivery").show()
-                        $("#edit-btn").attr("disabled", false);
-                        $("#del-btn").attr("disabled", false);
+                        $("#confirm-delivery-div").show()
+                        // $("#edit-btn").attr("disabled", false)
+                        // $("#del-btn").attr("disabled", false)
+                        $("#delivery-conf-btn").show()
+                    }
+                    else if (order.status == "CONFIRMED")  {
+                        order.arrayitem.map(addPreorder)
+                        $("#grandtotal").text(order.total)
+                        $("#confirm-order-div").show()
+                    }
+                    else if (order.status == "PAID")  {
+                        order.arrayitem.map(addPreorderDelivery)
+                        $("#grandtotal-delivery").text(order.total)
+                        $("#confirm-delivery-div").show()
+                        toggleTextfield($("#preorder-delivery").find(".mdl-textfield__input"));
                     }
 
                     get_data = order;
@@ -697,7 +726,7 @@
             }
 
             function onDelete() {
-                toggleClass($("#float-confirm"), "hide");
+                toggleClass($("#SO-conf-btn"), "hide");
                 toggleClass($("#float-del"), "hide");
                 toggleDisableButton($("#edit-btn"));
                 toggleSelectable('preorder');

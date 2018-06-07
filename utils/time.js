@@ -2,7 +2,7 @@ to_local_time = (time) => {
     var d = new Date(time);
     var offset = (new Date().getTimezoneOffset() / 60) * -1 * 3600 * 1000;
     var n = new Date(d.getTime() + offset);
-    return n;
+    return n.toISOString();
 }
 
 set_object_timestamp = (obj) => {

@@ -9,6 +9,7 @@
                 "qty": 100,
                 "price": 6200,
                 "vendor": "vendor3",
+                "image": "img/product/12.jpg",
                 "processed": true
             },
             {
@@ -18,6 +19,7 @@
                 "qty": 100,
                 "price": 7100,
                 "vendor": "vendor1",
+                "image": "img/product/3.jpg",
                 "processed": true
             },
             {
@@ -27,6 +29,7 @@
                 "qty": 100,
                 "price": 7100,
                 "vendor": "vendor1",
+                "image": "img/product/5.jpg",
                 "processed": true
             },
             {
@@ -36,6 +39,7 @@
                 "qty": 100,
                 "price": 6900,
                 "vendor": "vendor1",
+                "image": "img/product/1.jpg",
                 "processed": true
             },
             {
@@ -45,6 +49,7 @@
                 "qty": 100,
                 "price": 7100,
                 "vendor": "vendor2",
+                "image": "img/product/6.jpg",
                 "processed": true
             },
             {
@@ -54,6 +59,7 @@
                 "qty": 100,
                 "price": 14100,
                 "vendor": "vendor3",
+                "image": "img/product/14.jpg",
                 "processed": true
             },
             {
@@ -63,6 +69,7 @@
                 "qty": 100,
                 "price": 9900,
                 "vendor": "vendor2",
+                "image": "img/product/8.jpg",
                 "processed": true
             },
             {
@@ -72,6 +79,7 @@
                 "qty": 100,
                 "price": 7100,
                 "vendor": "vendor1",
+                "image": "img/product/2.jpg",
                 "processed": true
             },
             {
@@ -81,6 +89,7 @@
                 "qty": 100,
                 "price": 6200,
                 "vendor": "vendor3",
+                "image": "img/product/11.jpg",
                 "processed": true
             },
             {
@@ -90,6 +99,7 @@
                 "qty": 100,
                 "price": 14100,
                 "vendor": "vendor3",
+                "image": "img/product/15.jpg",
                 "processed": true
             },
             {
@@ -99,6 +109,7 @@
                 "qty": 100,
                 "price": 6200,
                 "vendor": "vendor2",
+                "image": "img/product/9.jpg",
                 "processed": true
             },
             {
@@ -108,6 +119,7 @@
                 "qty": 100,
                 "price": 6200,
                 "vendor": "vendor3",
+                "image": "img/product/13.jpg",
                 "processed": true
             },
             {
@@ -117,6 +129,7 @@
                 "qty": 100,
                 "price": 6200,
                 "vendor": "vendor2",
+                "image": "img/product/10.jpg",
                 "processed": true
             },
             {
@@ -126,6 +139,7 @@
                 "qty": 100,
                 "price": 7100,
                 "vendor": "vendor1",
+                "image": "img/product/4.jpg",
                 "processed": true
             },
             {
@@ -135,6 +149,7 @@
                 "qty": 100,
                 "price": 9900,
                 "vendor": "vendor2",
+                "image": "img/product/7.jpg",
                 "processed": true
             }
         ],
