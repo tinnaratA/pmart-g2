@@ -210,7 +210,7 @@
                     <span class="mdl-layout-title">Horizont</span>
                     <div class="mdl-layout-spacer"></div>
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" onclick="logout()">Log out</a>
+                        <a class="mdl-navigation__link" onclick="logout()">ออกจากระบบ</a>
                     </nav>
                 </div>
             </header>
@@ -226,13 +226,13 @@
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="location.href='customer.html'">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">home</i>
-                            <span class="menu-btn-text">Home</span>
+                            <span class="menu-btn-text">หน้าหลัก</span>
                         </div>
                     </button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="logout()">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">exit_to_app</i>
-                            <span class="menu-btn-text">Log Out</span>
+                            <span class="menu-btn-text">ออกจากระบบ</span>
                         </div>
                     </button>
                 </div>
@@ -244,10 +244,10 @@
                     <div class="modal-content" id="modal-content"></div>
                     <div class="modal-action">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="modal-action">
-                            OK
+                            ตกลง
                         </button>
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left: 8px;" onclick="closeModal()" id="modal-close">
-                            Close
+                            ปิด
                         </button>
                     </div>
                 </div>
@@ -259,10 +259,10 @@
                         <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored icon48" onclick="location.href='customer.html'">
                             <i class="material-icons icon48">navigate_before</i>
                         </button>
-                        New Order
+                        รายการใหม่
                     </h3>
                     <form id="order" onsubmit="order();return false;">
-                        <b style="margin-right: 8px;">Delivery Date:</b> 
+                        <b style="margin-right: 8px;">วันส่ง:</b> 
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <input class="mdl-textfield__input" type="text" id="datepicker">
                             <label class="mdl-textfield__label" for="datepicker">Delivery Date</label>
@@ -270,27 +270,27 @@
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder">
                             <thead>
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric">ID</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                                    <th>Unit Price</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                    <th class="mdl-data-table__cell--non-numeric">ภาพตัวอย่าง</th>
+                                    <th class="mdl-data-table__cell--non-numeric">รายการ</th>
+                                    <th>หน่วยละ</th>
+                                    <th class="mdl-data-table__cell--non-numeric">หน่วย</th>
+                                    <th>จำนวน</th>
+                                    <th>ราคา</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="6"><b>Grand Total:</b></td>
+                                    <td colspan="6"><b>ราคาสุทธิ:</b></td>
                                     <td id='grandtotal'>0</td>
                                 </tr>
                             </tfoot>
                         </table>
                         <div class="bottom-right">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                Raise
+                                ตกลง
                             </button>
                         </div>
                     </form>

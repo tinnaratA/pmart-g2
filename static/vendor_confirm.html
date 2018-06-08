@@ -208,7 +208,7 @@
                     <span class="mdl-layout-title">Horizont</span>
                     <div class="mdl-layout-spacer"></div>
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" onclick="logout()">Log out</a>
+                        <a class="mdl-navigation__link" onclick="logout()">ออกจากระบบ</a>
                     </nav>
                 </div>
             </header>
@@ -224,13 +224,13 @@
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="location.href='vendor.html'">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">home</i>
-                            <span class="menu-btn-text">Home</span>
+                            <span class="menu-btn-text">หน้าหลัก</span>
                         </div>
                     </button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="logout()">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">exit_to_app</i>
-                            <span class="menu-btn-text">Log Out</span>
+                            <span class="menu-btn-text">ออกจากระบบ</span>
                         </div>
                     </button>
                 </div>
@@ -242,10 +242,10 @@
                     <div class="modal-content" id="modal-content"></div>
                     <div class="modal-action">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="modal-action">
-                            OK
+                            ตกลง
                         </button>
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left: 8px;" onclick="closeModal()" id="modal-close">
-                            Close
+                            ปิด
                         </button>
                     </div>
                 </div>
@@ -261,34 +261,34 @@
                     </h3>
                     <form onsubmit="return false;">
                         <div class="bottom-right">
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" id="conf">create purchase order</button>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirminvoice()" id="confinvoice">Confirm Invoice</button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" id="conf">เพิ่มรายการสั่งซื้อ</button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirminvoice()" id="confinvoice">ยืนยันใบกำกับสินค้า</button>
                         </div>
                         <h4 id="subheaddata"></h4>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" style="margin-top: 16px" id="preorder">
                             <thead>
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric">ID</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                                    <th>Unit Price</th>
-                                    <th class="mdl-data-table__cell--non-numeric">unit </th>
-                                    <th>Quantity</th>
-                                    <th>Delivered</th>
-                                    <th>Price</th>
+                                    <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                    <th class="mdl-data-table__cell--non-numeric">ภาพตัวอย่าง</th>
+                                    <th class="mdl-data-table__cell--non-numeric">รายการ</th>
+                                    <th>หน่วยละ</th>
+                                    <th class="mdl-data-table__cell--non-numeric">หน่วย</th>
+                                    <th>จำนวน</th>
+                                    <th>จำนวนที่ส่งแล้ว</th>
+                                    <th>ราคา</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7"><b>Total:</b></td>
+                                    <td colspan="7"><b>ราคาสุทธิ:</b></td>
                                     <td id='total'>0</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </form>
-                    <h5>Delivery Date: <span id="delivery"></span></h5>
-                    <h5>Status: <span id="status"></span></h5>
+                    <h5>วันส่ง: <span id="delivery"></span></h5>
+                    <h5>สถานะ: <span id="status"></span></h5>
                 </div>
             </main>     
         </div>
@@ -382,7 +382,6 @@
             function confirminvoice() {
                 inv = get_data;
                 inv.status = "CONFIRMED"
-                console.log(inv);
             
                 $.ajax("/invoices/edit/"+ inv._id, {
                     data: JSON.stringify(inv),
@@ -453,7 +452,7 @@
                     var inv = data.data;
                     var filteredItems = inv.items.map(addPreorder);
                     $("#total").text((inv.total * 0.95).toFixed(2));
-                    $("#headdata").html("INV: "+ inv.id)
+                    $("#headdata").html("ใบกำกับเลขที่: "+ inv.id)
                     $("#status").html(inv.status)
                     $("#subheaddata").html(inv.purchaseOrder)
                     $("#subheaddata").show()
@@ -475,7 +474,7 @@
                         filteredItems.map(addPreorder);
                         $("#total").text((order.total * 0.95).toFixed(2));
 
-                        $("#headdata").html("SO: "+order.id);
+                        $("#headdata").html("เลขที่รายการสั่งซื้อของร้านค้า: "+order.id);
                         $("#status").html(order.status);
                         $("#subheaddata").hide()
 
@@ -494,9 +493,9 @@
                         var purchaseOrder = data.data;
                         purchaseOrder.items.map(addPreorder);
                         $("#total").text(purchaseOrder.total.toFixed(2));
-                        $("#headdata").html("PO: "+ purchaseOrder.id);
+                        $("#headdata").html("เลขที่รายการสั่งซื้อ: "+ purchaseOrder.id);
                         $("#status").html(purchaseOrder.status);
-                        $("#subheaddata").html("SO: "+ purchaseOrder.id);
+                        $("#subheaddata").html("เลขที่รายการสั่งซื้อของร้านค้า: "+ purchaseOrder.id);
                         $("#subheaddata").show();
 
 

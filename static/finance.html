@@ -184,7 +184,7 @@
                         <span class="mdl-layout-title">Horizont</span>
                         <div class="mdl-layout-spacer"></div>
                         <nav class="mdl-navigation">
-                            <a class="mdl-navigation__link" onclick="logout()">Log out</a>
+                            <a class="mdl-navigation__link" onclick="logout()">ออกจากระบบ</a>
                         </nav>
                     </div>
             </header>
@@ -200,13 +200,13 @@
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="location.href='finance.html'">
                             <div class="menu-btn-icon">
                                 <i class="material-icons menu-btn-icon">home</i>
-                                <span class="menu-btn-text">Home</span>
+                                <span class="menu-btn-text">หน้าหลัก</span>
                             </div>
                         </button>
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="logout()">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">exit_to_app</i>
-                            <span class="menu-btn-text">Log Out</span>
+                            <span class="menu-btn-text">ออกจากระบบ</span>
                         </div>
                     </button>
                 </div>
@@ -302,7 +302,6 @@
             }
 
             function add_to_table_inv(data){
-                console.log(data);
                 var now = new Date(data.date);
                 var delivery_date = new Date(data.delivery)
 
@@ -351,13 +350,12 @@
             
             $.get("/invoices/list").done(
                 (data) => {
-                    console.log(data);
                     var invoices = data.data;
                     invoices.map(add_to_table_inv);
                 }
             );
             
-            $("#hello").html("Hello! Account: "+saleinfo.name);
+            $("#hello").html("สวัสดี คุณ: "+saleinfo.name);
 
             updateDrawerUser()
             function updateDrawerUser() {

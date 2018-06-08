@@ -266,7 +266,7 @@
                     <span class="mdl-layout-title">Horizont</span>
                     <div class="mdl-layout-spacer"></div>
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" onclick="logout()">Log out</a>
+                        <a class="mdl-navigation__link" onclick="logout()">ออกจากระบบ</a>
                     </nav>
                 </div>
             </header>
@@ -282,13 +282,13 @@
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="location.href='customer.html'">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">home</i>
-                            <span class="menu-btn-text">Home</span>
+                            <span class="menu-btn-text">หน้าหลัก</span>
                         </div>
                     </button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="logout()">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">exit_to_app</i>
-                            <span class="menu-btn-text">Log Out</span>
+                            <span class="menu-btn-text">ออกจากระบบ</span>
                         </div>
                     </button>
                 </div>
@@ -300,10 +300,10 @@
                     <div class="modal-content" id="modal-content"></div>
                     <div class="modal-action">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="modal-action">
-                            OK
+                            ตกลง
                         </button>
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left: 8px;" onclick="closeModal()" id="modal-close">
-                            Close
+                            ปิด
                         </button>
                     </div>
                 </div>
@@ -315,15 +315,15 @@
                         <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored icon48" onclick="location.href='customer.html'">
                             <i class="material-icons icon48">navigate_before</i>
                         </button>
-                        Sale Order: 
+                        รายการเลขที่: 
                         <span id="headdata"></span>
                     </h3>
                     <div id="confirm-order-div">
-                        <h4 id="paymentheader"> Please Select Payment Method</h4>
+                        <h4 id="paymentheader"> กรุณาเลือกวิธีการชำระเงิน</h4>
                         <div id="paymentlist"></div>
                         <div class="float-bottom-right btn-action hide" id="float-del">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-top: 24px;" onclick="deleteItem()">
-                                Delete
+                                ลบ
                             </button>
                         </div>
                         <div class="align-right" style="margin-top: 16px;">
@@ -343,20 +343,20 @@
                                             <input type="checkbox" id="checkbox-all" class="mdl-checkbox__input" onclick="checkedAll()">
                                         </label>
                                     </th>
-                                    <th class="mdl-data-table__cell--non-numeric">ID</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                                    <th>Unit Price</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                    <th class="mdl-data-table__cell--non-numeric">ภาพตัวอย่าง</th>
+                                    <th class="mdl-data-table__cell--non-numeric">รายการ</th>
+                                    <th>หน่วยละ</th>
+                                    <th class="mdl-data-table__cell--non-numeric">หน่วย</th>
+                                    <th>จำนวน</th>
+                                    <th>ราคา</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7">Grand Total:</td>
+                                    <td colspan="7">ราคาสุทธิ:</td>
                                     <td id='grandtotal'></td>
                                 </tr>
                             </tfoot>
@@ -367,36 +367,36 @@
                             <col width="48">
                             <thead>
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric">ID</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                                    <th>Unit Price</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Delivered</th>
-                                    <th>Price</th>
+                                    <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                    <th class="mdl-data-table__cell--non-numeric">ภาพตัวอย่าง</th>
+                                    <th class="mdl-data-table__cell--non-numeric">รายการ</th>
+                                    <th>หน่วยละ</th>
+                                    <th class="mdl-data-table__cell--non-numeric">หน่วย</th>
+                                    <th>จำนวน</th>
+                                    <th>จำนวนที่ส่งแล้ว</th>
+                                    <th>ราคา</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7">Grand Total:</td>
+                                    <td colspan="7">ราคาสุทธิ:</td>
                                     <td id='grandtotal-delivery'>0</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
-                    <h5>Delivery Date: <span id="delivery"></span></h5>
-                    <h5>Order Status: <span id="status"></span></h5>
+                    <h5>วันส่ง: <span id="delivery"></span></h5>
+                    <h5>สถานะ: <span id="status"></span></h5>
                     <div class="bottom-right btn-action" id="SO-conf-btn">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-top: 24px;" onclick="confirm()">
-                            Confirm Sale Order
+                            ยืนยันรายการสั่งซื้อ
                         </button>
                     </div>
                     <div class="bottom-right" id="delivery-conf-btn">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="conf_de()">
-                            Confirm Delivery
+                            ยืนยันการส่ง
                         </button>
                     </div>
                 </div>

@@ -187,7 +187,7 @@
                     <span class="mdl-layout-title">Horizont</span>
                     <div class="mdl-layout-spacer"></div>
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" onclick="logout()">Log out</a>
+                        <a class="mdl-navigation__link" onclick="logout()">ออกจากระบบ</a>
                     </nav>
                 </div>
             </header>
@@ -203,13 +203,13 @@
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="location.href='customer.html'">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">home</i>
-                            <span class="menu-btn-text">Home</span>
+                            <span class="menu-btn-text">หน้าหลัก</span>
                         </div>
                     </button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="logout()">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">exit_to_app</i>
-                            <span class="menu-btn-text">Log Out</span>
+                            <span class="menu-btn-text">ออกจากระบบ</span>
                         </div>
                     </button>
                 </div>
@@ -221,10 +221,10 @@
                     <div class="modal-content" id="modal-content"></div>
                     <div class="modal-action">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="modal-action">
-                            OK
+                            ตกลง
                         </button>
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left: 8px;" onclick="closeModal()" id="modal-close">
-                            Close
+                            ปิด
                         </button>
                     </div>
                 </div>
@@ -237,17 +237,17 @@
                     </button>
                 </div>
                 <div class="page-content">
-                    <h3 id="hello">Hello! Customer: เล็งแซ่บเมืองนนท์ ก๋วยเตี๋ยวต้มยำโบราณ</h3>
+                    <h3 id="hello">สวัสดี! คุณเล็งแซ่บเมืองนนท์ ก๋วยเตี๋ยวต้มยำโบราณ</h3>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
                         <thead>
                             <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Sale Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Payment</th>
-                                <th class="mdl-data-table__cell--non-numeric">Reference Number</th>
-                                <th>Total</th>
-                                <th class="mdl-data-table__cell--non-numeric">Status</th>
+                                <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">วันที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">วันส่ง</th>
+                                <th class="mdl-data-table__cell--non-numeric">ข้อมูลการเงิน</th>
+                                <th class="mdl-data-table__cell--non-numeric">เลขที่อ้างอิง</th>
+                                <th>จำนวน</th>
+                                <th class="mdl-data-table__cell--non-numeric">สถานะ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -391,7 +391,7 @@
             .done(orders => orders.data.filter(o => o.customer == saleinfo.name).map(add_to_table))
             .fail((data) => openModal("Error", true, "Cannot get order list, Please contact admin.", "OK", closeModal, false));
 	        
-            $("#hello").html("Hello! Customer: "+ saleinfo.name);
+            $("#hello").html("สวัสดี คุณ "+ saleinfo.name);
         </script>
     </body>
 </html>

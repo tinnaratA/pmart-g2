@@ -206,7 +206,7 @@
                     <span class="mdl-layout-title">Horizont</span>
                     <div class="mdl-layout-spacer"></div>
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" onclick="logout()">Log out</a>
+                        <a class="mdl-navigation__link" onclick="logout()">ออกจากระบบ</a>
                     </nav>
                 </div>
             </header>
@@ -222,13 +222,13 @@
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="location.href='vendor.html'">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">home</i>
-                            <span class="menu-btn-text">Home</span>
+                            <span class="menu-btn-text">หน้าหลัก</span>
                         </div>
                     </button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect custom-color-ripple menu-btn" onclick="logout()">
                         <div class="menu-btn-icon">
                             <i class="material-icons menu-btn-icon">exit_to_app</i>
-                            <span class="menu-btn-text">Log Out</span>
+                            <span class="menu-btn-text">ออกจากระบบ</span>
                         </div>
                     </button>
                 </div>
@@ -240,10 +240,10 @@
                     <div class="modal-content" id="modal-content"></div>
                     <div class="modal-action">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="modal-action">
-                            OK
+                            ตกลง
                         </button>
                         <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left: 8px;" onclick="closeModal()" id="modal-close">
-                            Close
+                            ปิด
                         </button>
                     </div>
                 </div>
@@ -252,7 +252,7 @@
             <main class="mdl-layout__content">
                 <div class="page-content">
                     <h3 id="hello">Hello! Vendor 00001: PC FOOD CENTER CO.,LTD.</h3>
-                    <h5><img src="img/so.png" alt="SO" height="100" style="padding-right: 16px;">Incoming Sale Order</h5>
+                    <h5><img src="img/so.png" alt="SO" height="100" style="padding-right: 16px;">รายการสั่งซื้อของร้านค้า</h5>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
                         <thead>
                             <tr>
@@ -261,44 +261,44 @@
                                         <input type="checkbox" id="checkbox-all" class="mdl-checkbox__input" onclick="checkedAll()">
                                     </label>
                                 </th>
-                                <th class="mdl-data-table__cell--non-numeric">Sale Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Image</th>
-                                <th class="mdl-data-table__cell--non-numeric">Product</td>
-                                <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Unit</th>
-                                <th>Unit Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
+                                <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">ภาพตัวอย่าง</th>
+                                <th class="mdl-data-table__cell--non-numeric">รายการ</td>
+                                <th class="mdl-data-table__cell--non-numeric">วันส่ง</th>
+                                <th class="mdl-data-table__cell--non-numeric">หน่วย</th>
+                                <th>หน่วยละ</th>
+                                <th>จำนวน</th>
+                                <th>ราคา</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
-                    <h5><img src="img/po.png" alt="PO" height="100" style="padding-right: 16px;">Purchase Order List</h5>
+                    <h5><img src="img/po.png" alt="PO" height="100" style="padding-right: 16px;">รายการสั่งซื้อ</h5>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="polist">
                         <thead>
                             <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Purchase Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Sale Order ID</td>
-                                <th class="mdl-data-table__cell--non-numeric">Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th>Total</th>
-                                <th class="mdl-data-table__cell--non-numeric">Status</th>
+                                <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">ผู้ดำเนินการ</td>
+                                <th class="mdl-data-table__cell--non-numeric">วันที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">วันส่ง</th>
+                                <th>ราคา</th>
+                                <th class="mdl-data-table__cell--non-numeric">สถานะ</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
-                    <h5><img src="img/inv.png" alt="inv" height="100" style="padding-right: 16px;">Invoice List</h5>
+                    <h5><img src="img/inv.png" alt="inv" height="100" style="padding-right: 16px;">ใบกำกับสินค้า</h5>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="invlist">
                         <thead>
                             <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Invoice ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Purchase Order ID</td>
-                                <th class="mdl-data-table__cell--non-numeric">Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th>Total</th>
-                                <th class="mdl-data-table__cell--non-numeric">Status</th>
+                                <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">เลขที่รายการสั่งซื้อของร้านค้า</td>
+                                <th class="mdl-data-table__cell--non-numeric">วันที่</th>
+                                <th class="mdl-data-table__cell--non-numeric">วันส่ง</th>
+                                <th>ราคา</th>
+                                <th class="mdl-data-table__cell--non-numeric">สถานะ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -306,8 +306,8 @@
                     </table>
                 </div>
                 <div class="top-right">
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">create purchase order</button>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_invoice()" id="invbutton">create invoice</button>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">เพิ่มรายการสั่งซื้อ</button>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_invoice()" id="invbutton">เพิ่มใบกำกับสินค้า</button>
                 </div>
             </main>
         </div>
@@ -568,7 +568,7 @@
                 );
             }
        
-            $("#hello").html("Hello! Vendor: "+saleinfo.name);
+            $("#hello").html("สวัสดี คุณ "+saleinfo.name);
             updateDrawerUser()
             function updateDrawerUser() {
                 $("#user-name").text(saleinfo.name ? saleinfo.name : "" + " " + saleinfo.surname ? saleinfo.surname : "")
