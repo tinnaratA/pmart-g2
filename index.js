@@ -24,7 +24,6 @@ app.use(express.static('./static'));
 
 app.use((req, res, next) => {
   token = req.headers.token || null;
-  // validated token;
   next();
 });
 
@@ -66,5 +65,12 @@ app.get('/customers/list', customer_apis.customerList);
 // Vendors APIs
 vendor_apis = require("./apis/vendors");
 app.get('vendors/list', vendor_apis.vendorList);
+
+// Invoice APIs
+inv_apis = require("./apis/invoices");
+app.get('/invoices/list', inv_apis.invoiceList);
+app.get('/invoices/:inv_id', inv_apis.getInvoice);
+app.post('/invoices/create', inv_apis.createInvoice);
+app.put('/invoices/edit/:inv_id', inv_apis.editInvoice);
 
 app.listen(2001, () => console.log('Application listening on port 2001!'));

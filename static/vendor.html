@@ -307,6 +307,7 @@
                 </div>
                 <div class="top-right">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">create purchase order</button>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_invoice()" id="invbutton">create invoice</button>
                 </div>
             </main>
         </div>
@@ -422,6 +423,9 @@
             }
 
             function add_to_table_delivery(data){
+                var now = new Date(data.date);
+                var delivery_date = new Date(data.delivery);
+
                 var row = $("<tr />", {click: () => showdata(data._id, "PO")});
                 var col1 = $("<td />", {
                     text: data.id,
@@ -432,11 +436,11 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
-                    text: new Date().toGMTString(),
+                    text: now.toDateString() + " " + now.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col3 = $("<td />", {
-                    text: new Date(data.delivery).toGMTString(),
+                    text: delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
@@ -459,21 +463,25 @@
             }
             
             function add_to_table_inv(data){
+
+                var now = new Date(data.date);
+                var delivery_date = new Date(data.delivery);
+
                 var row = $("<tr />", {click: () => showdata(data._id, "INV")});
                 var col1 = $("<td />", {
-                    text: data.invoice.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col1_1 = $("<td />", {
                     text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
+                var col1_1 = $("<td />", {
+                    text: data.purchaseOrder,
+                    class: "mdl-data-table__cell--non-numeric"
+                });
                 var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
+                    text: now.toDateString() + " " + now.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col3 = $("<td />", {
-                    text: data.delivery,
+                    text: delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
@@ -481,13 +489,13 @@
                 });
 
                 var status_img;
-                switch(data.invoice.status){
+                switch(data.status){
                     case "RAISED": status_img = "fiber_new"; break;
-                    case "CONFIRM": status_img = "event_available"; break;
+                    case "CONFIRMED": status_img = "event_available"; break;
                     case "PAID": status_img = "check_circle"; break;
                 }
                 var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.invoice.status+"</span>",
+                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
                     class: "mdl-data-table__cell--non-numeric"
                 });
             
@@ -514,25 +522,48 @@
                             return new_order;
                         }
                     ).filter(o => o.arrayitem.length > 0);
+                    if(ordersToShow.length <= 0){
+                        $("#conf").hide();
+                    }
                     ordersToShow.map(ord => ord.arrayitem.map((x, i) => add_to_table(ord, i)));
                     orderData = ordersToShow;
-
-                    // INV
-                    orders.filter(o => o.invoice).map(add_to_table_inv);
-
-                    refreshMDL()
+                    refreshMDL();
                 });
             }
 
+            function getInvList(){
+                $.get('invoices/list?vendor=' + saleinfo._id)
+                .done(
+                    data => {
+                        if(data && data !== undefined){
+                            var invoices = data.data;
+                            invoices.map(add_to_table_inv);
+                        }
+                    }
+                ).fail(
+                    data => {
+                        openModal("Error", true, data.data, "OK", closeModal, false);
+                    }
+                );
+            }
+
             function getPOList() {
-                $.get("/orders/po/list")
+                $.get("/orders/po/list?vendor=" + saleinfo._id)
                 .done(
                     (data) => {
                         var rawPurchaseOrders = data.data;
+                        console.log(rawPurchaseOrders);
+                        if(rawPurchaseOrders.filter(porder => !porder.processed).length <= 0){
+                            $('#invbutton').hide();
+                        }
+
                         $("#polist").find('tbody').empty();
                         rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
-
-                        refreshMDL()
+                        
+                        var purchaseOrderToCreateInv = rawPurchaseOrders.filter(o => o.status == "DELIVERED");
+                        localStorage.removeItem('purchaseOrderToCreateInv');
+                        localStorage.setItem('purchaseOrderToCreateInv', JSON.stringify(purchaseOrderToCreateInv));
+                        refreshMDL();
                     }
                 );
             }
@@ -548,6 +579,7 @@
             function updateTable() {
                 getSOList();
                 getPOList();
+                getInvList();
                 closeModal();
             }
 
@@ -572,6 +604,29 @@
                         openModal("Error", true, "These orders were processed.", "OK", closeModal, false);
                     }
                 );
+            }
+
+            function generate_invoice(){
+                var purchaseOrderToCreateInv = JSON.parse(localStorage.getItem('purchaseOrderToCreateInv'));
+                if(purchaseOrderToCreateInv.length <= 0){
+                    openModal("Error", true, "No Purchase Order(s) have DELIVERED status.", "OK", closeModal, false);
+                    return;
+                }
+
+                $.ajax('/invoices/create', {
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(purchaseOrderToCreateInv)
+                }).done(
+                    data => {
+                        openModal("Success", true, data.data, "OK", updateTable, false);
+                    }
+                ).fail(
+                    data => {
+                        openModal("Error", true, data.data, "OK", closeModal, false);
+                    }
+                );
+                refreshMDL();
             }
 
             function onSeleted(id) {

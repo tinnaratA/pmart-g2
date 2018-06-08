@@ -16,23 +16,33 @@ let order_s_list = (req, res) => {
             console.log(err);
             return res.send({success: true, data: err});
         }
-        if(!data){
-            return res.status(204).send({success: true, data: "Sale Order Not Found."})
+        else{
+            if(!data){
+                return res.status(204).send({success: true, data: "Sale Order(s) Not Found."})
+            }
+            else
+            {
+                return res.send({success: true, data: data});
+            }
         }
-        return res.send({success:true, data: data});
     });
-}
+};
 
 let order_p_list = (req, res) => {
     db[po_namespace].find(req.query, (err, data) => {
         if(err){
             console.log(err);
-            return res.send({success: true, data: err})
+            return res.send({success: true, data: err});
         }
-        if(!data){
-            return res.status(204).send({success: true, data: "Purchase Order Not Found."})
+        else{
+            if(data){
+                return res.send({success: true, data: data});
+            }
+            else
+            {
+                return res.status(204).send({success: true, data: "Purchase Order(s) Not Found."});
+            }
         }
-        return res.send({success:true, data: data});
     });
 }
 
@@ -158,7 +168,8 @@ let create_p_order = (req, res) => {
                 items: uniqueItems,
                 status: "RAISED",
                 total: grandTotal,
-                so: orderIds
+                so: orderIds,
+                date: new Date().getTime()
             };
             db[po_namespace].insert(dataToSave, (err) => {
                 if(err){

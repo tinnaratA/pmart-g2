@@ -362,16 +362,16 @@
 
         
             function confirm() {
-                order = get_data;
-                order.invoice.status = "PAID";
+                inv = get_data;
+                inv.status = "PAID";
                 
                 if($("#auth").val() != "1234"){
                     openModal("Fail", true, "Invalid Authorised Code.", "OK", () => window.location = "./finance_confirm.html?id=" + order._id , false);
                     return;
                 }
 
-                $.ajax('/orders/edit/'+ order._id, {
-                    data: JSON.stringify(order),
+                $.ajax('/invoices/edit/'+ inv._id, {
+                    data: JSON.stringify(inv),
                     contentType: 'application/json',
                     type: 'PUT'
                 }).done(
@@ -430,31 +430,24 @@
 
             $("#conf").hide()
 
-            $.get("/orders/" + $_GET('id')).done(
+            $.get("/invoices/" + $_GET('id'))
+            .done(
                 (data) => {
-                    var order = data.data;
-                    order.arrayitem.map(addPreorder);
-                    $("#total").text((order.total * 0.95).toFixed(2));
+                    var inv = data.data;
+                    inv.items.map(addPreorder);
+                    $("#total").text((inv.total * 0.95).toFixed(2));
 
-                    $("#headdata").html("INV: " + order.invoice.id);
+                    $("#headdata").html("INV: " + inv.id);
+                    $("#sodata").html("SO: " + inv.id);
 
-                    $.ajax('/orders/po/list?so=' + order._id)
-                    .done(
-                        data => {
-                            var orders = data.data;
-                            var poids = orders.map(o => o.id).join(", ");
-                            $("#podata").html("PO: " + poids);
-                        }
-                    );
+                    var delivery_date = new Date(inv.delivery);
+                    $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
+                    $("#status").html(inv.status);
 
-                    $("#sodata").html("SO: " + order.id);
-                    $("#delivery").html(order.delivery);
-                    $("#status").html(order.status);
-
-                    if (order.invoice.status != "PAID")
+                    if (inv.status != "PAID")
                         $("#conf").show()
 
-                    get_data = order;
+                    get_data = inv;
                 }
             )
 

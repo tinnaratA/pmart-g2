@@ -380,11 +380,12 @@
             }
 
             function confirminvoice() {
-                order = get_data;
-                order.invoice.status = "CONFIRM"
+                inv = get_data;
+                inv.status = "CONFIRMED"
+                console.log(inv);
             
-                $.ajax("/orders/edit/"+ order._id, {
-                    data: JSON.stringify(order),
+                $.ajax("/invoices/edit/"+ inv._id, {
+                    data: JSON.stringify(inv),
                     contentType: 'application/json',
                     type: 'PUT'
                 }).done(
@@ -447,22 +448,23 @@
 
             type = $_GET('type');
             if(type == "INV"){
-                $.get("/orders/" + $_GET('id')).
-                done(data => {
-                    var order = data.data;
-                    var filteredItems = order.arrayitem.map(addPreorder);
-                    $("#total").text((order.total * 0.95).toFixed(2));
-                    $("#headdata").html("INV: "+ order.invoice.id)
-                    $("#status").html(order.invoice.status)
-                    $("#subheaddata").html("SO: "+ order.id)
+                $.get("/invoices/" + $_GET('id'))
+                .done(data => {
+                    var inv = data.data;
+                    var filteredItems = inv.items.map(addPreorder);
+                    $("#total").text((inv.total * 0.95).toFixed(2));
+                    $("#headdata").html("INV: "+ inv.id)
+                    $("#status").html(inv.status)
+                    $("#subheaddata").html(inv.purchaseOrder)
                     $("#subheaddata").show()
 
-                    if(order.invoice && order.invoice.status &&  order.invoice.status == "RAISED")
+                    if(inv.status &&  inv.status == "RAISED")
                         $("#confinvoice").show();
 
-                    $("#delivery").html(order.delivery);
+                    var delivery_date = new Date(inv.delivery);
+                    $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
                     
-                    get_data = order;
+                    get_data = inv;
                 });
             }
             else if(type == "SO"){
@@ -480,7 +482,8 @@
                         if(order.status == "CONFIRMED")
                             $("#conf").show();
                         
-                        $("#delivery").html(order.delivery);
+                        var delivery_date = new Date(order.delivery);
+                        $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
                         get_data = order;
                     }
                 );
@@ -496,7 +499,9 @@
                         $("#subheaddata").html("SO: "+ purchaseOrder.id);
                         $("#subheaddata").show();
 
-                        $("#delivery").html(new Date(purchaseOrder.delivery).toDateString());
+
+                        var delivery_date = new Date(purchaseOrder.delivery);
+                        $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
                         get_data = purchaseOrder;
                     }
                 );

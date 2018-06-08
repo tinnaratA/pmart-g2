@@ -302,14 +302,18 @@
             }
 
             function add_to_table_inv(data){
+                console.log(data);
+                var now = new Date(data.date);
+                var delivery_date = new Date(data.delivery)
+
                 var row = $("<tr onclick='showdata(\""+data._id+"\")'></tr>");
                 
                 var col1 = $("<td />", {
-                    text: data.invoice.id,
+                    text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_1 = $("<td />", {
-                    text: data.id,
+                    text: data.purchaseOrder,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col1_2 = $("<td />", {
@@ -317,11 +321,11 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
+                    text: now.toDateString() + " " + now.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col3 = $("<td />", {
-                    text: data.delivery,
+                    text: delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
@@ -329,13 +333,13 @@
                 });
 
                 var status_img;
-                switch(data.invoice.status){
+                switch(data.status){
                     case "RAISED": status_img = "fiber_new"; break;
-                    case "CONFIRM": status_img = "event_available"; break;
+                    case "CONFIRMED": status_img = "event_available"; break;
                     case "PAID": status_img = "check_circle"; break;
                 }
                 var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.invoice.status+"</span>",
+                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
                     class: "mdl-data-table__cell--non-numeric"
                 });
         
@@ -345,10 +349,11 @@
 
             }
             
-            $.get("/orders/list").done(
+            $.get("/invoices/list").done(
                 (data) => {
-                    var order = data.data;
-                    order.filter(order => order.invoice).map(add_to_table_inv)
+                    console.log(data);
+                    var invoices = data.data;
+                    invoices.map(add_to_table_inv);
                 }
             );
             
