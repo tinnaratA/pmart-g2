@@ -189,13 +189,15 @@
                 font-weight: bold;
             }
             .bottom-right {
-                position: fixed;
-                right: 16px;
-                bottom: 16px;
-                z-index: 3;
+                width: 100%;
+                margin-top: 24px;
+                text-align: right;
             }
             a.mdl-navigation__link {
                 cursor: pointer;
+            }
+            .thumbnail {
+                height: 100px;
             }
         </style>
     </header>
@@ -258,20 +260,13 @@
                         <span id="headdata"></span>
                     </h3>
                     <form onsubmit="confirm(); return false;">
-                        <div class="bottom-right" id="conf">
-                            <div class="mdl-textfield mdl-js-textfield" style="width: 200px;">
-                                <input class="mdl-textfield__input" type="text" id="auth">
-                                <label class="mdl-textfield__label" for="auth">Authorised Code(1234)</label>
-                            </div>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-left: 8px;">Approve Payment</button>
-                        </div>
-
                         <h4 id="podata"></h3>
                         <h4 id="sodata"></h3>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder">
                             <thead>
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">ID</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Image</th>
                                     <th class="mdl-data-table__cell--non-numeric">Name</th>
                                     <th>Unit Price</th>
                                     <th class="mdl-data-table__cell--non-numeric">Unit</th>
@@ -285,13 +280,20 @@
                                 
                             <tfoot>
                                 <tr>
-                                    <td colspan="6"><b>Total:</b></td>
+                                    <td colspan="7"><b>Total:</b></td>
                                     <td id='total'>0</td>
                                 </tr>
                             </tfoot>
                         </table>
-                        <h5>Delivery Date: </h5> <p id="delivery"></p>
-                        <h5>Status: </h5> <p id="status"></p>
+                        <h5>Delivery Date: <span id="delivery"></span></h5>
+                        <h5>Status: <span id="status"></span></h5>
+                        <div class="bottom-right" id="conf">
+                            <div class="mdl-textfield mdl-js-textfield" style="width: 200px;">
+                                <input class="mdl-textfield__input" type="text" id="auth">
+                                <label class="mdl-textfield__label" for="auth">Authorised Code(1234)</label>
+                            </div>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-left: 8px;">Approve Payment</button>
+                        </div>
                     </form>
                 </div>
             </main>
@@ -390,35 +392,38 @@
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col2 = $("<td />", {
+                    class: "mdl-data-table__cell--non-numeric"
+                }).append("<img src='"+data.image+"' class='thumbnail' />");
+                var col3 = $("<td />", {
                     id: 'product' + index,
                     text: data.item,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col3 = $("<td />", {
+                var col4 = $("<td />", {
                     text: (data.unitprice * 0.95).toFixed(2),
                     id: 'unitprice' + index
                 });
-                var col4 = $("<td />", {
+                var col5 = $("<td />", {
                     id: 'unit' + index,
                     text: data.unit,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col5 = $("<td />", {
+                var col6 = $("<td />", {
                     id: 'qty' + index,
                     text: data.qty
                 });
-                var col6 = $("<td />", {
+                var col7 = $("<td />", {
                     id: 'delivered' + index,
                     text: data.delivered ? data.delivered : 0
                 });
-                var col7 = $("<td />", {
+                var col8 = $("<td />", {
                     id: 'price' + index,
                     text: (data.price * 0.95).toFixed(2)
                 });
 
                 globid++;
 
-                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7)
+                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7).append(col8)
                 $("#preorder").find('tbody').append(row);
 
             }
