@@ -169,10 +169,9 @@
                 transform: translate(-24px,-12px);
             }
             .bottom-right {
-                position: fixed;
-                right: 16px;
-                bottom: 16px;
-                z-index: 3;
+                width: 100%;
+                margin-top: 24px;
+                text-align: right;
             }
             #preorder th {
                 background-color: #1e88e5;
@@ -260,10 +259,6 @@
                         <span id="headdata"></span>
                     </h3>
                     <form onsubmit="return false;">
-                        <div class="bottom-right">
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" id="conf">เพิ่มรายการสั่งซื้อ</button>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirminvoice()" id="confinvoice">ยืนยันใบกำกับสินค้า</button>
-                        </div>
                         <h4 id="subheaddata"></h4>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" style="margin-top: 16px" id="preorder">
                             <thead>
@@ -289,6 +284,10 @@
                     </form>
                     <h5>วันส่ง: <span id="delivery"></span></h5>
                     <h5>สถานะ: <span id="status"></span></h5>
+                    <div class="bottom-right">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" id="conf">เพิ่มรายการสั่งซื้อ</button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirminvoice()" id="confinvoice">ยืนยันใบกำกับสินค้า</button>
+                    </div>
                 </div>
             </main>     
         </div>

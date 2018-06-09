@@ -482,8 +482,8 @@
                     .append($("<img />", {src: "img/"+img, height: "100px"}))
                     .append($("<br />"))
                     .append($("<br />"))
-                    .append($("<p />").html("<b>TOTAL: "+parseFloat(order.total).toFixed(2)+"</b><br> REF: "+order.payment_ref+" <br> PIN CODE(5217):")
-                        .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield"})
+                    .append($("<p />").html("<b>TOTAL: "+parseFloat($("#grandtotal-delivery").text()).toFixed(2)+" THB</b><br /> REF: "+order.payment_ref+" <br /> PIN CODE(5217):")
+                        .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield", style: "margin-left: 8px"})
                             .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "pin", pattern: "-?[0-9]*(\.[0-9]+)?"}))
                             .append($("<label />", {class: "mdl-textfield__label", for: "pin", text: "PIN Code"}))
                             .append($("<span />", {class: "mdl-textfield__error", text: "Input is not a number!"}))
@@ -516,15 +516,18 @@
                         var purchaseOrders = data.data;
                         purchaseOrders.map(porder => {
                             var itemList = porder.items.map(item => {
-                                var soQtyDelivered = orderArrayItems.filter(oitem => oitem.item == item.item)[0].delivered;
-                                if(item.delivered === undefined){
-                                    item.delivered = 0;
-                                }
-                                item.delivered = soQtyDelivered;
-                                item.price = 0.95 * (parseFloat(item.delivered) * parseFloat(item.unitprice));
-                                porder.status = "DELIVERED";
-                                return item;
-                            });
+                                sameItem = orderArrayItems.filter(oitem => oitem.item == item.item)
+                                if (sameItem.length > 0) {
+                                    var soQtyDelivered = parseInt(sameItem[0].delivered);
+                                    if(item.delivered === undefined){
+                                        item.delivered = 0;
+                                    }
+                                    item.delivered += soQtyDelivered;
+                                    item.price = 0.95 * (parseFloat(item.delivered) * parseFloat(item.unitprice));
+                                    return item;
+                                }   
+                            }).filter(x => x);
+                            porder.status = "DELIVERED";
                             porder.items = itemList;
                             porder.total = porder.items.map(item => parseFloat(item.price)).reduce((prev, current) => prev + current);
                             $.ajax('/orders/po/edit/' + porder._id, {
@@ -565,7 +568,7 @@
                 order.status = "CONFIRMED";
                 order.payment = $('input[name=bank]:checked').val();
                 order.payment_ref = generateStringNumber(12);
-                
+
                 $.ajax('/orders/edit/' + order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
@@ -573,9 +576,10 @@
                 }).done(
                     () => {
                         var payment = $('input[name=bank]:checked').val();
-                        openModal("Success", true, "รายการสั่งซื้อถูกยืนยันแล้ว<br />Order account: <b>"+payment.toUpperCase()+"</b>"+
-                            "<br />ref: "+order.payment_ref+" ถูกตัดเงิน ด้วยยอด amount: <b>"+order.total+"</b>"+
-                            "<br />รหัส PIN code ของคุณคือ: <b>5217</b>,โปรดจดเลขนี้ไว้สำหรับรับของ", "ตกลง", () => window.location = "customer.html", false)
+                        openModal("Success", true, "รายการสั่งซื้อถูกยืนยันแล้ว<br />Account: <b>"+payment.toUpperCase()+"</b>"+
+                            "<br />Ref: "+order.payment_ref+
+                            "<br />Amount: <b>"+order.total+"</b> THB"+
+                            "<br />PIN Code : <b>5217</b> , กรุณาจดชุดตัวเลขนี้ไว้ สำหรับยืนยันการสั่งซื้อเวลารับสินค้า", "ตกลง", () => window.location = "customer.html", false)
                     }
                 )
             }
@@ -675,7 +679,6 @@
             $.get("/orders/" + $_GET('id')).done(
                 (data) => {
                     var order = data.data;
-                    console.log(order);
                     $("#headdata").text(order.id)
                     $("#delivery").text(order.delivery)
                     $("#status").text(order.status)

@@ -59,15 +59,15 @@ let create_s_order = (req, res) => {
                     console.error(err);
                     return res.send(500).send({success: false, data: "Unexpected Error(s)."});
                 }
-                var ordProductList = req_data.arrayitem.map(d => { return d.item; });
-                var arrayitems = products.filter(p => {
-                    return ordProductList.indexOf(p.Description) >= 0;
-                });
-                var finalItems = req_data.arrayitem.map((d, index) => {
-                    d['vendor'] = arrayitems[index]['vendor'];
-                    d['processed'] = false;
-                    return d;
-                });
+                var finalItems = req_data.arrayitem.map(d => {
+                    var find_items = products.filter(item => item.Description == d.item);
+                    if (find_items.length > 0) {
+                        item = find_items[0];
+                        d.vendor = item.vendor;
+                        d.processed = false;
+                        return d;
+                    }
+                }).filter(x => x);
                 req_data.arrayitem = finalItems;
                 db[order_namespace].insert(req_data, (err) => {
                     if(err)

@@ -388,7 +388,7 @@
             }
             
             $.get("/orders/list?customer=" + saleinfo.name)
-            .done(orders => orders.data.filter(o => o.customer == saleinfo.name).map(add_to_table))
+            .done(orders => orders.data.filter(o => o.customer == saleinfo.name).sort((a,b) => (a.datetime > b.datetime) ? 1 : ((b.datetime > a.datetime) ? -1 : 0)).map(add_to_table))
             .fail((data) => openModal("Error", true, "Cannot get order list, Please contact admin.", "OK", closeModal, false));
 	        
             $("#hello").html("สวัสดี คุณ "+ saleinfo.name);

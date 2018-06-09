@@ -362,7 +362,7 @@
             $.get("/products/list").done((data) => {
                 if(data.success){
                     var itemdata = data.data;
-                    itemdata.map(item => addPreorder(item))
+                    itemdata.sort((a,b) => (a.No > b.No) ? 1 : ((b.No > a.No) ? -1 : 0)).map(item => addPreorder(item))
                     refreshMDL();
                 }else{
                     openModal("Error", true, "Cannot get product list, Please contact admin", "OK", closeModal, false);
