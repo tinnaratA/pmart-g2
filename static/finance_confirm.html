@@ -263,7 +263,7 @@
                         </button>
                         <span id="headdata"></span>
                     </h3>
-                    <form onsubmit="confirm(); return false;">
+                    <form onsubmit="return false;">
                         <h4 id="podata"></h3>
                         <h4 id="sodata"></h3>
                         <div class="align-right" style="margin-top: 16px;">
@@ -302,7 +302,7 @@
                                 <input class="mdl-textfield__input" type="text" id="auth">
                                 <label class="mdl-textfield__label" for="auth">Authorised Code(1234)</label>
                             </div>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-left: 8px;">Approve Payment</button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" style="margin-left: 8px;">Approve Payment</button>
                         </div>
                     </form>
                 </div>
