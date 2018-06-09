@@ -27,7 +27,7 @@ addToTable = data => {
 addTotal =  (total) => { 
     return  `<tr>
         <td colspan="5" style="text-align: right;">Grand Total</td>
-        <td>`+total.toFixed(2)+`</td>
+        <td>`+total+`</td>
     </tr>`
 }
 
@@ -168,39 +168,21 @@ module.exports = async (type, invNo) => {
                         <tr>
                             <td>
                                 Horizont, Inc.
-                                <br> Line 1
-                                <br> Line 2
+                                <br> Address Line 1
+                                <br> Address Line 2
                             </td>
 
                             <td>
-                                Acme Corp.
-                                <br> John Doe
-                                <br> john@example.com
+                                !!!Customer!!!
+                                <br> Address Line 1
+                                <br> Address Line 2
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
 
-            <tr class="heading">
-                <td>
-                    Payment Method
-                </td>
-
-                <td>
-                    Information
-                </td>
-            </tr>
-
-            <tr class="details">
-                <td>
-                    !!!payment!!!
-                </td>
-
-                <td>
-                    !!!payment_ref!!!
-                </td>
-            </tr>
+            !!!PAYMENT_TAG!!!
 
         </table>
 
@@ -277,8 +259,14 @@ module.exports = async (type, invNo) => {
     // Add Items
     no = 1;
 
+    
     if(data){
-        arritem = data.arrayitem
+        if(data.arrayitem)
+            items = data.arrayitem
+        if(data.items)
+            items = data.items
+
+        arritem = items
         .map(item => {
             return {
                 item: item.item,
@@ -297,6 +285,19 @@ module.exports = async (type, invNo) => {
         ref = data.payment_ref
         totalitem = addTotal(data.total)  
         id = data.id
+
+        if(data.customer)
+            customer = data.customer
+        else if (data.vendor)
+            customer = data.vendor
+        else 
+            customer = ''
+
+
+
+
+            
+
     }
     else{
         payment = ''
@@ -304,15 +305,45 @@ module.exports = async (type, invNo) => {
         arritem = ''
         totalitem = ''
         id = 'XXXXXXXX'
+        customer = ''
     }
+
+
+        // payment tag
+        paymenttag = ''
+        if(payment)
+        paymenttag = `<tr class="heading">
+                        <td>
+                            Payment Method
+                        </td>
+                        <td>
+                            Information
+                        </td>
+                    </tr>
+
+                    <tr class="details">
+                        <td>
+                            !!!payment!!!
+                        </td>
+
+                        <td>
+                            !!!payment_ref!!!
+                        </td>
+                    </tr>`.replace('!!!payment!!!', payment)
+                    .replace('!!!payment_ref!!!', ref)
+
+       
+
+
 
     let newhtml = html
         .replace('!!!body!!!', arritem)
         .replace('!!!total!!!', totalitem)
         .replace('!!!invno!!!', id)
         .replace('!!!created!!!', new Date())
-        .replace('!!!payment!!!', payment)
-        .replace('!!!payment_ref!!!', ref)
+        .replace('!!!PAYMENT_TAG!!!', paymenttag)
+        .replace('!!!Customer!!!', customer)
+        
 
 
 
