@@ -522,12 +522,7 @@
                                 }
                                 item.delivered = soQtyDelivered;
                                 item.price = order.total;
-
-                                if(item.delivered == item.qty){
-                                    porder.status = "DELIVERED";
-                                }else{
-                                    porder.status = "DELIVERING";
-                                }
+                                porder.status = "DELIVERED";
                                 return item;
                             });
                             porder.items = itemList;
