@@ -79,21 +79,25 @@ var fs = require('fs');
 var pdf = require('html-pdf');
 var template_gen = require('./template_gen/index')
 
-creator = (html, options) => new Promise(
+creator = (type, html, options) => new Promise(
     (resolve, reject) => {
-      pdf.create(html, options).toFile('./static/pdf/'+inv_no+'.pdf', (err, file) => resolve(err, file) );
+      pdf.create(html, options).toFile('./static/pdf/'+ type +inv_no+'.pdf', (err, file) => resolve(err, file) );
     }
 )
 
-invoice_generator = async (req, res) => {
-  inv_no = req.params.inv_id
-  var template = await template_gen(inv_no)
-  var html = fs.readFileSync(template, 'utf8');
-  var options = { format: 'A4'};
-  result = await creator(html, options)
-  return res.send({success: true, path: '/pdf/'+inv_no+'.pdf'});
+invoice_generator = (type) => { 
+    return async (req, res) => {
+      inv_no = req.params.inv_id
+      var template = await template_gen(type, inv_no)
+      var html = fs.readFileSync(template, 'utf8');
+      var options = { format: 'A4'};
+      result = await creator(type, html, options)
+      return res.send({success: true, path: '/pdf/'+ type +inv_no+'.pdf'});
+  }
 }
 
-app.get('/pdf/invoice/:inv_id', invoice_generator)
+app.get('/pdf/invoice/:inv_id', invoice_generator('invoice'))
+app.get('/pdf/saleorder/:inv_id', invoice_generator('saleorder'))
+app.get('/pdf/purchaseorder/:inv_id', invoice_generator('purchaseorder'))
 
 app.listen(2001, () => console.log('Application listening on port 2001!'));

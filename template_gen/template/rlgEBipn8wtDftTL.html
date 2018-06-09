@@ -1,40 +1,4 @@
-var db = require("../database/nedb");
 
-var product_namespace = "productsdb";
-var order_namespace = "ordersdb";
-var po_namespace = "purchasesdb";
-let inv_namespace = "invoicesdb";
-
-typelist = {
-    "saleorder": order_namespace,
-    "purchaseorder": po_namespace,
-    "invoice": inv_namespace
-}
-
-findinv = (type, inv_id) => new Promise(
-    (resolve, _) => {
-        db[typelist[type]].findOne({_id: inv_id}, (err , data) => resolve(data));
-    }
-)
-
-
-addToTable = data => {
-    return '<tr>'+
-    Object.values(data).map(col => '<td>'+col+'</td>').join('')+
-    '</tr>'
-}
-
-addTotal =  (total) => { 
-    return  `<tr>
-        <td colspan="5" style="text-align: right;">Grand Total</td>
-        <td>`+total.toFixed(2)+`</td>
-    </tr>`
-}
-
-
-
-module.exports = async (type, invNo) => {
-    var html = `
 
 <!doctype html>
 <html>
@@ -154,8 +118,8 @@ module.exports = async (type, invNo) => {
                             </td>
 
                             <td>
-                                Invoice #: !!!invno!!!
-                                <br> Created: !!!created!!!
+                                Invoice #: ORD6128071371
+                                <br> Created: Sat Jun 09 2018 16:20:49 GMT+0700 (+07)
                             </td>
                         </tr>
                     </table>
@@ -194,11 +158,11 @@ module.exports = async (type, invNo) => {
 
             <tr class="details">
                 <td>
-                    !!!payment!!!
+                    kbank
                 </td>
 
                 <td>
-                    !!!payment_ref!!!
+                    819579725287
                 </td>
             </tr>
 
@@ -225,11 +189,14 @@ module.exports = async (type, invNo) => {
                 </tr>
             </thead>
             <tbody>
-                !!!body!!!
+                <tr><td>1</td><td>PCF หมูหมักซอสน้ำมันงา  แพ็คละ 1 กก.</td><td>Kg</td><td>71</td><td>5.00</td><td>355.00</td></tr>
 
             </tbody>
             <tfoot>
-                !!!total!!!
+                <tr>
+        <td colspan="5" style="text-align: right;">Grand Total</td>
+        <td>355.00</td>
+    </tr>
             </tfoot>
         </table>
 
@@ -239,83 +206,3 @@ module.exports = async (type, invNo) => {
 
 
 </html>
-`
-    var fs = require('fs');
-
-
-    data = {
-        total: 62,
-        arrayitem: [
-            {
-                item: "PCF ไก่หมักซอสพริกไทยดำ  แพ็คละ 1 กก.",
-                unit: "Kg",
-                unitprice: "62",
-                qty: 1,
-                price: 62,
-            }
-        ],
-        datetime: "1527757786274",
-        delivery: "2018-06-01",
-        status: "SCHEDULED",
-        customer: "A. ",
-        created: "2018-05-31T16:07:50.126Z",
-        updated: "2018-05-31T16:07:50.126Z",
-        id: "ORD7507246849",
-        _id: "1eCuTewIg9Zcr7B0",
-        payment: "kbank",
-        payment_ref: "114155989161",
-        vendor: "พีซี ฟูดส์ เซ็นเตอร์",
-        po: {
-            id: "PO7507246849",
-            status: "RAISED",
-        },
-    }
-    
-
-    data = await findinv(type, invNo);
-
-    // Add Items
-    no = 1;
-
-    if(data){
-        arritem = data.arrayitem
-        .map(item => {
-            return {
-                item: item.item,
-                unit: item.unit,
-                unitprice: item.unitprice,
-                qty: item.qty,
-                price: item.price
-            }
-        })
-        .map(item => Object.assign({no: (no++).toString()}, item))
-        .map(item => { Object.keys(item).map(col => { if(item[col].toFixed) item[col] = item[col].toFixed(2) });  return item} )
-        .map(addToTable)
-        .join("")
-
-        payment = data.payment
-        ref = data.payment_ref
-        totalitem = addTotal(data.total)  
-        id = data.id
-    }
-    else{
-        payment = ''
-        ref = ''
-        arritem = ''
-        totalitem = ''
-        id = 'XXXXXXXX'
-    }
-
-    let newhtml = html
-        .replace('!!!body!!!', arritem)
-        .replace('!!!total!!!', totalitem)
-        .replace('!!!invno!!!', id)
-        .replace('!!!created!!!', new Date())
-        .replace('!!!payment!!!', payment)
-        .replace('!!!payment_ref!!!', ref)
-
-
-
-    fs.writeFileSync('./template_gen/template/'+invNo+'.html', newhtml);
-    return './template_gen/template/'+invNo+'.html'
-}
