@@ -499,6 +499,14 @@
                     return;
                 }
                 order = get_data;
+                order.status = "PAID";
+                for (var i = 0; i < order.arrayitem.length; i++) {
+                    order.arrayitem[i].delivered = $('#zz'+(i+1)).val();
+                    order.arrayitem[i].price = $('#xx'+(i+1)).text();
+                }
+                order.total = $("#grandtotal-delivery").text();
+
+                // Update PO
                 var orderArrayItems = order.arrayitem;
                 $.ajax('/orders/po/list?so=' + order._id, {
                     method: "GET",
@@ -508,11 +516,12 @@
                         var purchaseOrders = data.data;
                         purchaseOrders.map(porder => {
                             var itemList = porder.items.map(item => {
-                                var soQty = orderArrayItems.filter(oitem => oitem.item == item.item)[0].qty;
+                                var soQtyDelivered = orderArrayItems.filter(oitem => oitem.item == item.item)[0].delivered;
                                 if(item.delivered === undefined){
                                     item.delivered = 0;
                                 }
-                                item.delivered += soQty;
+                                item.delivered = soQtyDelivered;
+                                item.price = order.total;
 
                                 if(item.delivered == item.qty){
                                     porder.status = "DELIVERED";
@@ -530,24 +539,8 @@
                         });
                     }
                 );
-                order.status = "PAID";
-                order.invoice = {
-                    id: order.id.replace("ORD", "INV"),
-                    status: "RAISED"
-                }
-
-                $.ajax('/orders/edit/'+ order._id, {
-                    method: "PUT",
-                    contentType: "application/json",
-                    data: JSON.stringify(order)
-                });
-
-                for (var i = 0; i < order.arrayitem.length; i++) {
-                    order.arrayitem[i].delivered = $('#zz'+(i+1)).val();
-                    order.arrayitem[i].price = $('#xx'+(i+1)).text();
-                }
-                order.total = $("#grandtotal-delivery").text();
-
+                
+                // Update SO
                 $.ajax('/orders/edit/'+ order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
@@ -668,7 +661,7 @@
                 });
                 var col7 = $("<td />")
                     .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield"})
-                        .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "zz" + index, value: data.qty, pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(index, 'preorder-delivery')))
+                        .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "zz" + index, value: parseInt(data.delivered), pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(index, 'preorder-delivery')))
                         .append($("<label />", {class: "mdl-textfield__label", for: "z" + index, text: ""}))
                         .append($("<span />", {class: "mdl-textfield__error", text: "Input is not a number!"}))
                     );
@@ -686,6 +679,7 @@
             $.get("/orders/" + $_GET('id')).done(
                 (data) => {
                     var order = data.data;
+                    console.log(order);
                     $("#headdata").text(order.id)
                     $("#delivery").text(order.delivery)
                     $("#status").text(order.status)

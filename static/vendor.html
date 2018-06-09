@@ -552,11 +552,9 @@
                 .done(
                     (data) => {
                         var rawPurchaseOrders = data.data;
-                        console.log(rawPurchaseOrders);
                         if(rawPurchaseOrders.filter(porder => !porder.processed).length <= 0){
                             $('#invbutton').hide();
                         }
-
                         $("#polist").find('tbody').empty();
                         rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
                         
