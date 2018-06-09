@@ -552,7 +552,7 @@
                 .done(
                     (data) => {
                         var rawPurchaseOrders = data.data;
-                        if(rawPurchaseOrders.filter(porder => !porder.processed).length <= 0){
+                        if(rawPurchaseOrders.filter(porder => porder.processed == undefined ? porder.status == "DELIVERED": false).length <= 0){
                             $('#invbutton').hide();
                         }
                         $("#polist").find('tbody').empty();
@@ -583,6 +583,7 @@
 
             function generate_purchase_order(){
                 data = buildDataBeforeSend(orderData);
+                console.log(data);
                 if(!data) {
                     openModal("Error", true, "Please, select some items before create PO", "OK", closeModal, false);
                     return;

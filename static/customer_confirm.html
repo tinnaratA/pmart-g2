@@ -521,11 +521,12 @@
                                     item.delivered = 0;
                                 }
                                 item.delivered = soQtyDelivered;
-                                item.price = order.total;
+                                item.price = 0.95 * (parseFloat(item.delivered) * parseFloat(item.unitprice));
                                 porder.status = "DELIVERED";
                                 return item;
                             });
                             porder.items = itemList;
+                            porder.total = porder.items.map(item => parseFloat(item.price)).reduce((prev, current) => prev + current);
                             $.ajax('/orders/po/edit/' + porder._id, {
                                 method: "PUT",
                                 contentType: 'application/json',
@@ -656,7 +657,7 @@
                 });
                 var col7 = $("<td />")
                     .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield"})
-                        .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "zz" + index, value: parseInt(data.delivered), pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(index, 'preorder-delivery')))
+                        .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "zz" + index, value: data.delivered === undefined ? data.qty: parseFloat(data.delivered), pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(index, 'preorder-delivery')))
                         .append($("<label />", {class: "mdl-textfield__label", for: "z" + index, text: ""}))
                         .append($("<span />", {class: "mdl-textfield__error", text: "Input is not a number!"}))
                     );

@@ -432,7 +432,7 @@
                 });
                 var col8 = $("<td />", {
                     id: 'price' + index,
-                    text: (data.price * 0.95).toFixed(2)
+                    text: (data.price).toFixed(2)
                 });
 
                 globid++;
@@ -451,7 +451,7 @@
                 .done(data => {
                     var inv = data.data;
                     var filteredItems = inv.items.map(addPreorder);
-                    $("#total").text((inv.total * 0.95).toFixed(2));
+                    $("#total").text((inv.total).toFixed(2));
                     $("#headdata").html("ใบกำกับเลขที่: "+ inv.id)
                     $("#status").html(inv.status)
                     $("#subheaddata").html(inv.purchaseOrder)

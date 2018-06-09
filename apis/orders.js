@@ -95,12 +95,11 @@ let create_p_order = (req, res) => {
         orders.map(
             order => order.arrayitem.filter(d => d.vendor == req.params.vendor_id).map(
                 item => {
-                    item['processed'] = true;
+                    // item['processed'] = true;
                     allItems.push(item);
                 }
             )
         );
-        
         orderIds.map(oid => {
             db[order_namespace].findOne({_id: oid}, (err, data) => {
                 if(err){
@@ -108,8 +107,8 @@ let create_p_order = (req, res) => {
                     return res.status.send({success: false, data: err});
                 }
                 var items = data.arrayitem.map(item => {
-                    if(item.vendor == req.params.vendor_id)
-                        item['processed'] = true;
+                    if(item.vendor == req.params.vendor_id && allItems.filter(rev_item => rev_item.item == item.item).length > 0)
+                        item.processed = true;
                     return item;
                 });
                 var successflag = data.arrayitem.filter(item => item.processed == false).length <= 0;
@@ -145,8 +144,8 @@ let create_p_order = (req, res) => {
             allItems.map(d => {
                 var itemNames = uniqueItems.map(item => { return item.item });
                 if(itemNames.indexOf(d.item) != -1){ // Already in list
-                    uniqueItems[uniqueItems.length - 1].qty += d.qty;
-                    uniqueItems[uniqueItems.length - 1].price += d.price;
+                    uniqueItems[uniqueItems.length - 1].qty += parseFloat(d.qty);
+                    uniqueItems[uniqueItems.length - 1].price += parseFloat(d.price);
                 }
                 else{ // Not in list
                     uniqueItems.push(d);
@@ -159,9 +158,9 @@ let create_p_order = (req, res) => {
             })));
             var grandTotal = uniqueItems.map(item => item.price).reduce(
                 (prev, current) => parseInt(prev) + parseInt(current)
-            );
+            ) * 0.95;
             var dataToSave = {
-                _id: orderIds.join("+") + "+" + req.params.vendor_id,
+                _id: orderIds.join("+") + "+" + req.params.vendor_id + "+" +parseInt(Math.random(1,50) * 10000000000),
                 id: "PO" + parseInt(Math.random(1,50) * 10000000000),
                 vendor: req.params.vendor_id,
                 delivery: deadline,

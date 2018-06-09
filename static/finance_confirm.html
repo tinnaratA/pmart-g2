@@ -418,7 +418,7 @@
                 });
                 var col8 = $("<td />", {
                     id: 'price' + index,
-                    text: (data.price * 0.95).toFixed(2)
+                    text: (data.price).toFixed(2)
                 });
 
                 globid++;
@@ -435,7 +435,7 @@
                 (data) => {
                     var inv = data.data;
                     inv.items.map(addPreorder);
-                    $("#total").text((inv.total * 0.95).toFixed(2));
+                    $("#total").text((inv.total).toFixed(2));
 
                     $("#headdata").html("INV: " + inv.id);
                     $("#sodata").html("SO: " + inv.id);
