@@ -199,6 +199,10 @@
             .thumbnail {
                 height: 100px;
             }
+            .align-right {
+                text-align: right;
+                margin-bottom: 8px;
+            }
         </style>
     </header>
     <body class="fullbody">
@@ -259,9 +263,15 @@
                         </button>
                         <span id="headdata"></span>
                     </h3>
-                    <form onsubmit="confirm(); return false;">
+                    <form onsubmit="return false;">
                         <h4 id="podata"></h3>
                         <h4 id="sodata"></h3>
+                        <div class="align-right" style="margin-top: 16px;">
+                            <div class="mdl-spinner mdl-js-spinner" id="loader"></div>
+                            <button class="mdl-button mdl-js-button mdl-button--icon" id="print-btn" onclick="onPrint()">
+                                <i class="material-icons">print</i>
+                            </button>
+                        </div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder">
                             <thead>
                                 <tr>
@@ -292,7 +302,7 @@
                                 <input class="mdl-textfield__input" type="text" id="auth">
                                 <label class="mdl-textfield__label" for="auth">Authorised Code(1234)</label>
                             </div>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-left: 8px;">Approve Payment</button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm()" style="margin-left: 8px;">Approve Payment</button>
                         </div>
                     </form>
                 </div>
@@ -429,6 +439,8 @@
             }
 
             $("#conf").hide()
+            $("#print-btn").hide()
+            $("#loader").hide()
 
             $.get("/invoices/" + $_GET('id'))
             .done(
@@ -444,8 +456,13 @@
                     $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
                     $("#status").html(inv.status);
 
-                    if (inv.status != "PAID")
+                    if (inv.status == "CONFIRMED") {
                         $("#conf").show()
+                    }
+                    else if (inv.status == "PAID") {
+                        $("#print-btn").show()
+                        $("#loader").show()
+                    }
 
                     get_data = inv;
                 }
@@ -471,6 +488,23 @@
             function updateDrawerUser() {
                 $("#user-name").text(saleinfo.name ? saleinfo.name : "" + " " + saleinfo.surname ? saleinfo.surname : "")
                 $("#user-email").text(saleinfo.email ? saleinfo.email : "")
+            }
+
+            function onPrint() {
+                $("#print-btn").attr("disabled", true)
+                $("#loader").addClass("is-active")
+
+                $.ajax({
+                    method : "GET",
+                    url: "/pdf/invoice/"+$_GET('id'),
+                })
+                .done((data) => {
+                    location.href=data.path;
+                })
+                .always(() => {
+                    $("#print-btn").attr("disabled", false)
+                    $("#loader").removeClass("is-active")
+                });
             }
         </script>
     </body>

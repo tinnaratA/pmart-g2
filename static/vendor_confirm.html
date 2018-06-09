@@ -198,6 +198,10 @@
             .thumbnail {
                 height: 100px;
             }
+            .align-right {
+                text-align: right;
+                margin-bottom: 8px;
+            }
         </style>
     </header>
     <body class="fullbody">
@@ -260,6 +264,12 @@
                     </h3>
                     <form onsubmit="return false;">
                         <h4 id="subheaddata"></h4>
+                        <div class="align-right" style="margin-top: 16px;">
+                            <div class="mdl-spinner mdl-js-spinner" id="loader"></div>
+                            <button class="mdl-button mdl-js-button mdl-button--icon" id="print-btn" onclick="onPrint()">
+                                <i class="material-icons">print</i>
+                            </button>
+                        </div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" style="margin-top: 16px" id="preorder">
                             <thead>
                                 <tr>
@@ -443,6 +453,8 @@
             $("#conf").hide()
             $("#confinvoice").hide()
             $("#subheaddata").hide()
+            $("#print-btn").hide()
+            $("#loader").hide()
 
             type = $_GET('type');
             if(type == "INV"){
@@ -497,10 +509,14 @@
                         $("#subheaddata").html("เลขที่รายการสั่งซื้อของร้านค้า: "+ purchaseOrder.id);
                         $("#subheaddata").show();
 
-
                         var delivery_date = new Date(purchaseOrder.delivery);
                         $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
                         get_data = purchaseOrder;
+
+                        if (purchaseOrder.status == "DELIVERED") {
+                            $("#print-btn").show()
+                            $("#loader").show()
+                        }
                     }
                 );
             }
@@ -527,6 +543,23 @@
             function updateDrawerUser() {
                 $("#user-name").text(saleinfo.name ? saleinfo.name : "" + " " + saleinfo.surname ? saleinfo.surname : "")
                 $("#user-email").text(saleinfo.email ? saleinfo.email : "")
+            }
+
+            function onPrint() {
+                $("#print-btn").attr("disabled", true)
+                $("#loader").addClass("is-active")
+
+                $.ajax({
+                    method : "GET",
+                    url: "/pdf/purchaseorder/"+$_GET('id'),
+                })
+                .done((data) => {
+                    location.href=data.path;
+                })
+                .always(() => {
+                    $("#print-btn").attr("disabled", false)
+                    $("#loader").removeClass("is-active")
+                });
             }
         </script>
     </body>
