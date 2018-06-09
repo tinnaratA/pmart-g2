@@ -513,7 +513,7 @@
                         $("#delivery").html(delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString());
                         get_data = purchaseOrder;
 
-                        if (purchaseOrder.status == "PAID") {
+                        if (purchaseOrder.status == "DELIVERED") {
                             $("#print-btn").show()
                             $("#loader").show()
                         }

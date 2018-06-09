@@ -496,7 +496,7 @@
 
                 $.ajax({
                     method : "GET",
-                    url: "/pdf/purchaseorder/"+$_GET('id'),
+                    url: "/pdf/invoice/"+$_GET('id'),
                 })
                 .done((data) => {
                     location.href=data.path;
