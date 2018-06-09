@@ -6,4 +6,5 @@ __pycache__
 package-lock.json
 .vscode
 node_modules/
-data/
+database/data/
+static/pdf/

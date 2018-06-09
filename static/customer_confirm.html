@@ -330,9 +330,9 @@
                             <button class="mdl-button mdl-js-button mdl-button--icon" id="edit-btn" onclick="onEdit()">
                                 <i class="material-icons">edit</i>
                             </button>
-                            <!-- <button class="mdl-button mdl-js-button mdl-button--icon" id="del-btn" onclick="onDelete()">
+                            <button class="mdl-button mdl-js-button mdl-button--icon" id="del-btn" onclick="onDelete()">
                                 <i class="material-icons">delete</i>
-                            </button> -->
+                            </button>
                         </div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder">
                             <col width="48">
@@ -363,6 +363,12 @@
                         </table>
                     </div>
                     <div id="confirm-delivery-div">
+                        <div class="align-right" style="margin-top: 16px;">
+                            <div class="mdl-spinner mdl-js-spinner" id="loader"></div>
+                            <button class="mdl-button mdl-js-button mdl-button--icon" id="print-btn" onclick="onPrint()">
+                                <i class="material-icons">print</i>
+                            </button>
+                        </div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder-delivery">
                             <col width="48">
                             <thead>
@@ -451,11 +457,13 @@
             }
 
             $("#confirm-order-div").hide() 
+            $("#print-btn").hide()
             $("#edit-btn").hide() 
+            $("#del-btn").hide()
             $("#confirm-delivery-div").hide()
             $("#SO-conf-btn").hide()
             $("#delivery-conf-btn").hide()
-
+            $("#loader").hide()
             $("#paymentlist").hide()
             $("#paymentheader").hide()
 
@@ -543,7 +551,7 @@
                 $.ajax('/orders/edit/'+ order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
-                    type: 'PUT'
+                    method : 'PUT'
                 }).done(
                     () => {
                         openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
@@ -572,7 +580,7 @@
                 $.ajax('/orders/edit/' + order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
-                    type: 'PUT'
+                    method : 'PUT'
                 }).done(
                     () => {
                         var payment = $('input[name=bank]:checked').val();
@@ -708,6 +716,8 @@
                         order.arrayitem.map(addPreorderDelivery)
                         $("#grandtotal-delivery").text(order.total)
                         $("#confirm-delivery-div").show()
+                        $("#print-btn").show()
+                        $("#loader").show()
                         toggleTextfield($("#preorder-delivery").find(".mdl-textfield__input"));
                     }
 
@@ -906,6 +916,23 @@
             function updateDrawerUser() {
                 $("#user-name").text(saleinfo.name ? saleinfo.name : "" + " " + saleinfo.surname ? saleinfo.surname : "")
                 $("#user-email").text(saleinfo.email ? saleinfo.email : "")
+            }
+
+            function onPrint() {
+                $("#print-btn").attr("disabled", true)
+                $("#loader").addClass("is-active")
+
+                $.ajax({
+                    method : "GET",
+                    url: "/pdf/saleorder/"+$_GET('id'),
+                })
+                .done((data) => {
+                    location.href=data.path;
+                })
+                .always(() => {
+                    $("#print-btn").attr("disabled", false)
+                    $("#loader").removeClass("is-active")
+                });
             }
         </script>
     </body>
