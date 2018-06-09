@@ -546,8 +546,8 @@
                                             }
                                             item.delivered += soQtyDelivered;
                                             item.price = 0.95 * (parseFloat(item.delivered) * parseFloat(item.unitprice));
-                                            return item;
                                         }   
+                                        return item;
                                     }).filter(x => x);
                                     if(porderChangeStatusFlag){
                                         porder.status = "DELIVERED";
