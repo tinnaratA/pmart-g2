@@ -463,7 +463,7 @@
                 $.post("./orders/create", savedata)
                 .then(
                     () => {
-                        openModal('Success', true, 'ข้อมูลถูกบันทึกแล้ว', "OK", () => window.location="customer.html", false);
+                        openModal('Success', true, 'ข้อมูลถูกบันทึกแล้ว', "OK", () => window.location="customer_confirm.html?id="+savedata._id , false);
                     }
                 )
             }
