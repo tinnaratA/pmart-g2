@@ -584,9 +584,9 @@
                 }).done(
                     () => {
                         var payment = $('input[name=bank]:checked').val();
-                        openModal("Success", true, "Order has been confirmed<br />Order account: <b>"+payment.toUpperCase()+"</b>"+
-                            "<br />ref: "+order.payment_ref+" has been deducted for the amount: <b>"+order.total+"</b>"+
-                            "<br />Your PIN code is: <b>5217</b>, Please keep this number until receiving your order.", "OK", () => window.location = "customer.html", false)
+                        openModal("Success", true, "รายการสั่งซื้อถูกยืนยันแล้ว<br />Order account: <b>"+payment.toUpperCase()+"</b>"+
+                            "<br />ref: "+order.payment_ref+" ถูกตัดเงิน ด้วยยอด amount: <b>"+order.total+"</b>"+
+                            "<br />รหัส PIN code ของคุณคือ: <b>5217</b>,โปรดจดเลขนี้ไว้สำหรับรับของ", "ตกลง", () => window.location = "customer.html", false)
                     }
                 )
             }
