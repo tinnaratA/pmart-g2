@@ -1,67 +1,52 @@
 [
     {
-        "total": 39800,
+        "total": 8280,
         "arrayitem": [
             {
-                "item": "PCF ไก่หมักซอสบาร์บีคิว  แพ็คละ 1 กก.",
+                "item": "PCF หมูหมักนุ่ม แพ็คละ 1 กก.",
                 "unit": "Kg",
-                "unitprice": "62",
-                "qty": 100,
-                "price": 6200,
-                "image": "img/product/13.jpg",
-                "vendor": "vendor3",
-                "processed": false
-            },
-            {
-                "item": "PCF เนื้อวัวหมักนุ่ม  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "141",
-                "qty": 100,
-                "price": 14100,
-                "image": "img/product/14.jpg",
-                "vendor": "vendor3",
-                "processed": false
-            },
-            {
-                "item": "PCF หมูหมักพริกไทยดำ  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "71",
-                "qty": 100,
-                "price": 7100,
-                "image": "img/product/5.jpg",
+                "unitprice": "69",
+                "qty": 120,
+                "price": 8280,
+                "image": "img/product/1.jpg",
                 "vendor": "vendor1",
-                "processed": false
-            },
-            {
-                "item": "PCF ไก่หมักน้ำผึ้ง  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "62",
-                "qty": 100,
-                "price": 6200,
-                "image": "img/product/10.jpg",
-                "vendor": "vendor2",
-                "processed": false
-            },
-            {
-                "item": "PCF ไก่หมักซอสพริกไทยดำ  แพ็คละ 1 กก.",
-                "unit": "Kg",
-                "unitprice": "62",
-                "qty": 100,
-                "price": 6200,
-                "image": "img/product/12.jpg",
-                "vendor": "vendor3",
                 "processed": false
             }
         ],
-        "_id": "rH3qiiCkMn9ofJZV",
-        "datetime": "1528532109965",
+        "_id": "16xxtyVpuWvTp4D4",
+        "datetime": "1528561212903",
         "delivery": "2018-06-16",
-        "status": "CONFIRMED",
+        "status": "SCHEDULED",
         "customer": "Patteera Intra",
-        "created": "2018-06-09T15:15:09.974Z",
-        "updated": "2018-06-09T15:15:09.974Z",
-        "id": "ORD5169945024",
+        "created": "2018-06-09T23:20:12.911Z",
+        "updated": "2018-06-09T23:20:12.911Z",
+        "id": "ORD2975498140",
         "payment": "kbank",
-        "payment_ref": "395825212114"
+        "payment_ref": "588936741914"
+    },
+    {
+        "total": 8280,
+        "arrayitem": [
+            {
+                "item": "PCF หมูหมักนุ่ม แพ็คละ 1 กก.",
+                "unit": "Kg",
+                "unitprice": "69",
+                "qty": 120,
+                "price": 8280,
+                "image": "img/product/1.jpg",
+                "vendor": "vendor1",
+                "processed": false
+            }
+        ],
+        "_id": "PzpjG7uCt6r0uLRd",
+        "datetime": "1528561202192",
+        "delivery": "2018-06-16",
+        "status": "SCHEDULED",
+        "customer": "Patteera Intra",
+        "created": "2018-06-09T23:20:02.219Z",
+        "updated": "2018-06-09T23:20:02.219Z",
+        "id": "ORD5836479961",
+        "payment": "kbank",
+        "payment_ref": "831891969912"
     }
 ]

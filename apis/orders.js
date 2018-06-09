@@ -360,6 +360,6 @@ module.exports = {
         createOrder: create_p_order,
         getOrder: get_p_order,
         editOrder: edit_p_order,
-        getSoList: get_so_list
+        getSoList: get_so_list,
     }
 }

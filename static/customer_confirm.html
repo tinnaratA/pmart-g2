@@ -506,39 +506,6 @@
                 }
                 order.total = $("#grandtotal-delivery").text();
 
-                // Update PO
-                var orderArrayItems = order.arrayitem;
-                $.ajax('/orders/po/list?so=' + order._id, {
-                    method: "GET",
-                    contentType: 'application/json'
-                }).done(
-                    data => {
-                        var purchaseOrders = data.data;
-                        purchaseOrders.map(porder => {
-                            var itemList = porder.items.map(item => {
-                                sameItem = orderArrayItems.filter(oitem => oitem.item == item.item)
-                                if (sameItem.length > 0) {
-                                    var soQtyDelivered = parseInt(sameItem[0].delivered);
-                                    if(item.delivered === undefined){
-                                        item.delivered = 0;
-                                    }
-                                    item.delivered += soQtyDelivered;
-                                    item.price = 0.95 * (parseFloat(item.delivered) * parseFloat(item.unitprice));
-                                    return item;
-                                }   
-                            }).filter(x => x);
-                            porder.status = "DELIVERED";
-                            porder.items = itemList;
-                            porder.total = porder.items.map(item => parseFloat(item.price)).reduce((prev, current) => prev + current);
-                            $.ajax('/orders/po/edit/' + porder._id, {
-                                method: "PUT",
-                                contentType: 'application/json',
-                                data: JSON.stringify(porder)
-                            });
-                        });
-                    }
-                );
-                
                 // Update SO
                 $.ajax('/orders/edit/'+ order._id, {
                     data: JSON.stringify(order),
@@ -548,7 +515,47 @@
                     () => {
                         openModal("Success", true, "Delivery has been confirmed.", "OK", () => window.location = "customer.html", false)
                     }
-                )
+                );
+
+                // Update PO
+                var orderArrayItems = order.arrayitem;
+                $.ajax('/orders/po/list?so=' + order._id, {
+                    method: "GET",
+                    contentType: 'application/json'
+                }).done(
+                    data => {
+                        var purchaseOrders = data.data;
+                        purchaseOrders.map(porder => {
+                            $.get("/orders/po/"+ porder._id + "/so/list").done(
+                                data => {
+                                    var porderChangeStatusFlag = data.data.filter(o => o.status !== "PAID").length > 0 ? false: true;
+                                    var itemList = porder.items.map(item => {
+                                        sameItem = orderArrayItems.filter(oitem => oitem.item == item.item)
+                                        if (sameItem.length > 0) {
+                                            var soQtyDelivered = parseInt(sameItem[0].delivered);
+                                            if(item.delivered === undefined){
+                                                item.delivered = 0;
+                                            }
+                                            item.delivered += soQtyDelivered;
+                                            item.price = 0.95 * (parseFloat(item.delivered) * parseFloat(item.unitprice));
+                                            return item;
+                                        }   
+                                    }).filter(x => x);
+                                    if(porderChangeStatusFlag){
+                                        porder.status = "DELIVERED";
+                                    }
+                                    porder.items = itemList;
+                                    porder.total = porder.items.map(item => parseFloat(item.price)).reduce((prev, current) => prev + current);
+                                    $.ajax('/orders/po/edit/' + porder._id, {
+                                        method: "PUT",
+                                        contentType: 'application/json',
+                                        data: JSON.stringify(porder)
+                                    });
+                                }
+                            );
+                        });
+                    }
+                );
             }
 
             function confirm() {
