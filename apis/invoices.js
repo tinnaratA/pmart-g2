@@ -113,11 +113,36 @@ let edit_invoice = (req, res) => {
             }
         }
     });
-}
+};
+
+let edit_invoices = (req, res) => {
+    var rawInvoices = req.body;
+    rawInvoices.map(inv => {
+        db[inv_namespace].findOne({_id: inv._id}, (err, data) => {
+            if(err){
+                console.error(err);
+                return res.status(500).send({success: false, data: err});
+            }
+            else
+            {
+                if(data){
+                    db[inv_namespace].update({_id: data._id}, { $set: data }, { multi: true}, (err) => {
+                        if(err){
+                            console.error(err);
+                            return res.status(500).send({success: false, data: err});
+                        }
+                    });
+                }
+            }
+        });
+    });
+    return res.status(200).send({success: true, data: "Invoice(s) has been updated."});
+};
 
 module.exports = {
     getInvoice: get_invoice,
     invoiceList: inv_list,
     createInvoice: create_inv,
-    editInvoice: edit_invoice
+    editInvoice: edit_invoice,
+    editInvoices: edit_invoices
 };

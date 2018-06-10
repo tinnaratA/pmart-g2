@@ -72,6 +72,7 @@ app.get('/invoices/list', inv_apis.invoiceList);
 app.get('/invoices/:inv_id', inv_apis.getInvoice);
 app.post('/invoices/create', inv_apis.createInvoice);
 app.put('/invoices/edit/:inv_id', inv_apis.editInvoice);
+app.put('/invoices/edit', inv_apis.editInvoices);
 
 //
 // Generate PDF
