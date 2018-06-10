@@ -36,38 +36,37 @@ let inv_list = (req, res) => {
 }
 
 let create_inv = (req, res) => {
-    var errors = [];
     var purchaseOrders = req.body;
-    purchaseOrders.map(porder => {
-        var dataToSave = {};
-        dataToSave._id = porder._id;
-        dataToSave.id = "INV" + parseInt(Math.random(1,50) * 10000000000);
-        dataToSave.items = porder.items;
-        dataToSave.total = porder.total;
-        dataToSave.status = "RAISED";
-        dataToSave.date = new Date().getTime();
-        dataToSave.purchaseOrder = porder.id;
-        dataToSave.delivery = porder.delivery;
-        dataToSave.vendor = porder.vendor;
-
-        db[inv_namespace].insert(dataToSave, (err) => {
-            if(err){
-                console.error(err);
-                errors.push(err);
-            }
-        });
+    var invList = purchaseOrders.map(porder => {
+        var inv = {};
+        inv._id = porder._id;
+        inv.id = "INV" + parseInt(Math.random(1,50) * 10000000000);
+        inv.items = porder.items;
+        inv.total = porder.total;
+        inv.status = "RAISED";
+        inv.date = new Date().getTime();
+        inv.purchaseOrder = porder.id;
+        inv.delivery = porder.delivery;
+        inv.vendor = porder.vendor;
 
         db[po_namespace].update({_id: porder._id}, {$set: {processed: true}}, (err) => {
             if(err){
                 console.error(err);
-                errors.push(err);
             }
         });
+        return inv;
     });
-    if(errors.length > 0){
-        return res.status(500).send({success: false, data: errors});
-    }
-    return res.status(200).send({success: true, data: "Invoice(s) has been created."});
+
+    db[inv_namespace].insert(invList, (err) => {
+        if(err){
+            console.error(err);
+            return res.status(400).send({success: true, data: err});
+        }
+        else
+        {
+            return res.status(200).send({success: true, data: "Invoice(s) has been created."});
+        }
+    });
 };
 
 let get_invoice = (req, res) => {
