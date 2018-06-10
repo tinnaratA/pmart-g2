@@ -26,6 +26,7 @@
         "type": "CUSTOMER"
     },
     {
+        "_id": "vendor1",
         "username": "supaporn",
         "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "Supaporn@horizont.in.th",
@@ -65,6 +66,7 @@
         "type": "CUSTOMER"
     },
     {
+        "_id": "vendor2",
         "username": "vendor",
         "password": "7c3613dba5171cb6027c67835dd3b9d4",
         "email": "vendor@horizont.in.th",
@@ -78,6 +80,7 @@
         "type": "VENDER"
     },
     {
+        "_id": "vendor3",
         "username": "pcf_vendor",
         "password": "347059ead5b2303b3d42c2b9811a3b6e",
         "email": "pcf_vendor@horizont.in.th",
