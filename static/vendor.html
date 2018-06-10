@@ -189,10 +189,10 @@
             a.mdl-navigation__link {
                 cursor: pointer;
             }
-            .top-right {
+            .right-btn {
                 position: absolute;
                 right: 24px;
-                top: 170px;
+                padding-top: 60px;
             }
             .thumbnail {
                 height: 100px;
@@ -252,13 +252,18 @@
             <main class="mdl-layout__content">
                 <div class="page-content">
                     <h3 id="hello">Hello! Vendor 00001: PC FOOD CENTER CO.,LTD.</h3>
-                    <h5><img src="img/so.png" alt="SO" height="100" style="padding-right: 16px;">รายการสั่งซื้อของร้านค้า</h5>
+                    <h5>
+                        <img src="img/so.png" alt="SO" height="100" style="padding-right: 16px;">รายการสั่งซื้อของร้านค้า
+                        <span class="right-btn">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="create-PO-btn">เพิ่มรายการสั่งซื้อ</button>
+                        </span>
+                    </h5>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
                         <thead>
                             <tr>
                                 <th>
-                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-all">
-                                        <input type="checkbox" id="checkbox-all" class="mdl-checkbox__input" onclick="checkedAll()">
+                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-all-1">
+                                        <input type="checkbox" id="checkbox-all-1" class="mdl-checkbox__input" onclick="checkedAll('orderlist', 'checkbox-all-1')">
                                     </label>
                                 </th>
                                 <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
@@ -274,11 +279,21 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <h5><img src="img/po.png" alt="PO" height="100" style="padding-right: 16px;">รายการสั่งซื้อ</h5>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_invoice()" id="invbutton" style="float: right;">สร้างใบกำกับสินค้า</button>
+                    <h5>
+                        <img src="img/po.png" alt="PO" height="100" style="padding-right: 16px;">รายการสั่งซื้อ
+                        <span class="right-btn">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_invoice()" id="create-INV-btn">สร้างใบกำกับสินค้า</button>
+                        </span>
+                    </h5>
+                    
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="polist">
                         <thead>
                             <tr>
+                                <th>
+                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-all-2">
+                                        <input type="checkbox" id="checkbox-all-2" class="mdl-checkbox__input" onclick="checkedAll('polist', 'checkbox-all-2')">
+                                    </label>
+                                </th>
                                 <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
                                 <th class="mdl-data-table__cell--non-numeric">ผู้ดำเนินการ</td>
                                 <th class="mdl-data-table__cell--non-numeric">วันที่</th>
@@ -290,10 +305,20 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <h5><img src="img/inv.png" alt="inv" height="100" style="padding-right: 16px;">ใบกำกับสินค้า</h5>
+                    <h5>
+                        <img src="img/inv.png" alt="inv" height="100" style="padding-right: 16px;">ใบกำกับสินค้า
+                        <span class="right-btn">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="confirm_invoice()" id="confirm-INV-btn">ยืนยันใบกำกับสินค้า</button>
+                        </span>
+                    </h5>
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="invlist">
                         <thead>
                             <tr>
+                                <th>
+                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-all-3">
+                                        <input type="checkbox" id="checkbox-all-3" class="mdl-checkbox__input" onclick="checkedAll('invlist', 'checkbox-all-3')">
+                                    </label>
+                                </th>
                                 <th class="mdl-data-table__cell--non-numeric">เลขที่</th>
                                 <th class="mdl-data-table__cell--non-numeric">เลขที่รายการสั่งซื้อของร้านค้า</td>
                                 <th class="mdl-data-table__cell--non-numeric">วันที่</th>
@@ -306,15 +331,15 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="top-right">
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_purchase_order()" id="conf">เพิ่มรายการสั่งซื้อ</button>
-                    <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="generate_invoice()" id="invbutton">เพิ่มใบกำกับสินค้า</button> -->
-                </div>
             </main>
         </div>
         <script>
-            var saleinfo = JSON.parse(localStorage.getItem("login"));
-            var globid = 1;
+            var userinfo = JSON.parse(localStorage.getItem("login"));
+            var global_so_id = 1;
+            var global_po_id = 1;
+            var global_inv_id = 1;
+
+            $(".page-content").find(".mdl-checkbox__input").prop("checked", false).parent().removeClass("is-checked");
 
             function showdata(id, type){
                 window.location.href = "vendor_confirm.html?id="+id+"&type="+type
@@ -324,7 +349,7 @@
                 $.ajax({
                     method: "POST",
                     url: "/users/logout",
-                    data: {"username": saleinfo.username, "password": saleinfo.password}
+                    data: {"username": userinfo.username, "password": userinfo.password}
                 })
                 .done((data) => {
                     location.href='index.html';
@@ -384,10 +409,10 @@
             function add_to_table(data, i){
                 row = $("<tr></tr>");
                 
-                var index = globid;
+                var index = global_so_id;
                 var col1 = $("<td />")
-                    .append($("<label />", {class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect", for: "checkbox-"+index, click: () => onSeleted(index)})
-                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-"+index}))
+                    .append($("<label />", {class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect", for: "checkbox-1-"+index, click: () => onSeleted("1-"+index)})
+                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-1-"+index}))
                 );
                 var col2 = $("<td />", {
                     text: data.id,
@@ -418,7 +443,7 @@
                     text: (data.arrayitem[i].unitprice * data.arrayitem[i].qty * 0.95).toFixed(2)
                 });
             
-                globid++;
+                global_so_id++;
                 row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7).append(col8).append(col9);
                 $("#orderlist").find('tbody').append(row);
             }
@@ -427,24 +452,34 @@
                 var now = new Date(data.date);
                 var delivery_date = new Date(data.delivery);
 
-                var row = $("<tr />", {click: () => showdata(data._id, "PO")});
-                var col1 = $("<td />", {
+                var index = global_po_id;
+                var row = $("<tr />", {click: (evt) => {
+                    var $cell=$(evt.target).closest('td');
+                    if( $cell.index()>0){
+                        showdata(data._id, "PO")
+                    }
+                }});
+                var col1 = $("<td />")
+                    .append($("<label />", {class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect", for: "checkbox-2-"+index, click: () => onSeleted("2-"+index)})
+                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-2-"+index, disabled: data.processed ? true : data.status == "DELIVERED" ? false : true}))
+                );
+                var col2 = $("<td />", {
                     text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col1_1 = $("<td />", {
-                    text: saleinfo.name,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col2 = $("<td />", {
-                    text: now.toDateString() + " " + now.toLocaleTimeString(),
-                    class: "mdl-data-table__cell--non-numeric"
-                });
                 var col3 = $("<td />", {
-                    text: delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString(),
+                    text: userinfo.name,
                     class: "mdl-data-table__cell--non-numeric"
                 });
                 var col4 = $("<td />", {
+                    text: now.toDateString() + " " + now.toLocaleTimeString(),
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col5 = $("<td />", {
+                    text: delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString(),
+                    class: "mdl-data-table__cell--non-numeric"
+                });
+                var col6 = $("<td />", {
                     text: (data.total * 0.95).toFixed(2)
                 });
 
@@ -454,12 +489,13 @@
                     case "DELIVERED": status_img = "check_circle"; break;
                     case "DELIVERING": status_img = "hourglass_empty"; break;
                 }
-                var col5 = $("<td />", {
+                var col7 = $("<td />", {
                     html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
                     class: "mdl-data-table__cell--non-numeric"
                 });
         
-                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
+                global_po_id++;
+                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7);
                 $("#polist").find('tbody').append(row);
             }
             
@@ -468,24 +504,34 @@
                 var now = new Date(data.date);
                 var delivery_date = new Date(data.delivery);
 
-                var row = $("<tr />", {click: () => showdata(data._id, "INV")});
-                var col1 = $("<td />", {
+                var index = global_inv_id;
+                var row = $("<tr />", {click: (evt) => {
+                    var $cell=$(evt.target).closest('td');
+                    if( $cell.index()>0){
+                        showdata(data._id, "INV")
+                    }
+                }});
+                var col1 = $("<td />")
+                    .append($("<label />", {class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect", for: "checkbox-3-"+index, click: () => onSeleted("3-"+index)})
+                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-3-"+index}))
+                );
+                var col2 = $("<td />", {
                     text: data.id,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col1_1 = $("<td />", {
+                var col3 = $("<td />", {
                     text: data.purchaseOrder,
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col2 = $("<td />", {
+                var col4 = $("<td />", {
                     text: now.toDateString() + " " + now.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col3 = $("<td />", {
+                var col5 = $("<td />", {
                     text: delivery_date.toDateString() + " " + delivery_date.toLocaleTimeString(),
                     class: "mdl-data-table__cell--non-numeric"
                 });
-                var col4 = $("<td />", {
+                var col6 = $("<td />", {
                     text: (data.total * 0.95).toFixed(2)
                 });
 
@@ -495,12 +541,13 @@
                     case "CONFIRMED": status_img = "event_available"; break;
                     case "PAID": status_img = "check_circle"; break;
                 }
-                var col5 = $("<td />", {
+                var col7 = $("<td />", {
                     html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
                     class: "mdl-data-table__cell--non-numeric"
                 });
             
-                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
+                global_inv_id++;
+                row.append(col1).append(col2).append(col3).append(col4).append(col5).append(col6).append(col7)
                 $("#invlist").find('tbody').append(row);
             }
             
@@ -510,36 +557,62 @@
                 .done((data) => {
                     var orders = data.data;
 
+                    global_so_id = 1;
                     $("#orderlist").find('tbody').empty();
-                    $("#invlist").find('tbody').empty();
+                    $("#create-PO-btn").attr("disabled", true);
 
-                    // SO
                     filteredOrders = orders.filter(orders => orders.status == 'CONFIRMED');
                     var ordersToShow = filteredOrders.map(
                         order => {
                             var new_order = order;
-                            var itemList = order.arrayitem.filter(o => o.vendor == saleinfo._id && !o.processed);
+                            var itemList = order.arrayitem.filter(o => o.vendor == userinfo._id && !o.processed);
                             new_order.arrayitem = itemList;
                             return new_order;
                         }
                     ).filter(o => o.arrayitem.length > 0);
-                    if(ordersToShow.length <= 0){
-                        $("#conf").hide();
-                    }
                     ordersToShow.sort((a,b) => (a.delivery > b.delivery) ? 1 : ((b.delivery > a.delivery) ? -1 : 0)).map(ord => ord.arrayitem.map((x, i) => add_to_table(ord, i)));
                     orderData = ordersToShow;
+
                     refreshMDL();
                 });
             }
 
+            var poData;
+            function getPOList() {
+                $.get("/orders/po/list?vendor=" + userinfo._id)
+                .done(
+                    (data) => {
+                        var rawPurchaseOrders = data.data;
+
+                        global_po_id = 1;
+                        $("#polist").find('tbody').empty();
+                        $("#create-INV-btn").attr("disabled", true);
+                        
+                        var showData = rawPurchaseOrders.filter(po => po.vendor == userinfo._id)
+                        showData.map(add_to_table_delivery);
+                        poData = showData; 
+
+                        refreshMDL();
+                    }
+                );
+            }
+
+            var invData;
             function getInvList(){
-                $.get('invoices/list?vendor=' + saleinfo._id)
+                $.get('invoices/list?vendor=' + userinfo._id)
                 .done(
                     data => {
+                        global_inv_id = 1;
+                        $("#invlist").find('tbody').empty();
+                        $("#confirm-INV-btn").attr("disabled", true);
+
                         if(data && data !== undefined){
                             var invoices = data.data;
                             invoices.map(add_to_table_inv);
+                            invData = invoices;
                         }
+
+                        refreshMDL();
                     }
                 ).fail(
                     data => {
@@ -547,31 +620,12 @@
                     }
                 );
             }
-
-            function getPOList() {
-                $.get("/orders/po/list?vendor=" + saleinfo._id)
-                .done(
-                    (data) => {
-                        var rawPurchaseOrders = data.data;
-                        if(rawPurchaseOrders.filter(porder => porder.processed == undefined ? porder.status == "DELIVERED": false).length <= 0){
-                            $('#invbutton').hide();
-                        }
-                        $("#polist").find('tbody').empty();
-                        rawPurchaseOrders.filter(po => po.vendor == saleinfo._id).map(add_to_table_delivery);
-                        
-                        var purchaseOrderToCreateInv = rawPurchaseOrders.filter(o => o.status == "DELIVERED");
-                        localStorage.removeItem('purchaseOrderToCreateInv');
-                        localStorage.setItem('purchaseOrderToCreateInv', JSON.stringify(purchaseOrderToCreateInv));
-                        refreshMDL();
-                    }
-                );
-            }
        
-            $("#hello").html("สวัสดี คุณ "+saleinfo.name);
+            $("#hello").html("สวัสดี คุณ "+userinfo.name);
             updateDrawerUser()
             function updateDrawerUser() {
-                $("#user-name").text(saleinfo.name ? saleinfo.name : "" + " " + saleinfo.surname ? saleinfo.surname : "")
-                $("#user-email").text(saleinfo.email ? saleinfo.email : "")
+                $("#user-name").text(userinfo.name ? userinfo.name : "" + " " + userinfo.surname ? userinfo.surname : "")
+                $("#user-email").text(userinfo.email ? userinfo.email : "")
             }
 
             updateTable();
@@ -583,15 +637,15 @@
             }
 
             function generate_purchase_order(){
-                $("#conf").attr("disabled", true);
-                data = buildDataBeforeSend(orderData);
+                $("#create-PO-btn").attr("disabled", true);
+                data = buildSOData(orderData);
                 if(!data) {
-                    openModal("Error", true, "Please, select some items before create PO", "OK", closeModal, false);
+                    openModal("Error", true, "Please, select some items before create PO.", "OK", closeModal, false);
                     return;
                 }
 
                 $.ajax({
-                    url: "/orders/po/create/" + saleinfo._id,
+                    url: "/orders/po/create/" + userinfo._id,
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data)
@@ -603,46 +657,71 @@
                     resdata => {
                         openModal("Error", true, "These orders were processed.", "OK", closeModal, false);
                     }
-                ).always( () => {
-                    $("#conf").attr("disabled", false)
-                });
+                )
             }
 
             function generate_invoice(){
-                $("#invbutton").attr("disabled", true);
-                var purchaseOrderToCreateInv = JSON.parse(localStorage.getItem('purchaseOrderToCreateInv'));
-                if(purchaseOrderToCreateInv.length <= 0){
-                    openModal("Error", true, "No Purchase Order(s) have DELIVERED status.", "OK", closeModal, false);
+                $("#create-INV-btn").attr("disabled", true);
+                var selectedData = findSelectedData("polist", poData);
+
+                if(!selectedData){
+                    openModal("Error", true, "Please, select some PO before create invoice.", "OK", closeModal, false);
                     return;
                 }
-
+                
                 $.ajax('/invoices/create', {
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify(purchaseOrderToCreateInv)
+                    data: JSON.stringify(selectedData)
                 }).done(
                     data => {
                         openModal("Success", true, data.data, "OK", updateTable, false);
                     }
                 ).fail(
                     data => {
-                        openModal("Error", true, data.data, "OK", closeModal, false);
+                        openModal("Error", true, data.responseJSON.data, "OK", closeModal, false);
                     }
-                ).always( () => {
-                    $("#invbutton").attr("disabled", false)
-                });
-                
-                refreshMDL();
+                )
+            }
+
+            function confirm_invoice() {
+                $("#confirm-INV-btn").attr("disabled", true);
+                var selectedData = findSelectedData("invlist", invData);
+
+                if(!selectedData){
+                    openModal("Error", true, "Please, select some invoices before confirm invoices.", "OK", closeModal, false);
+                    return;
+                }
+
+                selectedData.map(x => x.status = "CONFIRMED");
+
+                $.ajax('/invoices/edit', {
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(selectedData)
+                }).done(
+                    data => {
+                        openModal("Success", true, data.data, "OK", updateTable, false);
+                    }
+                ).fail(
+                    data => {
+                        openModal("Error", true, data.responseJSON.data, "OK", closeModal, false);
+                    }
+                )
             }
 
             function onSeleted(id) {
-                var main_checkbox = $("#checkbox-all");
+                var table_num = id.split("-")[0]
+                var main_id = "checkbox-all-"+table_num
+                var main_checkbox = $("#"+main_id);
 
+                var checkboxs = $("#orderlist").find(".mdl-checkbox__input");
                 if($("#checkbox-"+id).prop('checked')) {
-                    var checkboxs = $("#orderlist").find(".mdl-checkbox__input");
-                    all = true;
+                    toggleMainBtn(table_num, false);
+
+                    var all = true;
                     for(var i = 0; i < checkboxs.length; i++) {
-                        if(checkboxs[i].id != "checkbox-all" && !checkboxs[i].checked) {
+                        if(checkboxs[i].id != main_id && !checkboxs[i].checked) {
                             all = false;
                             break;
                         }
@@ -656,21 +735,59 @@
                 else {
                     main_checkbox.parent().removeClass("is-checked");
                     main_checkbox.prop('checked', false);
+
+                    var none = true;
+                    for(var i = 0; i < checkboxs.length; i++) {
+                        if(checkboxs[i].id != main_id && checkboxs[i].checked) {
+                            none = false;
+                            break;
+                        }
+                    }
+
+                    if(none) {
+                        toggleMainBtn(table_num, true)
+                    }
                 }
             }
 
-            function checkedAll() {
-                if ($("#checkbox-all").prop('checked')) {
-                    $("#orderlist").find("label.mdl-checkbox").addClass("is-checked");
-                    $("#orderlist").find(".mdl-checkbox__input").prop("checked", true);
+            function toggleMainBtn(table_num, flag) {
+                switch(table_num) {
+                    case "1":
+                        $("#create-PO-btn").attr("disabled", flag);
+                        break;
+                    case "2":
+                        $("#create-INV-btn").attr("disabled", flag);
+                        break;
+                    case "3":
+                        $("#confirm-INV-btn").attr("disabled", flag);
+                        break;
+                }
+            }
+
+            function checkedAll(table_id, check_all_id) {
+                var table_num = check_all_id.split("-").splice(-1)[0]
+                var $table_obj = $("#"+table_id)
+                if ($("#"+check_all_id).prop('checked')) {
+                    $table_obj.find(".mdl-checkbox__input:not([disabled])").prop("checked", true).parent().addClass("is-checked");
+
+                    var blank_count = 0;
+                    var checkboxs = $table_obj.find("tbody").find(".mdl-checkbox__input")
+                    for(var i = 0; i < checkboxs.length; i++) {
+                        if (!checkboxs[i].checked) {
+                            blank_count++;
+                        }
+                    }
+                    if(blank_count != checkboxs.length) {
+                        toggleMainBtn(table_num, false);
+                    }
                 }
                 else {
-                    $("#orderlist").find("label.mdl-checkbox").removeClass("is-checked");
-                    $("#orderlist").find(".mdl-checkbox__input").prop("checked", false);
+                    $table_obj.find(".mdl-checkbox__input").prop("checked", false).parent().removeClass("is-checked");
+                    toggleMainBtn(table_num, true);
                 }
             }
 
-            function buildDataBeforeSend(data) {
+            function buildSOData(data) {
                 var checkboxs = $("#orderlist").find("tbody").find(".mdl-checkbox__input");
                 var blank_count = 0;
                 var flat_items = [];
@@ -701,6 +818,28 @@
                         return temp;
                     });
                     return new_data.filter(x => x.arrayitem.length > 0);
+                }
+            }
+
+            function findSelectedData(table_id, data) {
+                var checkboxs = $("#"+table_id).find("tbody").find(".mdl-checkbox__input");
+                var blank_count = 0;
+                var target = [];
+
+                for(var i = 0; i < checkboxs.length; i++) {
+                    if (checkboxs[i].checked) {
+                        target.push(data[i]);
+                    }
+                    else {
+                        blank_count++;
+                    }
+                }
+
+                if(blank_count == checkboxs.length) {
+                    return null;
+                }
+                else {
+                    return target;
                 }
             }
         </script>

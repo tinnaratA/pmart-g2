@@ -265,7 +265,7 @@
                     <form id="order" onsubmit="order();return false;">
                         <b style="margin-right: 8px;">วันส่ง:</b> 
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="datepicker">
+                            <input class="mdl-textfield__input" type="text" id="datepicker" readonly="readonly">
                             <label class="mdl-textfield__label" for="datepicker">Delivery Date</label>
                         </div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="preorder">
@@ -312,6 +312,8 @@
                     }
                 });
             });
+
+            $("#datepicker").val("");
 
             function refreshMDL() {
                 componentHandler.upgradeDom();
@@ -429,7 +431,7 @@
                 var _id = globid;
                 var col6 = $("<td />")
                     .append($("<div />", {class: "mdl-textfield mdl-js-textfield small-textfield"})
-                        .append($("<input />", {class: "mdl-textfield__input", type: "text", id: "z"+_id, pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(_id)))
+                        .append($("<input />", {class: "mdl-textfield__input", value: "", type: "text", id: "z"+_id, pattern: "-?[0-9]*(\.[0-9]+)?"}).keyup(() => setvalue(_id)))
                         .append($("<label />", {class: "mdl-textfield__label", for: "z", text: ""}))
                         .append($("<span />", {class: "mdl-textfield__error", text: "Input is not a number!"}))
                     )
@@ -450,13 +452,19 @@
                     openModal('Error: No item have been ordered', true, 'Please add some items before click RAISE button.', "OK", closeModal, false);
                     return;
                 }
-                if(!$("#datepicker").val()){
+                var date = $("#datepicker").val()
+                if(!date){
                     openModal('Error: No delivery date has been selected', true, 'Please select your delivery date before click RAISE button.', "OK", closeModal, false);
+                    return;
+                }
+                var now = new Date().toISOString().split("T")[0]
+                if(date < now) {
+                    openModal('Error: Wrong delivery date', true, "Please don't insert delivery date which already passed.", "OK", closeModal, false);
                     return;
                 }
                 savedata._id = makeId();
                 savedata.datetime = Date.now();
-                savedata.delivery = $("#datepicker").val();
+                savedata.delivery = date;
                 savedata.status = "RAISED";
                 
                 savedata.customer = saleinfo.name;
