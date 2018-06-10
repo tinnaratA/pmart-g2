@@ -693,7 +693,11 @@
                     return;
                 }
 
-                selectedData.map(x => x.status = "CONFIRMED");
+                selectedData.map(x => {
+                    x.status = "CONFIRMED";
+                    x.processed = true;
+                }
+                );
 
                 $.ajax('/invoices/edit', {
                     method: 'PUT',

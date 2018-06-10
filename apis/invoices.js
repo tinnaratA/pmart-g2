@@ -126,7 +126,7 @@ let edit_invoices = (req, res) => {
             else
             {
                 if(data){
-                    db[inv_namespace].update({_id: data._id}, { $set: data }, { multi: true}, (err) => {
+                    db[inv_namespace].update({_id: data._id}, { $set: inv }, { multi: true}, (err) => {
                         if(err){
                             console.error(err);
                             return res.status(500).send({success: false, data: err});
