@@ -65,34 +65,6 @@
                 width: calc(100% - 48px);
                 padding: 24px;
             }
-            #orderlist th {
-                background-color: #1e88e5;
-            }
-            #orderlist tr:nth-child(even){
-                background-color: #e1f5fe;
-            }
-            #orderlist tbody > tr:hover {
-                background-color: #84ffff;
-                cursor: pointer;
-            }
-            #polist th {
-                background-color: #43a047;
-            }
-            #polist tr:nth-child(even){
-                background-color: #dcedc8;
-            }
-            #polist tbody > tr:hover {
-                background-color: #ccff90;
-                cursor: pointer;
-            }
-            #orderlist.mdl-data-table th, 
-            #polist.mdl-data-table th {
-                color: white;
-            }
-            .status_row {
-                vertical-align: middle;
-                margin-right: 8px;
-            }
             .modal {
                 display: -webkit-box;
                 display: -webkit-flex;
@@ -182,6 +154,40 @@
             .full-width {
                 width: 100%;
             }
+            #orderlist th {
+                background-color: #E040FB;
+            }
+            #orderlist tbody > tr.header {
+                background-color: #448AFF;
+                color: white;
+            }
+            #orderlist tr:nth-child(even){
+                background-color: #e1f5fe;
+            }
+            #orderlist tbody > tr:not(.header):hover {
+                background-color: #84ffff;
+            }
+            #polist th {
+                background-color: #558B2F;
+            }
+            #polist tbody > tr.header {
+                background-color: #43a047;
+                color: white;
+            }
+            #polist tr:nth-child(even){
+                background-color: #dcedc8;
+            }
+            #polist tbody > tr:not(.header):hover {
+                background-color: #ccff90;
+            }
+            #orderlist.mdl-data-table th, 
+            #polist.mdl-data-table th {
+                color: white;
+            }
+            #orderlist,
+            #polist {
+                margin-top: 24px;
+            }
         </style>
     <header>
     <body class="fullbody">
@@ -236,37 +242,69 @@
             <div class="modal-obfuscator"></div>
             <main class="mdl-layout__content">
                 <div class="page-content">
-                    <h3 id="hello">Merchandise</h3>
-                    <h5><img src="img/so.png" alt="SO" height="100" style="padding-right: 16px;">Incoming Sale Order</h5>
-                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
-                        <thead>
-                            <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Sale Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Customer</td>
-                                <th class="mdl-data-table__cell--non-numeric">Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th>Total</th>
-                                <th class="mdl-data-table__cell--non-numeric">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <h5><img src="img/po.png" alt="PO" height="100" style="padding-right: 16px;">Purchase Order List</h5>
-                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="polist">
-                        <thead>
-                            <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Purchase Order ID</th>
-                                <th class="mdl-data-table__cell--non-numeric">Sale Order ID</td>
-                                <th class="mdl-data-table__cell--non-numeric">Date</th>
-                                <th class="mdl-data-table__cell--non-numeric">Delivery Date</th>
-                                <th>Total</th>
-                                <th class="mdl-data-table__cell--non-numeric">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <h3 id="hello"></h3>
+                    <h5><img src="img/mer.png" alt="Mer" height="100" style="padding-right: 16px;">สรุปยอดขายสินค้า</h5>
+                    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                        <div class="mdl-tabs__tab-bar" style="justify-content: flex-start;">
+                            <a href="#customer-panel" class="mdl-tabs__tab is-active">ลูกค้า</a>
+                            <a href="#vendor-panel" class="mdl-tabs__tab">ผู้จัดจำหน่าย</a>
+                        </div>
+                        
+                        <div class="mdl-tabs__panel is-active" id="customer-panel">
+                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">เลขที่รายการสินค้า</th>
+                                        <th class="mdl-data-table__cell--non-numeric">ผู้จัดจำหน่าย</th>
+                                        <th>ยอดรวม</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="header">
+                                        <td colspan="2" class="mdl-data-table__cell--non-numeric">Customer A</td>
+                                        <td>3000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
+                                        <td class="mdl-data-table__cell--non-numeric">vendor1</td>
+                                        <td>1000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
+                                        <td class="mdl-data-table__cell--non-numeric">vendor2</td>
+                                        <td>2000</td>
+                                    </tr>
+                                    <tr class="header">
+                                        <td colspan="2" class="mdl-data-table__cell--non-numeric">Customer B</td>
+                                        <td>3000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
+                                        <td class="mdl-data-table__cell--non-numeric">vendor1</td>
+                                        <td>1000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
+                                        <td class="mdl-data-table__cell--non-numeric">vendor2</td>
+                                        <td>2000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mdl-tabs__panel" id="vendor-panel">
+                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">เลขที่รายการสั่งซื้อ</th>
+                                        <th class="mdl-data-table__cell--non-numeric">ลูกค้า</th>
+                                        <th>ยอดรวม</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -279,15 +317,25 @@
                     closeModal();
                 });
 
-                $.get("/orders/list")
-                    .done((data) => {
-                        var orders = data.data;
-                        orders.filter(orders => orders.status == 'CONFIRMED' || orders.status == 'SCHEDULED').map(addSOtable);
-                        orders.filter(order => order.po).map(addPOtable);
-                });
+                getMerchandise("CUSTOMER")
+                getMerchandise("VENDER")
 
-                // $("#hello").html("Hello! Admin: "+userinfo.name);
-                updateDrawerUser() 
+                $("#hello").html("สวัสดี คุณ: "+userinfo.name);
+                updateDrawerUser()
+            }
+
+            function getMerchandise(type) {
+                $.get('/merchandise/statistic/'+type)
+                .done(
+                    data => {
+                        console.log(data)
+                    }
+                ).fail(
+                    data => {
+                        openModal("Error", true, data.responseJSON.data, "OK", closeModal, false);
+                    }
+                )
+                
             }
 
             function refreshMDL() {
@@ -350,87 +398,6 @@
             function updateDrawerUser() {
                 $("#user-name").text(userinfo.name ? userinfo.name : "" + " " + userinfo.surname ? userinfo.surname : "")
                 $("#user-email").text(userinfo.email ? userinfo.email : "")
-            }
-
-            function showdata(id,type){
-                window.location.href = "merchandise_detail.html?id="+id+"&type="+type
-            }
-
-            function addSOtable(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "SO")});
-                if(data.status == "SCHEDULED")
-                    row = $("<tr></tr>");
-                
-                var col1 = $("<td />", {
-                    text: data.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col1_1 = $("<td />", {
-                    text: data.customer,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col3 = $("<td />", {
-                    text: data.delivery,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col4 = $("<td />", {
-                    text: (data.total * 0.95).toFixed(2)
-                });
-
-                var status_img;
-                switch(data.status){
-                    case "RAISED": status_img = "fiber_new"; break;
-                    case "CONFIRMED": status_img = "event_available"; break;
-                    case "SCHEDULED": status_img = "schedule"; break;
-                    case "PAID": status_img = "check_circle"; break;
-                }
-                var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.status+"</span>",
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-            
-                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
-                $("#orderlist").find('tbody').append(row);
-            }
-            
-            function addPOtable(data){
-                var row = $("<tr />", {click: () => showdata(data.id, "PO")});
-                var col1 = $("<td />", {
-                    text: data.po.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col1_1 = $("<td />", {
-                    text: data.id,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col2 = $("<td />", {
-                    text: new Date(parseInt(data.datetime)).toISOString(),
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col3 = $("<td />", {
-                    text: data.delivery,
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-                var col4 = $("<td />", {
-                    text: (data.total * 0.95).toFixed(2)
-                });
-
-                var status_img;
-                switch(data.po.status){
-                    case "RAISED": status_img = "local_shipping"; break;
-                    case "DELIVERED": status_img = "check_circle"; break;
-                }
-                var col5 = $("<td />", {
-                    html: "<i class='material-icons status_row'>"+status_img+"</i><span>"+data.po.status+"</span>",
-                    class: "mdl-data-table__cell--non-numeric"
-                });
-        
-                row.append(col1).append(col1_1).append(col2).append(col3).append(col4).append(col5)
-                $("#polist").find('tbody').append(row);
             }
         </script>
     </body>
