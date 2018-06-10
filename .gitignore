@@ -8,4 +8,4 @@ package-lock.json
 node_modules/
 database/data/
 static/pdf/
-template_gen/template/
+template_gen/template/*.html
