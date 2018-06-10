@@ -73,7 +73,7 @@ app.get('/invoices/:inv_id', inv_apis.getInvoice);
 app.post('/invoices/create', inv_apis.createInvoice);
 app.put('/invoices/edit/:inv_id', inv_apis.editInvoice);
 
-
+//
 // Generate PDF
 var fs = require('fs');
 var pdf = require('html-pdf');
