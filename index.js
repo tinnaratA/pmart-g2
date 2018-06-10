@@ -74,6 +74,10 @@ app.post('/invoices/create', inv_apis.createInvoice);
 app.put('/invoices/edit/:inv_id', inv_apis.editInvoice);
 app.put('/invoices/edit', inv_apis.editInvoices);
 
+// Merchandise APIs
+merchan_apis = require("./apis/merchandises");
+app.get('/merchandise/statistic/:usertype', merchan_apis.getStatistic);
+
 //
 // Generate PDF
 var fs = require('fs');
