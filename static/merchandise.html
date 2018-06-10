@@ -154,38 +154,38 @@
             .full-width {
                 width: 100%;
             }
-            #orderlist th {
-                background-color: #E040FB;
+            #cust-table th {
+                background-color: #1565C0;
             }
-            #orderlist tbody > tr.header {
+            #cust-table tbody > tr.header {
                 background-color: #448AFF;
                 color: white;
             }
-            #orderlist tr:nth-child(even){
+            #cust-table tr:nth-child(even){
                 background-color: #e1f5fe;
             }
-            #orderlist tbody > tr:not(.header):hover {
+            #cust-table tbody > tr:not(.header):hover {
                 background-color: #84ffff;
             }
-            #polist th {
+            #vend-table th {
                 background-color: #558B2F;
             }
-            #polist tbody > tr.header {
+            #vend-table tbody > tr.header {
                 background-color: #43a047;
                 color: white;
             }
-            #polist tr:nth-child(even){
+            #vend-table tr:nth-child(even){
                 background-color: #dcedc8;
             }
-            #polist tbody > tr:not(.header):hover {
+            #vend-table tbody > tr:not(.header):hover {
                 background-color: #ccff90;
             }
-            #orderlist.mdl-data-table th, 
-            #polist.mdl-data-table th {
+            #cust-table.mdl-data-table th, 
+            #vend-table.mdl-data-table th {
                 color: white;
             }
-            #orderlist,
-            #polist {
+            #cust-table,
+            #vend-table {
                 margin-top: 24px;
             }
         </style>
@@ -251,7 +251,7 @@
                         </div>
                         
                         <div class="mdl-tabs__panel is-active" id="customer-panel">
-                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
+                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="cust-table">
                                 <thead>
                                     <tr>
                                         <th class="mdl-data-table__cell--non-numeric">เลขที่รายการสินค้า</th>
@@ -260,43 +260,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="header">
-                                        <td colspan="2" class="mdl-data-table__cell--non-numeric">Customer A</td>
-                                        <td>3000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
-                                        <td class="mdl-data-table__cell--non-numeric">vendor1</td>
-                                        <td>1000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
-                                        <td class="mdl-data-table__cell--non-numeric">vendor2</td>
-                                        <td>2000</td>
-                                    </tr>
-                                    <tr class="header">
-                                        <td colspan="2" class="mdl-data-table__cell--non-numeric">Customer B</td>
-                                        <td>3000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
-                                        <td class="mdl-data-table__cell--non-numeric">vendor1</td>
-                                        <td>1000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="mdl-data-table__cell--non-numeric">ORD001</td>
-                                        <td class="mdl-data-table__cell--non-numeric">vendor2</td>
-                                        <td>2000</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="mdl-tabs__panel" id="vendor-panel">
-                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="orderlist">
+                            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width" id="vend-table">
                                 <thead>
                                     <tr>
                                         <th class="mdl-data-table__cell--non-numeric">เลขที่รายการสั่งซื้อ</th>
-                                        <th class="mdl-data-table__cell--non-numeric">ลูกค้า</th>
+                                        <th class="mdl-data-table__cell--non-numeric">สินค้า</th>
                                         <th>ยอดรวม</th>
                                     </tr>
                                 </thead>
@@ -317,25 +289,29 @@
                     closeModal();
                 });
 
-                getMerchandise("CUSTOMER")
-                getMerchandise("VENDER")
-
                 $("#hello").html("สวัสดี คุณ: "+userinfo.name);
                 updateDrawerUser()
+
+                getMerchandise("CUSTOMER")
+                getMerchandise("VENDER")
             }
 
             function getMerchandise(type) {
                 $.get('/merchandise/statistic/'+type)
                 .done(
                     data => {
-                        console.log(data)
+                        if(type == "CUSTOMER") {
+                            addDataToTable('cust-table', data.data.filter(x => x.status == "PAID"), 'customer')
+                        }
+                        else if(type == "VENDER") {
+                            addDataToTable('vend-table', data.data.filter(x => x.status == "DELIVERED"), 'vendor')
+                        }
                     }
                 ).fail(
                     data => {
                         openModal("Error", true, data.responseJSON.data, "OK", closeModal, false);
                     }
                 )
-                
             }
 
             function refreshMDL() {
@@ -398,6 +374,37 @@
             function updateDrawerUser() {
                 $("#user-name").text(userinfo.name ? userinfo.name : "" + " " + userinfo.surname ? userinfo.surname : "")
                 $("#user-email").text(userinfo.email ? userinfo.email : "")
+            }
+
+            function addDataToTable(table_id, data, type) {
+                var $table = $("#"+table_id)
+                var $tbody = $table.find("tbody")
+                
+                data.map(x => {
+                    $tbody.append($("<tr />", {class: "header"})
+                        .append($("<td />", {class: "mdl-data-table__cell--non-numeric", colspan: "2", text: type == 'customer' ? x.customer : x.vendor}))
+                        .append($("<td />", {text: x.total}))
+                    )
+                    
+                    if(type == 'customer') {
+                        x.incomes.map(y => {
+                            $tbody.append($("<tr />")
+                                .append($("<td />", {class: "mdl-data-table__cell--non-numeric", text: x.id}))
+                                .append($("<td />", {class: "mdl-data-table__cell--non-numeric", text: y.vendor}))
+                                .append($("<td />", {text: y.total}))
+                            )
+                        })
+                    }
+                    else {
+                        x.costs.map(y => {
+                            $tbody.append($("<tr />")
+                                .append($("<td />", {class: "mdl-data-table__cell--non-numeric", text: x.id}))
+                                .append($("<td />", {class: "mdl-data-table__cell--non-numeric", text: y.item}))
+                                .append($("<td />", {text: y.total}))
+                            )
+                        })
+                    }
+                })
             }
         </script>
     </body>
