@@ -1,6 +1,6 @@
 [
     {
-        "username": "finance",
+        "username": "punika",
         "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "Punika@horizont.in.th",
         "nick_name": "คุณแขก",
@@ -13,7 +13,7 @@
         "type": "FINANCE"
     },
     {
-        "username": "customer2",
+        "username": "patteera",
         "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "Patteera@horizont.in.th",
         "nick_name": "คุณเหมี่ยว",
@@ -26,8 +26,7 @@
         "type": "CUSTOMER"
     },
     {
-        "_id": "vendor1",
-        "username": "vendor1",
+        "username": "supaporn",
         "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "Supaporn@horizont.in.th",
         "name": "Supaporn Klinhom",
@@ -41,7 +40,7 @@
     },
     {
         "username": "finance",
-        "password": "finance2",
+        "password": "57336afd1f4b40dfd9f5731e35302fe5",
         "email": "finance@horizont.in.th",
         "nick_name": "finance",
         "name": "Finance Officer",
@@ -54,7 +53,7 @@
     },
     {
         "username": "customer",
-        "password": "5a690d842935c51f26f473e025c1b97a",
+        "password": "91ec1f9324753048c0096d036a694f86",
         "email": "customer@horizont.in.th",
         "nick_name": "customer",
         "name": "Customer",
@@ -66,9 +65,8 @@
         "type": "CUSTOMER"
     },
     {
-        "_id": "vendor2",
-        "username": "vendor2",
-        "password": "5a690d842935c51f26f473e025c1b97a",
+        "username": "vendor",
+        "password": "7c3613dba5171cb6027c67835dd3b9d4",
         "email": "vendor@horizont.in.th",
         "name": "Vendor",
         "nick_name": "vendor",
@@ -80,9 +78,8 @@
         "type": "VENDER"
     },
     {
-        "_id": "vendor3",
-        "username": "vendor3",
-        "password": "5a690d842935c51f26f473e025c1b97a",
+        "username": "pcf_vendor",
+        "password": "347059ead5b2303b3d42c2b9811a3b6e",
         "email": "pcf_vendor@horizont.in.th",
         "name": "พีซี ฟูดส์ เซ็นเตอร์",
         "nick_name": "PCF",
@@ -92,18 +89,5 @@
         "last_login": null,
         "is_login": false,
         "type": "VENDER"
-    },
-    {
-        "username": "admin",
-        "password": "5a690d842935c51f26f473e025c1b97a",
-        "email": "admin@horizont.in.th",
-        "name": "Admin",
-        "nick_name": "admin",
-        "bank": "กสิกรไทย",
-        "bank_number":"2-0-34534-432-5",
-        "active": true,
-        "last_login": null,
-        "is_login": false,
-        "type": "ADMIN"
     }
 ]
