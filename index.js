@@ -17,10 +17,10 @@ app.use(bodyParser.raw({ verify: rawBodySaver, type: function () { return true }
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
     next();
 });
 app.use(morgan('common'));
-app.use(express.static('./static'));
 
 app.use((req, res, next) => {
   token = req.headers.token || null;
@@ -105,4 +105,4 @@ app.get('/pdf/invoice/:inv_id', invoice_generator('invoice'))
 app.get('/pdf/saleorder/:inv_id', invoice_generator('saleorder'))
 app.get('/pdf/purchaseorder/:inv_id', invoice_generator('purchaseorder'))
 
-app.listen(2001, () => console.log('Application listening on port 2001!'));
+app.listen(2002, () => console.log('Application (Back) listening on port 2002!'));
