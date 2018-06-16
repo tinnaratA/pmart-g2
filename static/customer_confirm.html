@@ -515,7 +515,7 @@
                 order.total = $("#grandtotal-delivery").text();
 
                 // Update SO
-                $.ajax('http://localhost:2002/orders/edit/'+ order._id, {
+                $.ajax('http://139.99.106.240:2002/orders/edit/'+ order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
                     type: 'PUT'
@@ -527,14 +527,14 @@
 
                 // Update PO
                 var orderArrayItems = order.arrayitem;
-                $.ajax('http://localhost:2002/orders/po/list?so=' + order._id, {
+                $.ajax('http://139.99.106.240:2002/orders/po/list?so=' + order._id, {
                     method: "GET",
                     contentType: 'application/json'
                 }).done(
                     data => {
                         var purchaseOrders = data.data;
                         purchaseOrders.map(porder => {
-                            $.get("http://localhost:2002/orders/po/"+ porder._id + "/so/list").done(
+                            $.get("http://139.99.106.240:2002/orders/po/"+ porder._id + "/so/list").done(
                                 data => {
                                     var porderChangeStatusFlag = data.data.filter(o => o.status !== "PAID").length > 0 ? false: true;
                                     var itemList = porder.items.map(item => {
@@ -554,7 +554,7 @@
                                     }
                                     porder.items = itemList;
                                     porder.total = porder.items.map(item => parseFloat(item.price)).reduce((prev, current) => prev + current);
-                                    $.ajax('http://localhost:2002/orders/po/edit/' + porder._id, {
+                                    $.ajax('http://139.99.106.240:2002/orders/po/edit/' + porder._id, {
                                         method: "PUT",
                                         contentType: 'application/json',
                                         data: JSON.stringify(porder)
@@ -584,7 +584,7 @@
                 order.payment = $('input[name=bank]:checked').val();
                 order.payment_ref = generateStringNumber(12);
 
-                $.ajax('http://localhost:2002/orders/edit/' + order._id, {
+                $.ajax('http://139.99.106.240:2002/orders/edit/' + order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
                     method : 'PUT'
@@ -691,7 +691,7 @@
                 $("#preorder-delivery").find('tbody').append(row);
             }
 
-            $.get("http://localhost:2002/orders/" + $_GET('id')).done(
+            $.get("http://139.99.106.240:2002/orders/" + $_GET('id')).done(
                 (data) => {
                     var order = data.data;
                     $("#headdata").text(order.id)
@@ -907,7 +907,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "http://localhost:2002/users/logout",
+                    url: "http://139.99.106.240:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {
@@ -931,7 +931,7 @@
 
                 $.ajax({
                     method : "GET",
-                    url: "http://localhost:2002/pdf/saleorder/"+$_GET('id'),
+                    url: "http://139.99.106.240:2002/pdf/saleorder/"+$_GET('id'),
                 })
                 .done((data) => {
                     location.href=data.path;

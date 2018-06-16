@@ -348,7 +348,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "http://localhost:2002/users/logout",
+                    url: "http://139.99.106.240:2002/users/logout",
                     data: {"username": userinfo.username, "password": userinfo.password}
                 })
                 .done((data) => {
@@ -555,7 +555,7 @@
             
             var orderData;
             function getSOList() {
-                $.get("http://localhost:2002/orders/list")
+                $.get("http://139.99.106.240:2002/orders/list")
                 .done((data) => {
                     var orders = data.data;
 
@@ -581,7 +581,7 @@
 
             var poData;
             function getPOList() {
-                $.get("http://localhost:2002/orders/po/list?vendor=" + userinfo._id)
+                $.get("http://139.99.106.240:2002/orders/po/list?vendor=" + userinfo._id)
                 .done(
                     (data) => {
                         var rawPurchaseOrders = data.data;
@@ -601,7 +601,7 @@
 
             var invData;
             function getInvList(){
-                $.get('http://localhost:2002/invoices/list?vendor=' + userinfo._id)
+                $.get('http://139.99.106.240:2002/invoices/list?vendor=' + userinfo._id)
                 .done(
                     data => {
                         global_inv_id = 1;
@@ -647,7 +647,7 @@
                 }
 
                 $.ajax({
-                    url: "http://localhost:2002/orders/po/create/" + userinfo._id,
+                    url: "http://139.99.106.240:2002/orders/po/create/" + userinfo._id,
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data)
@@ -671,7 +671,7 @@
                     return;
                 }
                 
-                $.ajax('http://localhost:2002/invoices/create', {
+                $.ajax('http://139.99.106.240:2002/invoices/create', {
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(selectedData)
@@ -701,7 +701,7 @@
                 }
                 );
 
-                $.ajax('http://localhost:2002/invoices/edit', {
+                $.ajax('http://139.99.106.240:2002/invoices/edit', {
                     method: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(selectedData)

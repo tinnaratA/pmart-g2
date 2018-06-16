@@ -380,7 +380,7 @@
                     return;
                 }
 
-                $.ajax('http://localhost:2002/invoices/edit/'+ inv._id, {
+                $.ajax('http://139.99.106.240:2002/invoices/edit/'+ inv._id, {
                     data: JSON.stringify(inv),
                     contentType: 'application/json',
                     type: 'PUT'
@@ -442,7 +442,7 @@
             $("#print-btn").hide()
             $("#loader").hide()
 
-            $.get("http://localhost:2002/invoices/" + $_GET('id'))
+            $.get("http://139.99.106.240:2002/invoices/" + $_GET('id'))
             .done(
                 (data) => {
                     var inv = data.data;
@@ -472,7 +472,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "http://localhost:2002/users/logout",
+                    url: "http://139.99.106.240:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {

@@ -297,7 +297,7 @@
             }
 
             function getMerchandise(type) {
-                $.get('http://localhost:2002/merchandise/statistic/'+type)
+                $.get('http://139.99.106.240:2002/merchandise/statistic/'+type)
                 .done(
                     data => {
                         if(type == "CUSTOMER") {
@@ -359,7 +359,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "http://localhost:2002/users/logout",
+                    url: "http://139.99.106.240:2002/users/logout",
                     data: {"username": userinfo.username, "password": userinfo.password}
                 })
                 .done((data) => {

@@ -373,7 +373,7 @@
                     id: order.id.replace("ORD", "PO"),
                     status: "RAISED"
                 }
-                $.ajax("http://localhost:2002/orders/edit/" + order._id, {
+                $.ajax("http://139.99.106.240:2002/orders/edit/" + order._id, {
                     data: JSON.stringify(order),
                     contentType: 'application/json',
                     type: 'PUT'
@@ -392,7 +392,7 @@
                 inv = get_data;
                 inv.status = "CONFIRMED"
             
-                $.ajax("http://localhost:2002/invoices/edit/"+ inv._id, {
+                $.ajax("http://139.99.106.240:2002/invoices/edit/"+ inv._id, {
                     data: JSON.stringify(inv),
                     contentType: 'application/json',
                     type: 'PUT'
@@ -458,7 +458,7 @@
 
             type = $_GET('type');
             if(type == "INV"){
-                $.get("http://localhost:2002/invoices/" + $_GET('id'))
+                $.get("http://139.99.106.240:2002/invoices/" + $_GET('id'))
                 .done(data => {
                     var inv = data.data;
                     var filteredItems = inv.items.map(addPreorder);
@@ -478,7 +478,7 @@
                 });
             }
             else if(type == "SO"){
-                $.get("http://localhost:2002/orders/" + $_GET('id')).done(
+                $.get("http://139.99.106.240:2002/orders/" + $_GET('id')).done(
                     data => {
                         var order = data.data;
                         var filteredItems = order.arrayitem.filter(item => item.processed == false);
@@ -499,7 +499,7 @@
                 );
             }
             else if(type == "PO"){
-                $.get("http://localhost:2002/orders/po/" + $_GET('id')).done(
+                $.get("http://139.99.106.240:2002/orders/po/" + $_GET('id')).done(
                     data => {
                         var purchaseOrder = data.data;
                         purchaseOrder.items.map(addPreorder);
@@ -527,7 +527,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "http://localhost:2002/users/logout",
+                    url: "http://139.99.106.240:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {
@@ -551,7 +551,7 @@
 
                 $.ajax({
                     method : "GET",
-                    url: "http://localhost:2002/pdf/purchaseorder/"+$_GET('id'),
+                    url: "http://139.99.106.240:2002/pdf/purchaseorder/"+$_GET('id'),
                 })
                 .done((data) => {
                     location.href=data.path;
