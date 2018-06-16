@@ -27,7 +27,7 @@
     },
     {
         "_id": "vendor1",
-        "username": "supaporn",
+        "username": "vendor1",
         "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "Supaporn@horizont.in.th",
         "name": "Supaporn Klinhom",
@@ -67,8 +67,8 @@
     },
     {
         "_id": "vendor2",
-        "username": "vendor",
-        "password": "7c3613dba5171cb6027c67835dd3b9d4",
+        "username": "vendor2",
+        "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "vendor@horizont.in.th",
         "name": "Vendor",
         "nick_name": "vendor",
@@ -81,8 +81,8 @@
     },
     {
         "_id": "vendor3",
-        "username": "pcf_vendor",
-        "password": "347059ead5b2303b3d42c2b9811a3b6e",
+        "username": "vendor3",
+        "password": "5a690d842935c51f26f473e025c1b97a",
         "email": "pcf_vendor@horizont.in.th",
         "name": "พีซี ฟูดส์ เซ็นเตอร์",
         "nick_name": "PCF",
@@ -92,5 +92,18 @@
         "last_login": null,
         "is_login": false,
         "type": "VENDER"
+    },
+    {
+        "username": "admin",
+        "password": "5a690d842935c51f26f473e025c1b97a",
+        "email": "pcf_vendor@horizont.in.th",
+        "name": "Administrator",
+        "nick_name": "Admin",
+        "bank": "กสิกรไทย",
+        "bank_number":"2-0-34534-432-5",
+        "active": true,
+        "last_login": null,
+        "is_login": false,
+        "type": "ADMIN"
     }
 ]
