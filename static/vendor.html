@@ -511,9 +511,11 @@
                         showdata(data._id, "INV")
                     }
                 }});
+                dis_button = true
+                if(data.status == "RAISED") dis_button = false
                 var col1 = $("<td />")
                     .append($("<label />", {class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect", for: "checkbox-3-"+index, click: () => onSeleted("3-"+index)})
-                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-3-"+index}))
+                    .append($("<input />", {type: "checkbox", class: "mdl-checkbox__input", id: "checkbox-3-"+index, disabled: dis_button}))
                 );
                 var col2 = $("<td />", {
                     text: data.id,
