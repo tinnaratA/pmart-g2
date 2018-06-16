@@ -361,7 +361,7 @@
                 refreshMDL();
             }
 
-            $.get("/products/list").done((data) => {
+            $.get("http://localhost:2002/products/list").done((data) => {
                 if(data.success){
                     var itemdata = data.data;
                     itemdata.sort((a,b) => (a.No > b.No) ? 1 : ((b.No > a.No) ? -1 : 0)).map(item => addPreorder(item))
@@ -468,7 +468,7 @@
                 savedata.status = "RAISED";
                 
                 savedata.customer = saleinfo.name;
-                $.post("./orders/create", savedata)
+                $.post("http://localhost:2002/orders/create", savedata)
                 .then(
                     () => {
                         openModal('Success', true, 'ข้อมูลถูกบันทึกแล้ว', "OK", () => window.location="customer_confirm.html?id="+savedata._id , false);
@@ -480,7 +480,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "/users/logout",
+                    url: "http://localhost:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {

@@ -295,7 +295,7 @@
 		        pass = $("#pass").val();
                 $.ajax({
                     method: "POST",
-                    url: "/users/login",
+                    url: "http://localhost:2002/users/login",
                     data: {"username": user, "password": md5(pass)}
                 })
                 .done((data) => {

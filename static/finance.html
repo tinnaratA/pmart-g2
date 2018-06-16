@@ -246,7 +246,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "/users/logout",
+                    url: "http://localhost:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {
@@ -351,7 +351,7 @@
 
             }
             
-            $.get("/invoices/list").done(
+            $.get("http://localhost:2002/invoices/list").done(
                 (data) => {
                     var invoices = data.data;
                     invoices.map(add_to_table_inv);

@@ -386,7 +386,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "/users/logout",
+                    url: "http://localhost:2002/users/logout",
                     data: {"username": userinfo.username, "password": userinfo.password}
                 })
                 .done((data) => {

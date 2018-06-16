@@ -380,7 +380,7 @@
                     return;
                 }
 
-                $.ajax('/invoices/edit/'+ inv._id, {
+                $.ajax('http://localhost:2002/invoices/edit/'+ inv._id, {
                     data: JSON.stringify(inv),
                     contentType: 'application/json',
                     type: 'PUT'
@@ -442,7 +442,7 @@
             $("#print-btn").hide()
             $("#loader").hide()
 
-            $.get("/invoices/" + $_GET('id'))
+            $.get("http://localhost:2002/invoices/" + $_GET('id'))
             .done(
                 (data) => {
                     var inv = data.data;
@@ -472,7 +472,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "/users/logout",
+                    url: "http://localhost:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {

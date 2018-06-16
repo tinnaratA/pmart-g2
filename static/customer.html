@@ -280,7 +280,7 @@
             function logout(){
                 $.ajax({
                     method: "POST",
-                    url: "/users/logout",
+                    url: "http://localhost:2002/users/logout",
                     data: {"username": saleinfo.username, "password": saleinfo.password}
                 })
                 .done((data) => {
@@ -394,7 +394,7 @@
                 $("#orderlist").find('tbody').append(row);
             }
             
-            $.get("/orders/list?customer=" + saleinfo.name)
+            $.get("http://localhost:2002/orders/list?customer=" + saleinfo.name)
             .done(orders => orders.data.filter(o => o.customer == saleinfo.name).sort((a,b) => (a.datetime > b.datetime) ? 1 : ((b.datetime > a.datetime) ? -1 : 0)).map(add_to_table))
             .fail((data) => openModal("Error", true, "Cannot get order list, Please contact admin.", "OK", closeModal, false));
 	        

@@ -384,7 +384,7 @@
                     return;
                 }
 
-                $.post("/users/register", data).then(
+                $.post("http://localhost:2002/users/register", data).then(
                     _ => {
                         openModal("Success", true, "You have successfully registered", "OK", () => window.location = "/", false);
                     }
