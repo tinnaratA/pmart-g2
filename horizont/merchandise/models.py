@@ -77,6 +77,10 @@ class ItemUnitOfConversion(models.Model):
     class Meta:
         app_label = 'merchandise'
         db_table = 'merchandise_unit_of_conversion'
+        permissions = (
+            ('view_unit_of_conversion', pgettext_lazy('Permission description', 'Can view unit of conversions')),
+        )
+        ordering = ('code',)
 
     def __str__(self):
         return f"<{self.__class__.__name__}: {self.factor} {self.name}>"
@@ -90,6 +94,11 @@ class ItemUnitOfMeasurement(models.Model):
     class Meta:
         app_label = 'merchandise'
         db_table = 'merchandise_unit_of_measurement'
+        permissions = (
+            ('view_unit_of_measurement', pgettext_lazy('Permission description', 'Can view unit of measurements')),
+        )
+        ordering = ('package_code',)
+
 
     def __str__(self):
         return f"<{self.__class__.__name__}: {self.package_name} of item code: {self.item_master.code}>"
