@@ -11,6 +11,5 @@ description
 *
 
 ---
-**Powered by** 
-* [P-Mart Superstore](http://mobile.pmart.co.th/)
+**Reference** 
 * [Saleor](https://github.com/mirumee/saleor)
